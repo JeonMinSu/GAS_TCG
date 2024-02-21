@@ -1,0 +1,52 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "PGGA_DeckSelect.h"
+#include "Abilities/Tasks/AbilityTask_WaitAbilityActivate.h"
+#include <PokemonGASSample/GA/AT/PGAT_WaitForDeckSelect.h>
+#include <PokemonGASSample/Tag/PGGameplayTag.h>
+
+UPGGA_DeckSelect::UPGGA_DeckSelect()
+{
+	AbilityTags.AddTag(PGTAG_GAME_SELECTDECK);
+	//InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+}
+
+void UPGGA_DeckSelect::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
+{
+	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+
+	UE_LOG(LogTemp, Log, TEXT("Activate Ability Deck Select"));
+
+	UPGAT_WaitForDeckSelect* WaitForDeckSelectTask = UPGAT_WaitForDeckSelect::CreateTask(this);
+	WaitForDeckSelectTask->OnCompleted.AddDynamic(this, &UPGGA_DeckSelect::OnDeckSelectedCallback);
+	WaitForDeckSelectTask->ReadyForActivation();
+
+
+	//UAbilityTask_WaitAbilityActivate* WaitFilpCoinTask = UAbilityTask_WaitAbilityActivate::WaitForAbilityActivate(this, PGTAG_GAME_FLIPCOIN, PGTAG_PLAYER_DRAWPRICES);
+	//WaitFilpCoinTask->TagRequirements.IgnoreTags.AddTag(PGTAG_PLAYER);
+	//WaitFilpCoinTask->TagRequirements.RequireTags.AddTag(PGTAG_GAME_STATE);
+
+	//WaitFilpCoinTask->OnActivate.AddDynamic(this, &UPGGA_DeckSelect::OnEndAbilityCallback);
+	//WaitFilpCoinTask->ReadyForActivation();
+}
+
+void UPGGA_DeckSelect::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
+{
+	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
+	UE_LOG(LogTemp, Log, TEXT("Cancel Ability Deck Select"));
+}
+
+void UPGGA_DeckSelect::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
+{
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+	UE_LOG(LogTemp, Log, TEXT("End Ability Deck Select"));
+}
+
+void UPGGA_DeckSelect::OnDeckSelectedCallback()
+{
+	bool bReplicatedEndAbility = true;
+	bool bWasCancelled = false;
+
+	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, bReplicatedEndAbility, bWasCancelled);
+}

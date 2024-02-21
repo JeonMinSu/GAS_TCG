@@ -2,8 +2,11 @@
 
 
 #include "PGGA_DrawDeck.h"
-#include "../PGPlayerState.h"
-#include "../Tag/PGGameplayTag.h"
+//#include <PokemonGASSample/Player/PGPlayerState.h>
+#include <PokemonGASSample/Tag/PGGameplayTag.h>
+#include "AbilitySystemComponent.h"
+#include <PokemonGASSample/Attribute/PGCharacterAttributeSet.h>
+#include "AbilitySystemBlueprintLibrary.h"
 
 UPGGA_DrawDeck::UPGGA_DrawDeck()
 {
@@ -13,17 +16,26 @@ UPGGA_DrawDeck::UPGGA_DrawDeck()
 void UPGGA_DrawDeck::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+
 	AActor* AvatarActor = ActorInfo->AvatarActor.Get();
+	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(AvatarActor);
+
+	if (!ASC)
+	{
+		return;
+	}
+
+	UPGCharacterAttributeSet* AttributeSet = const_cast<UPGCharacterAttributeSet*>(ASC->GetSet<UPGCharacterAttributeSet>());
+
+	if (!AttributeSet)
+	{
+		return;
+	}
 
 	if (AvatarActor)
 	{
-		APGPlayerState* PGPlayerState = Cast<APGPlayerState>(AvatarActor);
-		if (PGPlayerState)
-		{
-			// 여기서 덱을 감소 시키고 패는 증가 시켜야 된다.
-			PGPlayerState->DecreaseDeck(); // 덱 감소
-			UE_LOG(LogTemp, Log, TEXT("Deck Decrease"));
-		}
+		AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() - 1);
+		AttributeSet->SetHandCount(AttributeSet->GetHandCount() + 1);
 	}
 
 }
