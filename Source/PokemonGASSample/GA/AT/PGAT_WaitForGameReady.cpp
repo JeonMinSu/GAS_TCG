@@ -3,6 +3,8 @@
 
 #include "PGAT_WaitForGameReady.h"
 #include <PokemonGASSample/Game/PGGameState.h>
+#include <Kismet/GameplayStatics.h>
+#include <PokemonGASSample/Game/PGGameMode.h>
 
 UPGAT_WaitForGameReady::UPGAT_WaitForGameReady()
 {
@@ -43,4 +45,15 @@ void UPGAT_WaitForGameReady::OnWaitForGameReadyCallback()
 {
 	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
 
+	if (!GameState->IsAllPlayerReady())
+	{
+		return;
+	}
+
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		OnCompleted.Broadcast();
+		Cast<APGGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->StartMatch();
+		GameState->ActivateGameStart();
+	}
 }

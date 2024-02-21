@@ -43,10 +43,6 @@ void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
 void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback()
 {
 	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-	//if (!GameState->(InPlayerIndex, true))
-	//{
-	//	return;
-	//}
 
 	if (!GameState->IsAllPlayerSelectedDeck())
 	{

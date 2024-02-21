@@ -35,6 +35,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE bool GetIsSelectedDeck() const { return bSelectedDeck; }
 
+	UFUNCTION(BlueprintCallable, Category = Player)
+	bool HasBattleCardInHand();
+	UFUNCTION(BlueprintCallable, Category = Player)
+	bool SettingsForPlay();
+
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void AddDeck(class APGCard* InCard);
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void RemoveDeck(class APGCard* InCard);
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void AddHand(class APGCard* InCard);
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void RemoveHand(class APGCard* InCard);
+
 protected:
 	virtual void PostInitializeComponents() override;
 
@@ -53,6 +67,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = GAS)
 	int32 DeckIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
+	TArray<TObjectPtr<class APGCard>> DeckCards;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
+	TArray<TObjectPtr<class APGCard>> HandCards;
 
 	UPROPERTY(EditAnywhere, Category = GAS)
 	TObjectPtr<class UAbilitySystemComponent> ASC;

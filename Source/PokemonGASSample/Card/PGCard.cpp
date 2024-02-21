@@ -30,7 +30,7 @@ void APGCard::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	ASC->InitAbilityActorInfo(this, this);
 
-	for (const auto& StartAbility : StarrtAbilities)
+	for (const auto& StartAbility : StartAbilities)
 	{
 		FGameplayAbilitySpec Spec(StartAbility);
 		ASC->GiveAbility(Spec);

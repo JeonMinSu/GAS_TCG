@@ -30,7 +30,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = CAS)
 	TObjectPtr<class UAbilitySystemComponent> ASC;
 	UPROPERTY(EditAnywhere, Category = CAS)
-	TArray<TSubclassOf<class UGameplayAbility>> StarrtAbilities;
+	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
 
 	UPROPERTY(EditAnywhere, Category = CAS)
 	FGameplayTag GameplayTag;
