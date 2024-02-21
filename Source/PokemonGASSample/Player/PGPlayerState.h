@@ -25,30 +25,15 @@ public:
 
 	virtual void BeginPlay() override;
 
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE void SetPlayerDeckIndex(const int32 InDeckIndex) { DeckIndex = InDeckIndex; }
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE int32 GetPlayerDeckIndex() const { return DeckIndex; }
+	UFUNCTION(BlueprintCallable, Category = Player)
+	FORCEINLINE void SetIsGameReady(const bool bInGameReady) { bGameReady = bInGameReady; }
+	UFUNCTION(BlueprintCallable, Category = Player)
+	FORCEINLINE void SetIsSelectedDeck(const bool bInSelectedDeck) { bSelectedDeck = bInSelectedDeck; }
 
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE int32 GetDeckCount() const { return DeckCount; }
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE int32 GetHandCount() const { return HandCount; }
-	//
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE void SetDeckCount(const int32 InDeckCount) { DeckCount = InDeckCount; }
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE void SetHandCount(const int32 InHandCount) { HandCount = InHandCount; }
-
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE void IncreaseHand() { HandCount++; }
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE void DecreaseHand() { HandCount--; }
-
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE void IncreaseDeck() { DeckCount++; }
-	//UFUNCTION(Blueprintcallable)
-	//FORCEINLINE void DecreaseDeck() { DeckCount--; }
+	UFUNCTION(BlueprintCallable, Category = Player)
+	FORCEINLINE bool GetIsGameReady() const { return bGameReady; }
+	UFUNCTION(BlueprintCallable, Category = Player)
+	FORCEINLINE bool GetIsSelectedDeck() const { return bSelectedDeck; }
 
 protected:
 	virtual void PostInitializeComponents() override;
@@ -56,10 +41,16 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
 	bool bIsFirstTurn;
+
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSetGameplayTag OnSetGameplayTag;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
+	bool bGameReady;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
+	bool bSelectedDeck;
+
 	UPROPERTY(EditAnywhere, Category = GAS)
 	int32 DeckIndex;
 

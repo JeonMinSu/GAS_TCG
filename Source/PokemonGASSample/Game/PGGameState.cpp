@@ -6,6 +6,7 @@
 #include "Abilities/GameplayAbility.h"
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
 #include <PokemonGASSample/GA/PGGA_DeckSelect.h>
+#include <PokemonGASSample/Player/PGPlayerState.h>
 
 APGGameState::APGGameState()
 {
@@ -66,21 +67,61 @@ void APGGameState::ActivateGameStart()
 	}
 }
 
-bool APGGameState::IsPlayerSelectedDeck()
-{	
-	return bPlayerSelectedDeck[0] && bPlayerSelectedDeck[1];
-}
-
-bool APGGameState::TrySetIsPlayerSelectDeck(int32 InPlayerIndex, bool bValue)
+bool APGGameState::IsAllPlayerSelectedDeck()
 {
-	if (!bPlayerSelectedDeck.IsValidIndex(InPlayerIndex))
-	{
-		return false;
-	}
+	const TArray<APlayerState*>& Players = PlayerArray;
 
-	bPlayerSelectedDeck[InPlayerIndex] = bValue;
+	for (const auto Player : Players)
+	{
+		bool result = false;
+		APGPlayerState* PGPlayer = Cast<APGPlayerState>(Player);
+		if (PGPlayer)
+		{
+			result = PGPlayer->GetIsSelectedDeck();
+		}
+		if (!result)
+		{
+			return false;
+		}
+	}
 	return true;
 }
+
+bool APGGameState::IsAllPlayerReady()
+{
+	const TArray<APlayerState*>& Players = PlayerArray;
+
+	for (const auto Player : Players)
+	{
+		bool result = false;
+		APGPlayerState* PGPlayer = Cast<APGPlayerState>(Player);
+		if (PGPlayer)
+		{
+			result = PGPlayer->GetIsGameReady();
+		}
+		if (!result)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+//bool APGGameState::IsPlayerSelectedDeck()
+//{	
+//	return bPlayerSelectedDeck[0] && bPlayerSelectedDeck[1];
+//}
+//
+//bool APGGameState::TrySetIsPlayerSelectDeck(int32 InPlayerIndex, bool bValue)
+//{
+//	if (!bPlayerSelectedDeck.IsValidIndex(InPlayerIndex))
+//	{
+//		return false;
+//	}
+//
+//	bPlayerSelectedDeck[InPlayerIndex] = bValue;
+//	return true;
+//}
 
 void APGGameState::PostInitializeComponents()
 {

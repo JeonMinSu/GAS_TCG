@@ -27,10 +27,4 @@ protected:
 	UFUNCTION()
 	void OnDeckSelectedCallback();
 
-
-public:
-	UPROPERTY(EditAnywhere, Category = UMG)
-	TSubclassOf<class UUserWidget> PlayerDeckClass;
-
-
 };

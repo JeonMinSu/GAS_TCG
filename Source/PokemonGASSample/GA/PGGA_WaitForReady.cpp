@@ -17,11 +17,11 @@ void UPGGA_WaitForReady::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 
 	UE_LOG(LogTemp, Log, TEXT("Activate Wait For Ready"));
 
-	UAbilityTask_WaitAbilityActivate* WaitFilpCoinTask = UAbilityTask_WaitAbilityActivate::WaitForAbilityActivate(this, PGTAG_GAME_FLIPCOIN, PGTAG_PLAYER_DRAWPRICES);
-	WaitFilpCoinTask->TagRequirements.IgnoreTags.AddTag(PGTAG_PLAYER);
-	WaitFilpCoinTask->TagRequirements.RequireTags.AddTag(PGTAG_GAME_STATE);
+	//UAbilityTask_WaitAbilityActivate* WaitFilpCoinTask = UAbilityTask_WaitAbilityActivate::WaitForAbilityActivate(this, PGTAG_GAME_FLIPCOIN, PGTAG_PLAYER_DRAWPRICES);
+	//WaitFilpCoinTask->TagRequirements.IgnoreTags.AddTag(PGTAG_PLAYER);
+	//WaitFilpCoinTask->TagRequirements.RequireTags.AddTag(PGTAG_GAME_STATE);
 
-	WaitFilpCoinTask->OnActivate.AddDynamic(this, &UPGGA_WaitForReady::OnEndAbilityCallback);
+	//WaitFilpCoinTask->OnActivate.AddDynamic(this, &UPGGA_WaitForReady::OnEndAbilityCallback);
 }
 
 void UPGGA_WaitForReady::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
@@ -34,7 +34,7 @@ void UPGGA_WaitForReady::EndAbility(const FGameplayAbilitySpecHandle Handle, con
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 }
 
-void UPGGA_WaitForReady::OnEndAbilityCallback(UGameplayAbility* GameplayAbility)
+void UPGGA_WaitForReady::OnGameReadyCallback()
 {
 	bool bReplicatedEndAbility = true;
 	bool bWasCancelled = false;

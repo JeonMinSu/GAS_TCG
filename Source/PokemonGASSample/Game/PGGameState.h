@@ -10,7 +10,8 @@
 /**
  * 
  */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGenericPlayerEventDelegate, int32, PlayerIndex);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGenericPlayerEventDelegate);
 UCLASS()
 class POKEMONGASSAMPLE_API APGGameState : public AGameState, public IAbilitySystemInterface
 {
@@ -27,10 +28,13 @@ public:
 	void ActivateSelectDeck();
 	UFUNCTION(BlueprintCallable)
 	void ActivateGameStart();
-	UFUNCTION()
-	bool IsPlayerSelectedDeck();
-	UFUNCTION()
-	bool TrySetIsPlayerSelectDeck(int32 InPlayerIndex, bool bValue);
+
+	bool IsAllPlayerSelectedDeck();
+	bool IsAllPlayerReady();
+	//UFUNCTION()
+	//bool IsPlayerSelectedDeck();
+	//UFUNCTION()
+	//bool TrySetIsPlayerSelectDeck(int32 InPlayerIndex, bool bValue);
 
 protected:
 	virtual void BeginPlay() override;
@@ -39,9 +43,9 @@ protected:
 
 public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnGenericPlayerEventDelegate OnPlayerSelectDeck;
+	FOnGenericPlayerEventDelegate OnPlayerSelectedDeck;
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnGenericPlayerEventDelegate OnPlayerGameReady;
+	FOnGenericPlayerEventDelegate OnWaitForGameReady;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)

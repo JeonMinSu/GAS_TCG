@@ -21,14 +21,6 @@ void UPGGA_DeckSelect::ActivateAbility(const FGameplayAbilitySpecHandle Handle, 
 	UPGAT_WaitForDeckSelect* WaitForDeckSelectTask = UPGAT_WaitForDeckSelect::CreateTask(this);
 	WaitForDeckSelectTask->OnCompleted.AddDynamic(this, &UPGGA_DeckSelect::OnDeckSelectedCallback);
 	WaitForDeckSelectTask->ReadyForActivation();
-
-
-	//UAbilityTask_WaitAbilityActivate* WaitFilpCoinTask = UAbilityTask_WaitAbilityActivate::WaitForAbilityActivate(this, PGTAG_GAME_FLIPCOIN, PGTAG_PLAYER_DRAWPRICES);
-	//WaitFilpCoinTask->TagRequirements.IgnoreTags.AddTag(PGTAG_PLAYER);
-	//WaitFilpCoinTask->TagRequirements.RequireTags.AddTag(PGTAG_GAME_STATE);
-
-	//WaitFilpCoinTask->OnActivate.AddDynamic(this, &UPGGA_DeckSelect::OnEndAbilityCallback);
-	//WaitFilpCoinTask->ReadyForActivation();
 }
 
 void UPGGA_DeckSelect::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)

@@ -6,11 +6,10 @@
 #include "Abilities/Tasks/AbilityTask.h"
 #include "PGAT_WaitForDeckSelect.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWaitForDeckSelectedDelegate);
-
 /**
  * 
  */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWaitForDeckSelectedDelegate);
 UCLASS()
 class POKEMONGASSAMPLE_API UPGAT_WaitForDeckSelect : public UAbilityTask
 {
@@ -18,15 +17,25 @@ class POKEMONGASSAMPLE_API UPGAT_WaitForDeckSelect : public UAbilityTask
 public:
 	UPGAT_WaitForDeckSelect();
 
+	UFUNCTION(BlueprintCallable, Category = "PGAbiltiy/Tasks", meta = (HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "TRUE"))
 	static UPGAT_WaitForDeckSelect* CreateTask(UGameplayAbility* OwningAbility);
 
 	virtual void Activate() override;
 	virtual void OnDestroy(bool AbilityEnded) override;
 	
+	UPROPERTY(BlueprintAssignable)
 	FWaitForDeckSelectedDelegate OnCompleted;
 
 protected:
 	UFUNCTION()
-	void OnPlayerDeckSelectedCallback(int32 InPlayerIndex);
+	void OnPlayerDeckSelectedCallback();
 
+//public:
+	//FGameplayTag WithTag;
+	//FGameplayTag WithoutTag;
+
+	/// <summary>
+	/// 필수 태그를 캡슐화하고 태그를 무시.
+	/// </summary>
+	//FGameplayTagRequirements TagRequirements;
 };

@@ -31,9 +31,9 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnPrepareGame OnPrepareGame;
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnGameReady OnGameReady;
+	FOnGameReady OnWaitForGameReady;
 
-protected:
+protected:	
 	UPROPERTY(EditAnywhere, Category = UMG)
 	TObjectPtr<UUserWidget> CurrentWidget;
 

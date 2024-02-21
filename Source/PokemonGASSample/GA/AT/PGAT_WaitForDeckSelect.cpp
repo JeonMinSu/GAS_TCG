@@ -19,35 +19,36 @@ void UPGAT_WaitForDeckSelect::Activate()
 {
 	Super::Activate();
 
+	if (!AbilitySystemComponent.IsValid())
+	{
+		return;
+	}
+
 	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-	GameState->OnPlayerSelectDeck.AddDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
+	GameState->OnPlayerSelectedDeck.AddDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
 
 	SetWaitingOnAvatar();
 }
 
 void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
 {
-	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-	
-	GameState->OnPlayerSelectDeck.RemoveDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
+	if (AbilitySystemComponent.IsValid())
+	{
+		APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
+		GameState->OnPlayerSelectedDeck.RemoveDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
+	}
 	Super::OnDestroy(AbilityEnded);
 }
 
-void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback(int32 InPlayerIndex)
+void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback()
 {
-	APGGameState* GameState = Cast<APGGameState>(GetAvatarActor());
+	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
+	//if (!GameState->(InPlayerIndex, true))
+	//{
+	//	return;
+	//}
 
-	if (!GameState)
-	{
-		return;
-	}
-
-	if (!GameState->TrySetIsPlayerSelectDeck(InPlayerIndex, true))
-	{
-		return;
-	}
-
-	if (!GameState->IsPlayerSelectedDeck())
+	if (!GameState->IsAllPlayerSelectedDeck())
 	{
 		return;
 	}
