@@ -80,9 +80,20 @@ void UPGGA_WaitForReady::OnGameReadyCallback()
 
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, bReplicatedEndAbility, bWasCancelled);
 
+	APGGameState* GameState = CastChecked<APGGameState>(CurrentActorInfo->OwnerActor.Get());
+	UAbilitySystemComponent* GameASC = GameState->GetAbilitySystemComponent();
+	
+	if (GameASC)
+	{
+		FGameplayTagContainer TargetTag(PGTAG_GAME_GAMESTART);
 
-
-	//APGGameState* GameState = CastChecked<APGGameState>(CurrentActorInfo->AvatarActor.Get());
-	//Cast<APGGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->StartMatch();
-	//GameState->ActivateGameStart();
+		if (!GameASC->HasMatchingGameplayTag(PGTAG_GAME_GAMESTART))
+		{
+			GameASC->TryActivateAbilitiesByTag(TargetTag);
+		}
+		else
+		{
+			GameASC->CancelAbilities(&TargetTag);
+		}
+	}
 }

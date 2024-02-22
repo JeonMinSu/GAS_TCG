@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
 #include <PokemonGASSample/Attribute/PGCharacterAttributeSet.h>
+#include "AbilitySystemBlueprintLibrary.h"
 #include <Kismet/KismetArrayLibrary.h>
 
 APGPlayerState::APGPlayerState()
@@ -24,6 +25,14 @@ bool APGPlayerState::HasBattleCardInHand()
 	return true;
 }
 
+bool APGPlayerState::IsBattleCardSetOnTheField()
+{
+	/*
+	* 
+	*/
+	return true;
+}
+
 bool APGPlayerState::SettingsForPlay()
 {
 	if (bGameReady)
@@ -31,13 +40,12 @@ bool APGPlayerState::SettingsForPlay()
 		return true;
 	}
 
-	if (!HasBattleCardInHand())
+	if (!HasBattleCardInHand() && !IsBattleCardSetOnTheField())
 	{
 		return false;
 	}
 
 	return true;
-
 }
 
 void APGPlayerState::DeckShuffle()
@@ -87,6 +95,31 @@ APGCard* APGPlayerState::GetDeckDrawCard()
 bool APGPlayerState::IsEmptyDeckCards()
 {
 	return DeckCards.IsEmpty();
+}
+
+void APGPlayerState::SettingBenchCard()
+{
+	if (!GetIsSelectedDeck())
+	{
+		return;
+	}
+	else if (!ASC)
+	{
+		return;
+	}
+
+	//UPGCharacterAttributeSet* AttributeSet = const_cast<UPGCharacterAttributeSet*>(ASC->GetSet<UPGCharacterAttributeSet>());
+	if (!AttributeSet)
+	{
+		return;
+	}
+
+	if (AttributeSet->GetBenchCardCount() >= AttributeSet->GetMaxBenchCardCount())
+	{
+		return;
+	}
+
+	AttributeSet->SetBenchCardCount(AttributeSet->GetMaxBenchCardCount() + 1);
 }
 
 void APGPlayerState::PostInitializeComponents()

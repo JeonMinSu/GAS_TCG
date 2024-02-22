@@ -9,6 +9,7 @@
 #define PGTAG_GAME_SELECTDECK FGameplayTag::RequestGameplayTag(FName("Game.Action.SelectDeck"))
 #define PGTAG_GAME_WAITFORREADY FGameplayTag::RequestGameplayTag(FName("Game.State.WaitForReady"))
 #define PGTAG_GAME_GAMESTART FGameplayTag::RequestGameplayTag(FName("Game.Action.GameStart"))
+#define PGTAG_GAME_FIRSTTURN FGameplayTag::RequestGameplayTag(FName("Game.Event.FirstTurn"))
 
 #define PGTAG_PLAYER FGameplayTag::RequestGameplayTag(FName("Player"))
 #define PGTAG_PLAYER_HUD FGameplayTag::RequestGameplayTag(FName("Player.HUD"))

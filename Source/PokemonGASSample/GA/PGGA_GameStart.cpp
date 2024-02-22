@@ -4,6 +4,8 @@
 #include "PGGA_GameStart.h"
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
+#include <PokemonGASSample/Game/PGGameState.h>
+#include "AbilitySystemComponent.h"
 
 UPGGA_GameStart::UPGGA_GameStart()
 {
@@ -26,4 +28,22 @@ void UPGGA_GameStart::EndAbility(const FGameplayAbilitySpecHandle Handle, const 
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 	UE_LOG(LogTemp, Log, TEXT("End Game Start"));
+
+	APGGameState* GameState = CastChecked<APGGameState>(CurrentActorInfo->OwnerActor.Get());
+	UAbilitySystemComponent* GameASC = GameState->GetAbilitySystemComponent();
+
+	if (GameASC)
+	{
+		FGameplayTagContainer TargetTag(PGTAG_GAME_FIRSTTURN);
+
+		if (!GameASC->HasMatchingGameplayTag(PGTAG_GAME_FIRSTTURN))
+		{
+			GameASC->TryActivateAbilitiesByTag(TargetTag);
+		}
+		else
+		{
+			GameASC->CancelAbilities(&TargetTag);
+		}
+	}
+
 }

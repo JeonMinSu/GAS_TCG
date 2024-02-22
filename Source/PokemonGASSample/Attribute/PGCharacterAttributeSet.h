@@ -29,6 +29,9 @@ public:
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, DeckCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxDeckCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, HandCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxHandCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, BenchCardCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxBenchCardCount);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = Deck, Meta = (AllowPrivateAccess = true))
@@ -48,5 +51,11 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = Bench, Meta = (AllowPrivateAceess = true))
 	FGameplayAttributeData MaxBenchCardCount;
+
+	UPROPERTY(BlueprintReadOnly, Category = Bench, Meta = (AllowPrivateAceess = true))
+	FGameplayAttributeData BattleCardCount;
+
+	UPROPERTY(BlueprintReadOnly, Category = Bench, Meta = (AllowPrivateAceess = true))
+	FGameplayAttributeData MaxBattleCardCount;
 
 };

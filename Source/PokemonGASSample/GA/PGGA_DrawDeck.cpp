@@ -2,7 +2,6 @@
 
 
 #include "PGGA_DrawDeck.h"
-//#include <PokemonGASSample/Player/PGPlayerState.h>
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
 #include "AbilitySystemComponent.h"
 #include <PokemonGASSample/Attribute/PGCharacterAttributeSet.h>

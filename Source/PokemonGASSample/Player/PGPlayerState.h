@@ -12,6 +12,7 @@
  * 
  */
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSettingForPlay);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetGameplayTag, FGameplayTag, GameplayTag);
 
 UCLASS()
@@ -38,6 +39,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	bool HasBattleCardInHand();
 	UFUNCTION(BlueprintCallable, Category = Player)
+	bool IsBattleCardSetOnTheField();
+	UFUNCTION(BlueprintCallable, Category = Player)
 	bool SettingsForPlay();
 
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
@@ -54,6 +57,8 @@ public:
 	class APGCard* GetDeckDrawCard();
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	bool IsEmptyDeckCards();
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void SettingBenchCard();
 
 protected:
 	virtual void PostInitializeComponents() override;
@@ -64,6 +69,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSetGameplayTag OnSetGameplayTag;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
+	FOnSettingForPlay OnSettingForPlay;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)

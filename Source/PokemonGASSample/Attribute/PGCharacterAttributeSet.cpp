@@ -20,6 +20,11 @@ void UPGCharacterAttributeSet::PreAttributeChange(const FGameplayAttribute & Att
 	{
 		NewValue = FMath::Clamp(NewValue, 0, GetMaxDeckCount());
 	}
+
+	if (Attribute == GetBenchCardCountAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0, GetMaxBenchCardCount());
+	}
 }
 
 void UPGCharacterAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
@@ -28,4 +33,15 @@ void UPGCharacterAttributeSet::PostAttributeChange(const FGameplayAttribute& Att
 	{
 		UE_LOG(LogTemp, Log, TEXT("Deck Count : %f -> %f"), OldValue, NewValue);
 	}
+
+	if (Attribute == GetHandCountAttribute())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Hand Count : %f -> %f"), OldValue, NewValue);
+	}
+
+	if (Attribute == GetBenchCardCountAttribute())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Bench Count : %f -> %f"), OldValue, NewValue);
+	}
+
 }
