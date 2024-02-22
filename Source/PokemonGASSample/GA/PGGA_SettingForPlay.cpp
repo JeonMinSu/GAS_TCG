@@ -5,6 +5,8 @@
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
 #include <PokemonGASSample/Player/PGPlayerState.h>
 #include <PokemonGASSample/Attribute/PGCharacterAttributeSet.h>
+#include <PokemonGASSample/Game/PGGameState.h>
+#include <Kismet/GameplayStatics.h>
 
 UPGGA_SettingForPlay::UPGGA_SettingForPlay()
 {
@@ -27,6 +29,9 @@ void UPGGA_SettingForPlay::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	UE_LOG(LogTemp, Log, TEXT("Acitvate Setting for play"));
 
+	APGGameState* GameState = CastChecked<APGGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	GameState->OnWaitForGameReady.AddDynamic(this, &UPGGA_SettingForPlay::OnGameStartCallback);
+
 	APGPlayerState* PlayerState = CastChecked<APGPlayerState>(GetOwningActorFromActorInfo());
 	UAbilitySystemComponent* ASC = PlayerState->GetAbilitySystemComponent();
 	if (!ASC)
@@ -44,7 +49,7 @@ void UPGGA_SettingForPlay::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	}
 	
 	AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() - 7);
-	AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() + 7);
+	AttributeSet->SetHandCount(AttributeSet->GetHandCount() + 7);
 
 }
 
@@ -60,7 +65,17 @@ void UPGGA_SettingForPlay::EndAbility(const FGameplayAbilitySpecHandle Handle, c
 	UE_LOG(LogTemp, Log, TEXT("End Setting for play"));
 }
 
-void UPGGA_SettingForPlay::OnGameStartCheckCallback()
+void UPGGA_SettingForPlay::OnGameStartCallback()
 {
 	APGPlayerState* PlayerState = Cast<APGPlayerState>(CurrentActorInfo->OwnerActor.Get());
+
+	if (!PlayerState->GetIsGameReady())
+	{
+		return;
+	}
+
+	bool bReplicatedEndAbility = true;
+	bool bWasCancelled = false;
+
+	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, bReplicatedEndAbility, bWasCancelled);
 }

@@ -80,6 +80,8 @@ void UPGGA_WaitForReady::OnGameReadyCallback()
 
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, bReplicatedEndAbility, bWasCancelled);
 
+
+
 	//APGGameState* GameState = CastChecked<APGGameState>(CurrentActorInfo->AvatarActor.Get());
 	//Cast<APGGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->StartMatch();
 	//GameState->ActivateGameStart();
