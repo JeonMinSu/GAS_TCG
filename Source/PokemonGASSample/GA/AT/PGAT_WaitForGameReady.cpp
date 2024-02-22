@@ -53,7 +53,5 @@ void UPGAT_WaitForGameReady::OnWaitForGameReadyCallback()
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{
 		OnCompleted.Broadcast();
-		Cast<APGGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->StartMatch();
-		GameState->ActivateGameStart();
 	}
 }

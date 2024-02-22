@@ -2,7 +2,12 @@
 
 
 #include "PGGA_FlipCoin.h"
+#include "AbilitySystemComponent.h"
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
+#include <Kismet/KismetMathLibrary.h>
+#include <Kismet/GameplayStatics.h>
+#include <PokemonGASSample/Player/PGPlayerState.h>
+#include <AbilitySystemBlueprintLibrary.h>
 
 UPGGA_FlipCoin::UPGGA_FlipCoin()
 {
@@ -13,8 +18,6 @@ void UPGGA_FlipCoin::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	UE_LOG(LogTemp, Log, TEXT("Activate Ability Flip Coin"));
-	//int32 PlayerIndex = UKismetMathLibrary::RandomIntegerInRange(0, 1);
-	//APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), PlayerIndex);
 }
 
 void UPGGA_FlipCoin::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
@@ -28,4 +31,18 @@ void UPGGA_FlipCoin::EndAbility(const FGameplayAbilitySpecHandle Handle, const F
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 	UE_LOG(LogTemp, Log, TEXT("End Ability Flip Coin"));
+
+	UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo();
+	if (ASC)
+	{
+		FGameplayTagContainer TargetTag(PGTAG_GAME_WAITFORREADY);
+		if (!ASC->HasMatchingGameplayTag(PGTAG_GAME_WAITFORREADY))
+		{ 
+			ASC->TryActivateAbilitiesByTag(TargetTag);
+		}
+		else
+		{
+			ASC->CancelAbilities(&TargetTag);
+		}
+	}
 }

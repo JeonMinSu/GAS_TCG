@@ -25,8 +25,8 @@ public:
 
 	virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE void SetIsGameReady(const bool bInGameReady) { bGameReady = bInGameReady; }
+	//UFUNCTION(BlueprintCallable, Category = Player)
+	//FORCEINLINE void SetIsGameReady(const bool bInGameReady) { bGameReady = bInGameReady; }
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE void SetIsSelectedDeck(const bool bInSelectedDeck) { bSelectedDeck = bInSelectedDeck; }
 
@@ -41,6 +41,8 @@ public:
 	bool SettingsForPlay();
 
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void DeckShuffle();
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	void AddDeck(class APGCard* InCard);
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	void RemoveDeck(class APGCard* InCard);
@@ -48,6 +50,10 @@ public:
 	void AddHand(class APGCard* InCard);
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	void RemoveHand(class APGCard* InCard);
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	class APGCard* GetDeckDrawCard();
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	bool IsEmptyDeckCards();
 
 protected:
 	virtual void PostInitializeComponents() override;

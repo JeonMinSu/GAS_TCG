@@ -13,7 +13,7 @@
 #define PGTAG_PLAYER FGameplayTag::RequestGameplayTag(FName("Player"))
 #define PGTAG_PLAYER_HUD FGameplayTag::RequestGameplayTag(FName("Player.HUD"))
 
-#define PGTAG_PLAYER_SETTINGFORPLAY FGameplayTag::RequestGameplayTag(FName("Player.Action.SettingsForPlay"))
+#define PGTAG_PLAYER_SETTINGFORPLAY FGameplayTag::RequestGameplayTag(FName("Player.Action.SettingForPlay"))
 
 #define PGTAG_PLAYER_DRAWDECK FGameplayTag::RequestGameplayTag(FName("Player.Action.DrawDeck"))
 #define PGTAG_PLAYER_DRAWPRICES FGameplayTag::RequestGameplayTag(FName("Player.Action.DrawPrices"))

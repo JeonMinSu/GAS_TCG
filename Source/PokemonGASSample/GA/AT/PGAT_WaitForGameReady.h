@@ -17,11 +17,13 @@ class POKEMONGASSAMPLE_API UPGAT_WaitForGameReady : public UAbilityTask
 public:
 	UPGAT_WaitForGameReady();
 
+	UFUNCTION(BlueprintCallable, Category = "PGAbiltiy|Tasks", meta = (DisplayName = "WaitForGameReady", HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "TRUE"))
 	static UPGAT_WaitForGameReady* CreateTask(UGameplayAbility* OwningAbility);
 
 	virtual void Activate() override;
 	virtual void OnDestroy(bool AbilityEnded) override;
 
+	UPROPERTY(BlueprintAssignable)
 	FWaitForGameReadyDelegate OnCompleted;
 
 protected:

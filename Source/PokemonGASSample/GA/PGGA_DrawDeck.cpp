@@ -24,9 +24,8 @@ bool UPGGA_DrawDeck::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
 void UPGGA_DrawDeck::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-
-	AActor* AvatarActor = ActorInfo->AvatarActor.Get();
-	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(AvatarActor);
+	APGPlayerState* PlayerState = CastChecked<APGPlayerState>(GetOwningActorFromActorInfo());
+	UAbilitySystemComponent* ASC = PlayerState->GetAbilitySystemComponent();
 
 	if (!ASC)
 	{
@@ -40,16 +39,8 @@ void UPGGA_DrawDeck::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 		return;
 	}
 
-	if (AvatarActor)
-	{
-		APGPlayerState* PlayerState = CastChecked<APGPlayerState>(AvatarActor);
-		if (PlayerState)
-		{
-			AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() - 1);
-			AttributeSet->SetHandCount(AttributeSet->GetHandCount() + 1);
-		}
-	}
-
+	AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() - 1);
+	AttributeSet->SetHandCount(AttributeSet->GetHandCount() + 1);
 }
 
 void UPGGA_DrawDeck::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)

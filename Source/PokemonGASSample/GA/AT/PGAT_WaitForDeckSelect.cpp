@@ -43,7 +43,6 @@ void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
 void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback()
 {
 	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-
 	if (!GameState->IsAllPlayerSelectedDeck())
 	{
 		return;
@@ -52,6 +51,7 @@ void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback()
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{
 		OnCompleted.Broadcast();
-		GameState->ActivateFlipCoin();
 	}
+
+	EndTask();
 }

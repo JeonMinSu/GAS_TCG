@@ -2,9 +2,9 @@
 
 
 #include "PGGA_DeckSelect.h"
-#include "Abilities/Tasks/AbilityTask_WaitAbilityActivate.h"
-#include <PokemonGASSample/GA/AT/PGAT_WaitForDeckSelect.h>
+#include "AT/PGAT_WaitForDeckSelect.h"
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
+#include <PokemonGASSample/Game/PGGameState.h>
 
 UPGGA_DeckSelect::UPGGA_DeckSelect()
 {
@@ -39,6 +39,9 @@ void UPGGA_DeckSelect::OnDeckSelectedCallback()
 {
 	bool bReplicatedEndAbility = true;
 	bool bWasCancelled = false;
-
+	
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, bReplicatedEndAbility, bWasCancelled);
+
+	APGGameState* GameState = CastChecked<APGGameState>( CurrentActorInfo->AvatarActor.Get());
+	GameState->ActivateFlipCoin();
 }

@@ -107,22 +107,6 @@ bool APGGameState::IsAllPlayerReady()
 	return true;
 }
 
-//bool APGGameState::IsPlayerSelectedDeck()
-//{	
-//	return bPlayerSelectedDeck[0] && bPlayerSelectedDeck[1];
-//}
-//
-//bool APGGameState::TrySetIsPlayerSelectDeck(int32 InPlayerIndex, bool bValue)
-//{
-//	if (!bPlayerSelectedDeck.IsValidIndex(InPlayerIndex))
-//	{
-//		return false;
-//	}
-//
-//	bPlayerSelectedDeck[InPlayerIndex] = bValue;
-//	return true;
-//}
-
 void APGGameState::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
