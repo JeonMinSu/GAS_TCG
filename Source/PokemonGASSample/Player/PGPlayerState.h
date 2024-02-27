@@ -101,7 +101,7 @@ protected:
 	TArray<TObjectPtr<class APGCard>> DiscardPileCards;
 
 	UPROPERTY(EditAnywhere, Category = GAS)
-	TObjectPtr<class UAbilitySystemComponent> ASC;
+	TObjectPtr<class UPGFlowAbilitySystemComponent> ASC;
 	UPROPERTY()
 	TObjectPtr<class UPGCharacterAttributeSet> AttributeSet;
 

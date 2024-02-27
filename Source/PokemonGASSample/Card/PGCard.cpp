@@ -10,7 +10,7 @@ APGCard::APGCard()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
+	ASC = CreateDefaultSubobject<UPGCardAbilitySystemComponent>(TEXT("ASC"));
 }
 
 UAbilitySystemComponent* APGCard::GetAbilitySystemComponent() const

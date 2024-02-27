@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include <PokemonGASSample/Tag/PGGameplayTag.h>
+#include "PokemonGASSample/Tag/PGGameplayTag.h"
 #include "AbilitySystemInterface.h"
+#include "PokemonGASSample/Component/PGCardAbilitySystemComponent.h"
 #include "PGCard.generated.h"
 
 UCLASS()
@@ -28,7 +29,7 @@ protected:
 
 protected:
 	UPROPERTY(EditAnywhere, Category = CAS)
-	TObjectPtr<class UAbilitySystemComponent> ASC;
+	TObjectPtr<class UPGCardAbilitySystemComponent> ASC;
 	UPROPERTY(EditAnywhere, Category = CAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
 

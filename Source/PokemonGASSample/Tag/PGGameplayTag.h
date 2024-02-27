@@ -4,6 +4,7 @@
 
 #define PGTAG_GAME FGameplayTag::RequestGameplayTag(FName("Game"))
 #define PGTAG_GAME_STATE FGameplayTag::RequestGameplayTag(FName("Game.State"))
+#define PGTAG_GAME_STATE_NONE FGameplayTag::RequestGameplayTag(FName("Game.State.None"))
 
 #define PGTAG_GAME_FLIPCOIN FGameplayTag::RequestGameplayTag(FName("Game.Action.FlipCoin"))
 #define PGTAG_GAME_SELECTDECK FGameplayTag::RequestGameplayTag(FName("Game.Action.SelectDeck"))

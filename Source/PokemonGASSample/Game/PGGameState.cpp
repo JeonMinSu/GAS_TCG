@@ -2,7 +2,7 @@
 
 
 #include "PGGameState.h"
-#include "AbilitySystemComponent.h"
+#include "Component/PGFlowAbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
 #include <PokemonGASSample/Tag/PGGameplayTag.h>
 #include <PokemonGASSample/GA/PGGA_DeckSelect.h>
@@ -10,7 +10,7 @@
 
 APGGameState::APGGameState()
 {
-	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
+	ASC = CreateDefaultSubobject<UPGFlowAbilitySystemComponent>(TEXT("ASC"));
 	ASC->SetIsReplicated(true);
 }
 

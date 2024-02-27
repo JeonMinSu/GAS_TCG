@@ -3,14 +3,14 @@
 
 #include "PGPlayerState.h"
 #include "AbilitySystemComponent.h"
-#include "Abilities/GameplayAbility.h"
+#include "Component/PGFlowAbilitySystemComponent.h"
 #include <PokemonGASSample/Attribute/PGCharacterAttributeSet.h>
 #include "AbilitySystemBlueprintLibrary.h"
 #include <Kismet/KismetArrayLibrary.h>
 
 APGPlayerState::APGPlayerState()
 {
-	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
+	ASC = CreateDefaultSubobject<UPGFlowAbilitySystemComponent>(TEXT("ASC"));
 	AttributeSet = CreateDefaultSubobject<UPGCharacterAttributeSet>(TEXT("AttributeSet"));
 	//ASC->SetIsReplicated(true);
 }
