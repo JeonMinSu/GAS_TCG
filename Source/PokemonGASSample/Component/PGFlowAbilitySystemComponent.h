@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(ClassGroup = ("Flow CAS"), meta = (BlueprintSpawnableComponent))
 class POKEMONGASSAMPLE_API UPGFlowAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
@@ -17,7 +17,10 @@ class POKEMONGASSAMPLE_API UPGFlowAbilitySystemComponent : public UAbilitySystem
 public:
 	UFUNCTION()
 	FGameplayTag GetNextTag(const FGameplayTagContainer& CurrentContainer);
-	
+
+	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	void CancelAbilityWithTag(FGameplayTagContainer Tags);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=GAS)
 	TMap<FGameplayTag, FGameplayTag> GameplayFlowTagMap;

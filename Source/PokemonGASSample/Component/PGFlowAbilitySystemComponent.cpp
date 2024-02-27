@@ -3,6 +3,7 @@
 
 #include "PGFlowAbilitySystemComponent.h"
 #include "Tag/PGGameplayTag.h"
+#include "GA/PGFlowGameplayAbility.h"
 
 FGameplayTag UPGFlowAbilitySystemComponent::GetNextTag(const FGameplayTagContainer& CurrentContainer)
 {
@@ -20,4 +21,15 @@ FGameplayTag UPGFlowAbilitySystemComponent::GetNextTag(const FGameplayTagContain
 	}
 
 	return PGTAG_GAME_STATE_NONE;
+}
+
+void UPGFlowAbilitySystemComponent::CancelAbilityWithTag(FGameplayTagContainer Tags)
+{
+	TArray<FGameplayAbilitySpecHandle> SpecHandles;
+	FindAllAbilitiesWithTags(SpecHandles, Tags);
+
+	for (const FGameplayAbilitySpecHandle& SpecHandle : SpecHandles)
+	{
+		CancelAbilityHandle(SpecHandle);
+	}
 }
