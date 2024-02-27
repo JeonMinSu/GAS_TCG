@@ -41,16 +41,23 @@ void UPGGA_SettingForPlay::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 	PlayerState->DeckShuffle();
 
-	UPGCharacterAttributeSet* AttributeSet = const_cast<UPGCharacterAttributeSet*>(ASC->GetSet<UPGCharacterAttributeSet>());
-
-	if (!AttributeSet)
+	for (int32 i = 0; i < 7; i++)
 	{
-		return;
+		APGCard* DrawCard = PlayerState->GetDeckDrawCard();
+		if (DrawCard)
+		{
+			// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
+		}
 	}
-	
-	AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() - 7);
-	AttributeSet->SetHandCount(AttributeSet->GetHandCount() + 7);
 
+	for (int32 i = 0; i < 3; i++)
+	{
+		APGCard* PrizeCard = PlayerState->SetPrizeCard();
+		if (PrizeCard)
+		{
+			// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
+		}
+	}
 }
 
 void UPGGA_SettingForPlay::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)

@@ -9,7 +9,11 @@ UPGCharacterAttributeSet::UPGCharacterAttributeSet() :
 	HandCount(0),
 	MaxHandCount(0),
 	BenchCardCount(0),
-	MaxBenchCardCount(5)
+	MaxBenchCardCount(5),
+	PrizeCardCount(0),
+	MaxPrizeCardCount(3),
+	DiscardPileCardCount(0),
+	MaxDiscardPileCardCount(15)
 {
 	InitDeckCount(GetMaxDeckCount());
 }
@@ -25,6 +29,17 @@ void UPGCharacterAttributeSet::PreAttributeChange(const FGameplayAttribute & Att
 	{
 		NewValue = FMath::Clamp(NewValue, 0, GetMaxBenchCardCount());
 	}
+
+	if (Attribute == GetPrizeCardCountAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0, GetMaxPrizeCardCount());
+	}
+
+	if (Attribute == GetDiscardPileCardCountAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0, GetMaxDiscardPileCardCount());
+	}
+
 }
 
 void UPGCharacterAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
@@ -42,6 +57,16 @@ void UPGCharacterAttributeSet::PostAttributeChange(const FGameplayAttribute& Att
 	if (Attribute == GetBenchCardCountAttribute())
 	{
 		UE_LOG(LogTemp, Log, TEXT("Bench Count : %f -> %f"), OldValue, NewValue);
+	}
+
+	if (Attribute == GetPrizeCardCountAttribute())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Prize Count : %f -> %f"), OldValue, NewValue);
+	}
+
+	if (Attribute == GetDiscardPileCardCountAttribute())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Discard Pile Count : %f -> %f"), OldValue, NewValue);
 	}
 
 }

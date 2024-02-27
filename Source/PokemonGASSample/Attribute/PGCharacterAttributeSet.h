@@ -32,30 +32,39 @@ public:
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxHandCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, BenchCardCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxBenchCardCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, PrizeCardCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxPrizeCardCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, DiscardPileCardCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxDiscardPileCardCount);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = Deck, Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData DeckCount;
-
 	UPROPERTY(BlueprintReadOnly, Category = Deck, Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData MaxDeckCount;
 
 	UPROPERTY(BlueprintReadOnly, Category = Hand, Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData HandCount;
-
 	UPROPERTY(BlueprintReadOnly, Category = Hand, Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData MaxHandCount;
 
 	UPROPERTY(BlueprintReadOnly, Category = Bench, Meta = (AllowPrivateAceess = true))
 	FGameplayAttributeData BenchCardCount;
-
 	UPROPERTY(BlueprintReadOnly, Category = Bench, Meta = (AllowPrivateAceess = true))
 	FGameplayAttributeData MaxBenchCardCount;
 
-	UPROPERTY(BlueprintReadOnly, Category = Bench, Meta = (AllowPrivateAceess = true))
+	UPROPERTY(BlueprintReadOnly, Category = Battle, Meta = (AllowPrivateAceess = true))
 	FGameplayAttributeData BattleCardCount;
-
-	UPROPERTY(BlueprintReadOnly, Category = Bench, Meta = (AllowPrivateAceess = true))
+	UPROPERTY(BlueprintReadOnly, Category = Battle, Meta = (AllowPrivateAceess = true))
 	FGameplayAttributeData MaxBattleCardCount;
 
+	UPROPERTY(BlueprintReadOnly, Category = Prize, Meta = (AllowPrivateAceess = true))
+	FGameplayAttributeData PrizeCardCount;
+	UPROPERTY(BlueprintReadOnly, Category = Prize, Meta = (AllowPrivateAceess = true))
+	FGameplayAttributeData MaxPrizeCardCount;
+
+	UPROPERTY(BlueprintReadOnly, Category = Prize, Meta = (AllowPrivateAceess = true))
+	FGameplayAttributeData DiscardPileCardCount;
+	UPROPERTY(BlueprintReadOnly, Category = Prize, Meta = (AllowPrivateAceess = true))
+	FGameplayAttributeData MaxDiscardPileCardCount;
 };

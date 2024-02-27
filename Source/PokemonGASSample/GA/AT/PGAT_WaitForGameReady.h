@@ -27,7 +27,7 @@ public:
 	FWaitForGameReadyDelegate OnCompleted;
 
 protected:
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = "Abiltiy|Tasks", meta = (DisplayName = "WaitForGameReadyReadyCallback"))
 	void OnWaitForGameReadyCallback();
 
 };

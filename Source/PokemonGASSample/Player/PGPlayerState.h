@@ -14,6 +14,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSettingForPlay);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetGameplayTag, FGameplayTag, GameplayTag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetBattleCard, class APGCard*, InCard);
 
 UCLASS()
 class POKEMONGASSAMPLE_API APGPlayerState : public APlayerState, public IAbilitySystemInterface
@@ -56,12 +57,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	class APGCard* GetDeckDrawCard();
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	class APGCard* SetPrizeCard();
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	bool IsEmptyDeckCards();
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	void SettingBenchCard();
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void SettingBattleCard(class APGCard* InCard);
 
 protected:
 	virtual void PostInitializeComponents() override;
+	bool IsPrizeCardSetOnTheField();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
@@ -73,6 +79,9 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSettingForPlay OnSettingForPlay;
 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
+	FOnSetBattleCard OnSetBattleCard;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
 	bool bGameReady;
@@ -82,10 +91,14 @@ protected:
 	UPROPERTY(EditAnywhere, Category = GAS)
 	int32 DeckIndex;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
 	TArray<TObjectPtr<class APGCard>> DeckCards;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
 	TArray<TObjectPtr<class APGCard>> HandCards;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
+	TArray<TObjectPtr<class APGCard>> PrizeCards;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
+	TArray<TObjectPtr<class APGCard>> DiscardPileCards;
 
 	UPROPERTY(EditAnywhere, Category = GAS)
 	TObjectPtr<class UAbilitySystemComponent> ASC;

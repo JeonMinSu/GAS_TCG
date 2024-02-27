@@ -61,18 +61,6 @@ void UPGGA_WaitForReady::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 	}
 
 }
-
-void UPGGA_WaitForReady::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
-{
-	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
-}
-
-void UPGGA_WaitForReady::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
-{
-	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
-	UE_LOG(LogTemp, Log, TEXT("End Wait For Ready"));
-}
-
 void UPGGA_WaitForReady::OnGameReadyCallback()
 {
 	bool bReplicatedEndAbility = true;
@@ -97,3 +85,15 @@ void UPGGA_WaitForReady::OnGameReadyCallback()
 		}
 	}
 }
+
+void UPGGA_WaitForReady::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
+{
+	Super::CancelAbility(Handle, ActorInfo, ActivationInfo, bReplicateCancelAbility);
+}
+
+void UPGGA_WaitForReady::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
+{
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+	UE_LOG(LogTemp, Log, TEXT("End Wait For Ready"));
+}
+

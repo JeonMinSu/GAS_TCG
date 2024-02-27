@@ -33,11 +33,13 @@ void UPGAT_WaitForGameReady::Activate()
 
 void UPGAT_WaitForGameReady::OnDestroy(bool AbilityEnded)
 {
-	if (AbilitySystemComponent.IsValid())
+	if (!AbilitySystemComponent.IsValid())
 	{
-		APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-		GameState->OnWaitForGameReady.RemoveDynamic(this, &UPGAT_WaitForGameReady::OnWaitForGameReadyCallback);
+		return;
 	}
+
+	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
+	GameState->OnWaitForGameReady.RemoveDynamic(this, &UPGAT_WaitForGameReady::OnWaitForGameReadyCallback);
 	Super::OnDestroy(AbilityEnded);
 }
 

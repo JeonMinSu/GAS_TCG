@@ -38,8 +38,18 @@ void UPGGA_DrawDeck::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 		return;
 	}
 
-	AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() - 1);
-	AttributeSet->SetHandCount(AttributeSet->GetHandCount() + 1);
+	if (AttributeSet->GetDeckCount() > 0)
+	{
+		APGCard* DrawCard = PlayerState->GetDeckDrawCard();
+		if (DrawCard)
+		{
+			// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
+		}
+	}
+	else
+	{
+		// 덱이 없기 때문에 죽는 판정.
+	}
 }
 
 void UPGGA_DrawDeck::CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility)
