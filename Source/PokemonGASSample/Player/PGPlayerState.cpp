@@ -4,7 +4,7 @@
 #include "PGPlayerState.h"
 #include "AbilitySystemComponent.h"
 #include "Component/PGFlowAbilitySystemComponent.h"
-#include <PokemonGASSample/Attribute/PGCharacterAttributeSet.h>
+#include "Attribute/PGCharacterAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include <Kismet/KismetArrayLibrary.h>
 
@@ -161,19 +161,6 @@ void APGPlayerState::SettingBenchCard()
 	}
 
 	AttributeSet->SetBenchCardCount(AttributeSet->GetMaxBenchCardCount() + 1);
-}
-
-void APGPlayerState::SettingBattleCard(APGCard* InCard)
-{
-	if (!InCard)
-	{
-		return;
-	}
-
-	if (OnSetBattleCard.IsBound())
-	{
-		OnSetBattleCard.Broadcast(InCard);
-	}
 }
 
 void APGPlayerState::PostInitializeComponents()

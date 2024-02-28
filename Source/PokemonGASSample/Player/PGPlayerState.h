@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
-#include <PokemonGASSample/Tag/PGGameplayTag.h>
+#include "Tag/PGGameplayTag.h"
 #include "PGPlayerState.generated.h"
 
 /**
@@ -14,7 +14,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSettingForPlay);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetGameplayTag, FGameplayTag, GameplayTag);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetBattleCard, class APGCard*, InCard);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetBattleCard, class APGCard*, InCard);
 
 UCLASS()
 class POKEMONGASSAMPLE_API APGPlayerState : public APlayerState, public IAbilitySystemInterface
@@ -62,8 +62,8 @@ public:
 	bool IsEmptyDeckCards();
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	void SettingBenchCard();
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
-	void SettingBattleCard(class APGCard* InCard);
+	//UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	//void SettingBattleCard(class APGCard* InCard);
 
 protected:
 	virtual void PostInitializeComponents() override;
@@ -79,8 +79,8 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSettingForPlay OnSettingForPlay;
 
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnSetBattleCard OnSetBattleCard;
+	//UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
+	//FOnSetBattleCard OnSetBattleCard;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)

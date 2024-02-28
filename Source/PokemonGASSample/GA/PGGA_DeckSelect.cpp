@@ -41,7 +41,4 @@ void UPGGA_DeckSelect::OnDeckSelectedCallback()
 	bool bWasCancelled = false;
 	
 	EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, bReplicatedEndAbility, bWasCancelled);
-
-	APGGameState* GameState = CastChecked<APGGameState>(CurrentActorInfo->AvatarActor.Get());
-	GameState->ActivateFlipCoin();
 }

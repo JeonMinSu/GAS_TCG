@@ -25,11 +25,49 @@ FGameplayTag UPGFlowAbilitySystemComponent::GetNextTag(const FGameplayTagContain
 
 void UPGFlowAbilitySystemComponent::CancelAbilityWithTag(FGameplayTagContainer Tags)
 {
-	TArray<FGameplayAbilitySpecHandle> SpecHandles;
-	FindAllAbilitiesWithTags(SpecHandles, Tags);
+	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
+	FindAllAbilitiesWithTags(AbilitySpecHandles, Tags);
 
-	for (const FGameplayAbilitySpecHandle& SpecHandle : SpecHandles)
+	for (const FGameplayAbilitySpecHandle& AbilitySpecHandle : AbilitySpecHandles)
 	{
-		CancelAbilityHandle(SpecHandle);
+		CancelAbilityHandle(AbilitySpecHandle);
+	}
+}
+
+void UPGFlowAbilitySystemComponent::EndAbilityWithTag(FGameplayTagContainer Tags)
+{
+	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
+	FindAllAbilitiesWithTags(AbilitySpecHandles, Tags);
+
+	for (const FGameplayAbilitySpecHandle& AbilitySpecHandle : AbilitySpecHandles)
+	{
+		for (FGameplayAbilitySpec& Spec : ActivatableAbilities.Items)
+		{
+			if (Spec.Handle == AbilitySpecHandle)
+			{
+				EndAbilitySpec(Spec);
+				return;
+			}
+		}
+	}
+}
+
+void UPGFlowAbilitySystemComponent::EndAbilitySpec(FGameplayAbilitySpec& Spec)
+{
+	FGameplayAbilityActorInfo* ActorInfo = AbilityActorInfo.Get();
+
+	if (Spec.Ability->GetInstancingPolicy() != EGameplayAbilityInstancingPolicy::NonInstanced)
+	{
+		TArray<UGameplayAbility*> AbilitiesToEnd = Spec.GetAbilityInstances();
+		for (UGameplayAbility* InstanceAbility : AbilitiesToEnd)
+		{
+			UPGFlowGameplayAbility* FlowAbility = Cast<UPGFlowGameplayAbility>(InstanceAbility);
+			if (FlowAbility)
+			{
+				bool bReplicatedEndAbility = true;
+				bool bWasCancelled = false;
+				FlowAbility->EndAbility(Spec.Handle, ActorInfo, InstanceAbility->GetCurrentActivationInfo(), bReplicatedEndAbility, bWasCancelled);
+			}
+		}
 	}
 }

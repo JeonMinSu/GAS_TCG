@@ -17,7 +17,7 @@ class POKEMONGASSAMPLE_API UPGAT_WaitForDeckSelect : public UAbilityTask
 public:
 	UPGAT_WaitForDeckSelect();
 
-	UFUNCTION(BlueprintCallable, Category = "Abiltiy|Tasks", meta = (DisplayName = "WaitForDeckSelect", HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "TRUE"))
+	UFUNCTION(BlueprintCallable, Category = "Abiltiy|Tasks", meta = (DisplayName = "WaitForSelectDeck", HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BlueprintInternalUseOnly = "TRUE"))
 	static UPGAT_WaitForDeckSelect* CreateTask(UGameplayAbility* OwningAbility);
 
 	virtual void Activate() override;

@@ -3,10 +3,7 @@
 
 #include "PGGameState.h"
 #include "Component/PGFlowAbilitySystemComponent.h"
-#include "Abilities/GameplayAbility.h"
-#include <PokemonGASSample/Tag/PGGameplayTag.h>
-#include <PokemonGASSample/GA/PGGA_DeckSelect.h>
-#include <PokemonGASSample/Player/PGPlayerState.h>
+#include "Tag/PGGameplayTag.h"
 
 APGGameState::APGGameState()
 {
@@ -24,88 +21,6 @@ UAbilitySystemComponent* APGGameState::GetAbilitySystemComponent() const
 	return ASC;
 }
 
-void APGGameState::ActivateFlipCoin()
-{
-	FGameplayTagContainer TargetTag(PGTAG_GAME_FLIPCOIN);
-
-	if (!ASC->HasMatchingGameplayTag(PGTAG_GAME_FLIPCOIN))
-	{
-		ASC->TryActivateAbilitiesByTag(TargetTag);
-	}
-	else
-	{
-		ASC->CancelAbilities(&TargetTag);
-	}
-}
-
-void APGGameState::ActivateSelectDeck()
-{
-	FGameplayTagContainer TargetTag(PGTAG_GAME_SELECTDECK);
-	
-	if (!ASC->HasMatchingGameplayTag(PGTAG_GAME_SELECTDECK))
-	{
-		ASC->TryActivateAbilitiesByTag(TargetTag);
-	}
-	else
-	{
-		ASC->CancelAbilities(&TargetTag);
-	}
-
-}
-
-void APGGameState::ActivateGameStart()
-{
-	FGameplayTagContainer TargetTag(PGTAG_GAME_GAMESTART);
-
-	if (!ASC->HasMatchingGameplayTag(PGTAG_GAME_GAMESTART))
-	{
-		ASC->TryActivateAbilitiesByTag(TargetTag);
-	}
-	else
-	{
-		ASC->CancelAbilities(&TargetTag);
-	}
-}
-
-bool APGGameState::IsAllPlayerSelectedDeck()
-{
-	const TArray<APlayerState*>& Players = PlayerArray;
-
-	for (const auto Player : Players)
-	{
-		bool result = false;
-		APGPlayerState* PGPlayer = Cast<APGPlayerState>(Player);
-		if (PGPlayer)
-		{
-			result = PGPlayer->GetIsSelectedDeck();
-		}
-		if (!result)
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-bool APGGameState::IsAllPlayerReady()
-{
-	const TArray<APlayerState*>& Players = PlayerArray;
-
-	for (const auto Player : Players)
-	{
-		bool result = false;
-		APGPlayerState* PGPlayer = Cast<APGPlayerState>(Player);
-		if (PGPlayer)
-		{
-			result = PGPlayer->GetIsGameReady();
-		}
-		if (!result)
-		{
-			return false;
-		}
-	}
-	return true;
-}
 
 void APGGameState::PostInitializeComponents()
 {

@@ -22,20 +22,6 @@ public:
 
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	UFUNCTION(BlueprintCallable)
-	void ActivateFlipCoin();
-	UFUNCTION(BlueprintCallable)
-	void ActivateSelectDeck();
-	UFUNCTION(BlueprintCallable)
-	void ActivateGameStart();
-
-	bool IsAllPlayerSelectedDeck();
-	bool IsAllPlayerReady();
-	//UFUNCTION()
-	//bool IsPlayerSelectedDeck();
-	//UFUNCTION()
-	//bool TrySetIsPlayerSelectDeck(int32 InPlayerIndex, bool bValue);
-
 protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
@@ -48,10 +34,11 @@ public:
 	FOnGenericPlayerEventDelegate OnWaitForGameReady;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
-	TArray<bool> bPlayerSelectedDeck;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
-	TArray<bool> bGameReady;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
+	//TArray<bool> bPlayerSelectedDeck;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
+	//TArray<bool> bGameReady;
+
 	UPROPERTY(EditAnywhere, Category = GAS)
 	TObjectPtr<class UPGFlowAbilitySystemComponent> ASC;
 	UPROPERTY(EditAnywhere, Category = GAS)

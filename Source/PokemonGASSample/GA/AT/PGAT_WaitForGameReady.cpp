@@ -45,13 +45,6 @@ void UPGAT_WaitForGameReady::OnDestroy(bool AbilityEnded)
 
 void UPGAT_WaitForGameReady::OnWaitForGameReadyCallback()
 {
-	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-
-	if (!GameState->IsAllPlayerReady())
-	{
-		return;
-	}
-
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{
 		OnCompleted.Broadcast();

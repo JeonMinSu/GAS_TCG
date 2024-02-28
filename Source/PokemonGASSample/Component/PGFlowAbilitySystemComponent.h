@@ -20,6 +20,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
 	void CancelAbilityWithTag(FGameplayTagContainer Tags);
+	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	void EndAbilityWithTag(FGameplayTagContainer Tags);
+	
+protected:
+	UFUNCTION()
+	void EndAbilitySpec(FGameplayAbilitySpec& Spec);
+
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category=GAS)
