@@ -30,7 +30,7 @@ void UPGGA_SettingForPlay::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 	UE_LOG(LogTemp, Log, TEXT("Acitvate Setting for play"));
 
 	APGGameState* GameState = CastChecked<APGGameState>(UGameplayStatics::GetGameState(GetWorld()));
-	GameState->OnWaitForGameReady.AddDynamic(this, &UPGGA_SettingForPlay::OnGameStartCallback);
+	GameState->OnWaitForGameReadyDelegate.AddDynamic(this, &UPGGA_SettingForPlay::OnGameStartCallback);
 
 	APGPlayerState* PlayerState = CastChecked<APGPlayerState>(GetOwningActorFromActorInfo());
 	UAbilitySystemComponent* ASC = PlayerState->GetAbilitySystemComponent();

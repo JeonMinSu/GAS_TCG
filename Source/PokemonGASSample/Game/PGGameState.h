@@ -12,6 +12,8 @@
  */
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGenericPlayerEventDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDeckSeletedDelegate);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerDeckSeletedDelegate, class APlayerState*, PlayerState);
 UCLASS()
 class POKEMONGASSAMPLE_API APGGameState : public AGameState, public IAbilitySystemInterface
 {
@@ -29,9 +31,9 @@ protected:
 
 public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnGenericPlayerEventDelegate OnPlayerSelectedDeck;
+	FOnPlayerDeckSeletedDelegate OnPlayerSelectedDeckDelegate;
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnGenericPlayerEventDelegate OnWaitForGameReady;
+	FOnGenericPlayerEventDelegate OnWaitForGameReadyDelegate;
 
 protected:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
@@ -39,9 +41,9 @@ protected:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
 	//TArray<bool> bGameReady;
 
-	UPROPERTY(EditAnywhere, Category = GAS)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS)
 	TObjectPtr<class UPGFlowAbilitySystemComponent> ASC;
-	UPROPERTY(EditAnywhere, Category = GAS)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
 	
 };

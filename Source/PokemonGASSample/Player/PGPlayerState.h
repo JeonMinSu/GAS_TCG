@@ -12,10 +12,20 @@
  * 
  */
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSettingForPlay);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetGameplayTag, FGameplayTag, GameplayTag);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGenericPlayerEventDelegate);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetBattleCard, class APGCard*, InCard);
 
+USTRUCT(BlueprintType)
+struct POKEMONGASSAMPLE_API FDeckCardInfo
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, Category = "CAS Card")
+	TArray<TSubclassOf<class APGCard>> DeckCards;
+};
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetGameplayTag, FGameplayTag, GameplayTag);
 UCLASS()
 class POKEMONGASSAMPLE_API APGPlayerState : public APlayerState, public IAbilitySystemInterface
 {
@@ -25,17 +35,15 @@ public:
 	APGPlayerState();
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	virtual void BeginPlay() override;
-
 	//UFUNCTION(BlueprintCallable, Category = Player)
 	//FORCEINLINE void SetIsGameReady(const bool bInGameReady) { bGameReady = bInGameReady; }
-	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE void SetIsSelectedDeck(const bool bInSelectedDeck) { bSelectedDeck = bInSelectedDeck; }
+	//UFUNCTION(BlueprintCallable, Category = Player)
+	//FORCEINLINE void SetIsSelectedDeck(const bool bInSelectedDeck) { bSelectedDeck = bInSelectedDeck; }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE bool GetIsGameReady() const { return bGameReady; }
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE bool GetIsSelectedDeck() const { return bSelectedDeck; }
+	FORCEINLINE bool IsSelectedDeck() const { return bSelectedDeck; }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	bool HasBattleCardInHand();
@@ -43,6 +51,9 @@ public:
 	bool IsBattleCardSetOnTheField();
 	UFUNCTION(BlueprintCallable, Category = Player)
 	bool SettingsForPlay();
+
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	void SpawnForSelectedDeck();
 
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	void DeckShuffle();
@@ -62,11 +73,19 @@ public:
 	bool IsEmptyDeckCards();
 	UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	void SettingBenchCard();
+
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	FORCEINLINE int32 GetDeckCount() { return DeckCards.Num(); }
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	FORCEINLINE int32 GetHandCount() { return HandCards.Num(); }
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	FORCEINLINE int32 GetPrizeCount() { return PrizeCards.Num(); }
+	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	FORCEINLINE int32 GetDiscardPileCardCount() { return DiscardPileCards.Num(); };
 	//UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	//void SettingBattleCard(class APGCard* InCard);
 
 protected:
-	virtual void PostInitializeComponents() override;
 	bool IsPrizeCardSetOnTheField();
 
 public:
@@ -76,20 +95,20 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSetGameplayTag OnSetGameplayTag;
 
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnSettingForPlay OnSettingForPlay;
-
-	//UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	//FOnSetBattleCard OnSetBattleCard;
-
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
 	bool bGameReady;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
 	bool bSelectedDeck;
 
-	UPROPERTY(EditAnywhere, Category = GAS)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
 	int32 DeckIndex;
+
+	UPROPERTY(EditAnywhere, Category = GAS)
+	TArray<FDeckCardInfo> DeckCardDatas;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<class APGCard> BattleCard;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
 	TArray<TObjectPtr<class APGCard>> DeckCards;

@@ -9,6 +9,14 @@
 #include "PokemonGASSample/Component/PGCardAbilitySystemComponent.h"
 #include "PGCard.generated.h"
 
+UENUM(BlueprintType)
+enum class ECardType : uint8
+{
+	E_Battle UMETA(DisplayName = "Battle Card"),
+	E_Energy UMETA(DisplayName = "Energy Card"),
+	E_Stadium UMETA(DisplayName = "Stadium Card")
+};
+
 UCLASS()
 class POKEMONGASSAMPLE_API APGCard : public AActor, public IAbilitySystemInterface
 {
@@ -18,6 +26,7 @@ public:
 	// Sets default values for this actor's properties
 	APGCard();
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	FORCEINLINE ECardType GetCardType() { return CardType; }
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -29,11 +38,10 @@ protected:
 
 protected:
 	UPROPERTY(EditAnywhere, Category = CAS)
+	ECardType CardType;
+	UPROPERTY(EditAnywhere, Category = CAS)
 	TObjectPtr<class UPGCardAbilitySystemComponent> ASC;
 	UPROPERTY(EditAnywhere, Category = CAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
-
-	UPROPERTY(EditAnywhere, Category = CAS)
-	FGameplayTag GameplayTag;
 
 };

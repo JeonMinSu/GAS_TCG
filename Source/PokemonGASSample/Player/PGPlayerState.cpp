@@ -6,12 +6,15 @@
 #include "Component/PGFlowAbilitySystemComponent.h"
 #include "Attribute/PGCharacterAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Card/PGCard.h"
 #include <Kismet/KismetArrayLibrary.h>
 
 APGPlayerState::APGPlayerState()
 {
-	ASC = CreateDefaultSubobject<UPGFlowAbilitySystemComponent>(TEXT("ASC"));
+	ASC = CreateDefaultSubobject<UPGFlowAbilitySystemComponent>(TEXT("FlowASC"));
 	AttributeSet = CreateDefaultSubobject<UPGCharacterAttributeSet>(TEXT("AttributeSet"));
+	BattleCard = nullptr;
+	bSelectedDeck = false;
 	//ASC->SetIsReplicated(true);
 }
 
@@ -22,27 +25,25 @@ UAbilitySystemComponent* APGPlayerState::GetAbilitySystemComponent() const
 
 bool APGPlayerState::HasBattleCardInHand()
 {
-	/*
-	* 
-	*/
-	return true;
+	for (const auto HandCard : HandCards)
+	{
+		if (HandCard->GetCardType() == ECardType::E_Battle)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 bool APGPlayerState::IsBattleCardSetOnTheField()
 {
-	/*
-	* 
-	*/
-	return true;
+	return BattleCard != nullptr;
 }
 
 bool APGPlayerState::IsPrizeCardSetOnTheField()
 {
-	/*
-	* 
-	*/
-	return true;
-}
+	return PrizeCards.Num() != 0;
+}	
 
 bool APGPlayerState::SettingsForPlay()
 {
@@ -58,18 +59,36 @@ bool APGPlayerState::SettingsForPlay()
 			DeckCards.Emplace(HandCards.Pop());
 		}
 
-		// 델리게이트를 통해 상대방에서 패을 확인 시켜줘야 됨.
+		// 델리게이트를 통해 상대방에서 패를 확인 시켜줘야 됨.
 
 		DeckShuffle();
 		return false;
 	}
 
-	if (!IsPrizeCardSetOnTheField() && AttributeSet->GetPrizeCardCount() < AttributeSet->GetMaxPrizeCardCount())
+	if (!IsPrizeCardSetOnTheField())
 	{
 		return false;
 	}
 
 	return true;
+}
+
+void APGPlayerState::SpawnForSelectedDeck()
+{
+	if (bSelectedDeck)
+	{
+		return;
+	}
+
+	UWorld* const World = GetWorld();
+
+	FDeckCardInfo DeckCardData = DeckCardDatas[DeckIndex];
+	for (TSubclassOf<APGCard> Card : DeckCardData.DeckCards)
+	{
+		AddDeck(World->SpawnActor<APGCard>(*Card));
+	}
+	bSelectedDeck = true;
+	DeckShuffle();
 }
 
 void APGPlayerState::DeckShuffle()
@@ -87,12 +106,18 @@ void APGPlayerState::DeckShuffle()
 
 void APGPlayerState::AddDeck(APGCard* InCard)
 {
-
+	if (InCard)
+	{
+		DeckCards.Emplace(InCard);
+	}
 }
 
 void APGPlayerState::RemoveDeck(APGCard* InCard)
 {
-
+	if (InCard && DeckCards.Contains(InCard))
+	{
+		DeckCards.Remove(InCard);
+	}
 }
 
 void APGPlayerState::AddHand(APGCard* InCard)
@@ -114,8 +139,6 @@ APGCard* APGPlayerState::GetDeckDrawCard()
 	{
 		APGCard* Card = DeckCards.Pop();
 		AddHand(Card);
-		AttributeSet->SetDeckCount(AttributeSet->GetDeckCount() - 1);
-		AttributeSet->SetHandCount(AttributeSet->GetHandCount() + 1);
 		return Card;
 	}
 	return nullptr;
@@ -127,7 +150,6 @@ APGCard* APGPlayerState::SetPrizeCard()
 	{
 		APGCard* Card = DeckCards.Pop();
 		PrizeCards.Emplace(Card);
-		AttributeSet->SetPrizeCardCount(AttributeSet->GetPrizeCardCount() + 1);
 		return Card;
 	}
 	return nullptr;
@@ -140,7 +162,7 @@ bool APGPlayerState::IsEmptyDeckCards()
 
 void APGPlayerState::SettingBenchCard()
 {
-	if (!GetIsSelectedDeck())
+	if (!IsSelectedDeck())
 	{
 		return;
 	}
@@ -155,19 +177,8 @@ void APGPlayerState::SettingBenchCard()
 		return;
 	}
 
-	if (AttributeSet->GetBenchCardCount() >= AttributeSet->GetMaxBenchCardCount())
-	{
-		return;
-	}
-
-	AttributeSet->SetBenchCardCount(AttributeSet->GetMaxBenchCardCount() + 1);
-}
-
-void APGPlayerState::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();;
-}
-void APGPlayerState::BeginPlay()
-{
-	Super::BeginPlay();
+	//if (AttributeSet->GetBenchCardCount() >= AttributeSet->GetMaxBenchCardCount())
+	//{
+	//	return;
+	//}
 }

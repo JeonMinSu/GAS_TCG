@@ -2,6 +2,7 @@
 
 
 #include "PGFlowAbilitySystemComponent.h"
+#include "PokemonGASSample.h"
 #include "Tag/PGGameplayTag.h"
 #include "GA/PGFlowGameplayAbility.h"
 
@@ -50,6 +51,19 @@ void UPGFlowAbilitySystemComponent::EndAbilityWithTag(FGameplayTagContainer Tags
 			}
 		}
 	}
+}
+
+void UPGFlowAbilitySystemComponent::InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor)
+{
+	Super::InitAbilityActorInfo(InOwnerActor, InAvatarActor);
+}
+
+void UPGFlowAbilitySystemComponent::OnTagUpdated(const FGameplayTag& Tag, bool TagExists)
+{
+	Super::OnTagUpdated(Tag, TagExists);
+
+	//const FGameplayAbilityActorInfo* ActorInfo = AbilityActorInfo.Get();
+	//PGGAS_LOG(LogPGGAS, Log, TEXT("Update Tag : %s"), *Tag.ToString());
 }
 
 void UPGFlowAbilitySystemComponent::EndAbilitySpec(FGameplayAbilitySpec& Spec)

@@ -2,8 +2,9 @@
 
 
 #include "PGAT_WaitForDeckSelect.h"
-#include <PokemonGASSample/Game/PGGameState.h>
-#include <Kismet/KismetArrayLibrary.h>
+#include "Player/PGPlayerState.h"
+#include "Game/PGGameState.h"
+#include "PokemonGASSample.h"
 
 UPGAT_WaitForDeckSelect::UPGAT_WaitForDeckSelect()
 {
@@ -19,34 +20,77 @@ void UPGAT_WaitForDeckSelect::Activate()
 {
 	Super::Activate();
 
+	if (!Ability)
+	{
+		return;
+	}
+
 	if (!AbilitySystemComponent.IsValid())
 	{
 		return;
 	}
 
-	//APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-	//GameState->OnPlayerSelectedDeck.AddDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
-
+	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
+	APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
+	if (!GameState)
+	{
+		return;
+	}
+	GameState->OnPlayerSelectedDeckDelegate.AddDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
 	SetWaitingOnAvatar();
 }
 
 void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
 {
-	if (AbilitySystemComponent.IsValid())
+	if (!Ability)
 	{
-		//APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-		//GameState->OnPlayerSelectedDeck.RemoveDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
+		return;
+	}
+
+	if (!AbilitySystemComponent.IsValid())
+	{
+		return;
+	}
+
+	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
+	APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
+	if (GameState)
+	{
+		GameState->OnPlayerSelectedDeckDelegate.RemoveDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
 	}
 	Super::OnDestroy(AbilityEnded);
 }
 
-void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback()
-{
-	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-	//if (!GameState->IsAllPlayerSelectedDeck())
+void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback(/*APlayerState* PlayerState*/)
+{	
+	//if (!PlayerState)
 	//{
 	//	return;
 	//}
+
+	//const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
+	//APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
+
+	//APGPlayerState* PGPlayerState = Cast<APGPlayerState>(PlayerState);
+	//if (PGPlayerState)
+	//{
+	//	PGGAS_LOG(LogPGGAS, Log, TEXT("Player State : %d"), PlayerState->GetPlayerId());
+	//}
+
+	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
+	APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
+	for (const auto PlayerState : GameState->PlayerArray)
+	{
+		APGPlayerState* PGPlayerState = Cast<APGPlayerState>(PlayerState);
+		if (!PGPlayerState)
+		{
+			return;
+		}
+		if (!PGPlayerState->IsSelectedDeck())
+		{
+			return;
+		}
+	}
 
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{

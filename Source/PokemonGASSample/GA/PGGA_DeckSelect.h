@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "PGFlowGameplayAbility.h"
 #include "PGGA_DeckSelect.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class POKEMONGASSAMPLE_API UPGGA_DeckSelect : public UGameplayAbility
+class POKEMONGASSAMPLE_API UPGGA_DeckSelect : public UPGFlowGameplayAbility
 {
 	GENERATED_BODY()
 public:

@@ -30,8 +30,8 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 
 protected:
-	UPROPERTY(EditAnywhere, Category = GAS)
-	TObjectPtr<class UAbilitySystemComponent> ASC;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS)
+	TObjectPtr<class UPGFlowAbilitySystemComponent> ASC;
 
 	UPROPERTY(EditAnywhere, Category = GAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;

@@ -26,7 +26,7 @@ void UPGAT_WaitForGameReady::Activate()
 	}
 
 	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-	GameState->OnWaitForGameReady.AddDynamic(this, &UPGAT_WaitForGameReady::OnWaitForGameReadyCallback);
+	GameState->OnWaitForGameReadyDelegate.AddDynamic(this, &UPGAT_WaitForGameReady::OnWaitForGameReadyCallback);
 
 	SetWaitingOnAvatar();
 }
@@ -39,7 +39,7 @@ void UPGAT_WaitForGameReady::OnDestroy(bool AbilityEnded)
 	}
 
 	APGGameState* GameState = CastChecked<APGGameState>(GetAvatarActor());
-	GameState->OnWaitForGameReady.RemoveDynamic(this, &UPGAT_WaitForGameReady::OnWaitForGameReadyCallback);
+	GameState->OnWaitForGameReadyDelegate.RemoveDynamic(this, &UPGAT_WaitForGameReady::OnWaitForGameReadyCallback);
 	Super::OnDestroy(AbilityEnded);
 }
 

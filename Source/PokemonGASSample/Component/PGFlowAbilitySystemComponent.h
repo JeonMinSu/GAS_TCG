@@ -22,7 +22,13 @@ public:
 	void CancelAbilityWithTag(FGameplayTagContainer Tags);
 	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
 	void EndAbilityWithTag(FGameplayTagContainer Tags);
+
+	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	virtual void InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor) override;
 	
+	UFUNCTION(BlueprintCallable, Category = "Flow GAS")
+	virtual void OnTagUpdated(const FGameplayTag& Tag, bool TagExists) override;
+
 protected:
 	UFUNCTION()
 	void EndAbilitySpec(FGameplayAbilitySpec& Spec);

@@ -28,7 +28,7 @@ public:
 
 protected:
 	UFUNCTION()
-	void OnPlayerDeckSelectedCallback();
+	void OnPlayerDeckSelectedCallback(/*class APlayerState* PlayerState*/);
 
 //public:
 	//FGameplayTag WithTag;

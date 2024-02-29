@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "PGFlowGameplayAbility.h"
 #include "PGGA_FlipCoin.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class POKEMONGASSAMPLE_API UPGGA_FlipCoin : public UGameplayAbility
+class POKEMONGASSAMPLE_API UPGGA_FlipCoin : public UPGFlowGameplayAbility
 {
 	GENERATED_BODY()
 public:

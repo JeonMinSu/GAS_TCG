@@ -32,17 +32,17 @@ void UPGGA_FlipCoin::EndAbility(const FGameplayAbilitySpecHandle Handle, const F
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 	UE_LOG(LogTemp, Log, TEXT("End Ability Flip Coin"));
 
-	UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo();
-	if (ASC)
-	{
-		FGameplayTagContainer TargetTag(PGTAG_GAME_WAITFORREADY);
-		if (!ASC->HasMatchingGameplayTag(PGTAG_GAME_WAITFORREADY))
-		{ 
-			ASC->TryActivateAbilitiesByTag(TargetTag);
-		}
-		else
-		{
-			ASC->CancelAbilities(&TargetTag);
-		}
-	}
+	//UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo();
+	//if (ASC)
+	//{
+	//	FGameplayTagContainer TargetTag(PGTAG_GAME_WAITFORREADY);
+	//	if (!ASC->HasMatchingGameplayTag(PGTAG_GAME_WAITFORREADY))
+	//	{ 
+	//		ASC->TryActivateAbilitiesByTag(TargetTag);
+	//	}
+	//	else
+	//	{
+	//		ASC->CancelAbilities(&TargetTag);
+	//	}
+	//}
 }

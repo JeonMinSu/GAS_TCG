@@ -35,7 +35,6 @@ void APGCard::PostInitializeComponents()
 		FGameplayAbilitySpec Spec(StartAbility);
 		ASC->GiveAbility(Spec);
 	}
-
 }
 
 // Called every frame
