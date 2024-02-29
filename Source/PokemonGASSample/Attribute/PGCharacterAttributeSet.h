@@ -28,12 +28,19 @@ public:
 
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, DeckCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxDeckCount);
+	
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, HandCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxHandCount);
+	
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, BenchCardCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxBenchCardCount);
+	
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, BattleCardCount);
+	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxBattleCardCount)
+
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, PrizeCardCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxPrizeCardCount);
+	
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, DiscardPileCardCount);
 	ATTRIBUTE_ACCESSORS(UPGCharacterAttributeSet, MaxDiscardPileCardCount);
 

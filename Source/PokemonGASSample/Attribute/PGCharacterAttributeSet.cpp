@@ -10,6 +10,8 @@ UPGCharacterAttributeSet::UPGCharacterAttributeSet() :
 	MaxHandCount(0),
 	BenchCardCount(0),
 	MaxBenchCardCount(5),
+	BattleCardCount(0),
+	MaxBattleCardCount(1),
 	PrizeCardCount(0),
 	MaxPrizeCardCount(3),
 	DiscardPileCardCount(0),
@@ -33,6 +35,11 @@ void UPGCharacterAttributeSet::PreAttributeChange(const FGameplayAttribute & Att
 	if (Attribute == GetPrizeCardCountAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0, GetMaxPrizeCardCount());
+	}
+
+	if (Attribute == GetBattleCardCountAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0, GetMaxBattleCardCount());
 	}
 
 	if (Attribute == GetDiscardPileCardCountAttribute())

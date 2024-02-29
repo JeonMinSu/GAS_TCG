@@ -41,7 +41,7 @@ public:
 	//FORCEINLINE void SetIsSelectedDeck(const bool bInSelectedDeck) { bSelectedDeck = bInSelectedDeck; }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE bool GetIsGameReady() const { return bGameReady; }
+	FORCEINLINE bool IsGameReady() const { return bGameReady; }
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE bool IsSelectedDeck() const { return bSelectedDeck; }
 
@@ -52,35 +52,35 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	bool SettingsForPlay();
 
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void SpawnForSelectedDeck();
 
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void DeckShuffle();
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void AddDeck(class APGCard* InCard);
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void RemoveDeck(class APGCard* InCard);
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void AddHand(class APGCard* InCard);
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void RemoveHand(class APGCard* InCard);
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	class APGCard* GetDeckDrawCard();
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	class APGCard* SetPrizeCard();
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	bool IsEmptyDeckCards();
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void SettingBenchCard();
 
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE int32 GetDeckCount() { return DeckCards.Num(); }
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE int32 GetHandCount() { return HandCards.Num(); }
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE int32 GetPrizeCount() { return PrizeCards.Num(); }
-	UFUNCTION(BlueprintCallable, Category = "Player | Card")
+	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE int32 GetDiscardPileCardCount() { return DiscardPileCards.Num(); };
 	//UFUNCTION(BlueprintCallable, Category = "Player | Card")
 	//void SettingBattleCard(class APGCard* InCard);
@@ -89,8 +89,8 @@ protected:
 	bool IsPrizeCardSetOnTheField();
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
-	bool bIsFirstTurn;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
+	//bool bIsFirstTurn;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSetGameplayTag OnSetGameplayTag;

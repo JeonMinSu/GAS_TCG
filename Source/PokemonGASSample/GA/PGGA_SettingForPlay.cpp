@@ -76,7 +76,7 @@ void UPGGA_SettingForPlay::OnGameStartCallback()
 {
 	APGPlayerState* PlayerState = Cast<APGPlayerState>(CurrentActorInfo->OwnerActor.Get());
 
-	if (!PlayerState->GetIsGameReady())
+	if (!PlayerState->IsGameReady())
 	{
 		return;
 	}

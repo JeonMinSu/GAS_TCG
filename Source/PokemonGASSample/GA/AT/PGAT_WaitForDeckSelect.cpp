@@ -78,7 +78,8 @@ void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback(/*APlayerState* Playe
 	//}
 
 	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
-	APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
+	const APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
+
 	for (const auto PlayerState : GameState->PlayerArray)
 	{
 		APGPlayerState* PGPlayerState = Cast<APGPlayerState>(PlayerState);
