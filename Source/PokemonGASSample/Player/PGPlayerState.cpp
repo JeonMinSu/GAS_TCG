@@ -40,6 +40,17 @@ bool APGPlayerState::IsBattleCardSetOnTheField()
 	return BattleCard != nullptr;
 }
 
+void APGPlayerState::ReturnCardsInHandToDeck()
+{
+	if (!HasBattleCardInHand() && !IsBattleCardSetOnTheField())
+	{
+		while (!HandCards.IsEmpty())
+		{
+			DeckCards.Emplace(HandCards.Pop());
+		}
+	}
+}
+
 bool APGPlayerState::IsPrizeCardSetOnTheField()
 {
 	return PrizeCards.Num() != 0;
@@ -138,21 +149,26 @@ APGCard* APGPlayerState::GetDeckDrawCard()
 	if (!IsEmptyDeckCards())
 	{
 		APGCard* Card = DeckCards.Pop();
-		AddHand(Card);
 		return Card;
 	}
 	return nullptr;
 }
 
-APGCard* APGPlayerState::SetPrizeCard()
+void APGPlayerState::SetPrizeCard(int32 InAmount)
 {
-	if (!IsEmptyDeckCards())
+	for (int i = 0; i < InAmount; i++)
 	{
-		APGCard* Card = DeckCards.Pop();
-		PrizeCards.Emplace(Card);
-		return Card;
+		if (IsEmptyDeckCards())
+		{
+			return;
+		}
+		PrizeCards.Emplace(DeckCards.Pop());
 	}
-	return nullptr;
+	//if (!IsEmptyDeckCards())
+	//{
+	//	APGCard* Card = DeckCards.Pop();
+	//	PrizeCards.Emplace(Card);
+	//}
 }
 
 bool APGPlayerState::IsEmptyDeckCards()
@@ -176,9 +192,16 @@ void APGPlayerState::SettingBenchCard()
 	{
 		return;
 	}
+}
 
-	//if (AttributeSet->GetBenchCardCount() >= AttributeSet->GetMaxBenchCardCount())
-	//{
-	//	return;
-	//}
+void APGPlayerState::DrawCard(int32 InAmount)
+{
+	for (int i = 0; i < InAmount; i++)
+	{
+		if (IsEmptyDeckCards())
+		{
+			return;
+		}
+		AddHand(GetDeckDrawCard());
+	}
 }

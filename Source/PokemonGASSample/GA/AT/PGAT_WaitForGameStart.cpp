@@ -1,22 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PGAT_WaitForDeckSelect.h"
+#include "PGAT_WaitForGameStart.h"
 #include "Player/PGPlayerState.h"
 #include "Game/PGGameState.h"
-#include "PokemonGASSample.h"
 
-UPGAT_WaitForDeckSelect::UPGAT_WaitForDeckSelect()
+UPGAT_WaitForGameStart::UPGAT_WaitForGameStart()
 {
 }
 
-UPGAT_WaitForDeckSelect* UPGAT_WaitForDeckSelect::CreateTask(UGameplayAbility* OwningAbility)
+UPGAT_WaitForGameStart* UPGAT_WaitForGameStart::CreateTask(UGameplayAbility* OwningAbility)
 {
-	UPGAT_WaitForDeckSelect* NewTask = NewAbilityTask<UPGAT_WaitForDeckSelect>(OwningAbility);
+	UPGAT_WaitForGameStart* NewTask = NewAbilityTask<UPGAT_WaitForGameStart>(OwningAbility);
 	return NewTask;
 }
 
-void UPGAT_WaitForDeckSelect::Activate()
+void UPGAT_WaitForGameStart::Activate()
 {
 	Super::Activate();
 
@@ -29,18 +28,18 @@ void UPGAT_WaitForDeckSelect::Activate()
 	{
 		return;
 	}
-
 	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
 	APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
+
 	if (!GameState)
 	{
 		return;
 	}
-	GameState->OnPlayerSelectedDeckDelegate.AddDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
-	SetWaitingOnAvatar();
+
+	GameState->OnPlayerGameStartDelegate.AddDynamic(this, &UPGAT_WaitForGameStart::OnPlayerGameStartCallback);
 }
 
-void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
+void UPGAT_WaitForGameStart::OnDestroy(bool AbilityEnded)
 {
 	if (!Ability)
 	{
@@ -56,28 +55,16 @@ void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
 	APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
 	if (GameState)
 	{
-		GameState->OnPlayerSelectedDeckDelegate.RemoveDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
+		GameState->OnPlayerGameStartDelegate.RemoveDynamic(this, &UPGAT_WaitForGameStart::OnPlayerGameStartCallback);
 	}
 	Super::OnDestroy(AbilityEnded);
 }
 
-void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback(/*APlayerState* PlayerState*/)
-{	
+void UPGAT_WaitForGameStart::OnPlayerGameStartCallback()
+{
 	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
 	const APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
 
-	for (const auto PlayerState : GameState->PlayerArray)
-	{
-		APGPlayerState* PGPlayerState = Cast<APGPlayerState>(PlayerState);
-		if (!PGPlayerState)
-		{
-			return;
-		}
-		if (!PGPlayerState->IsSelectedDeck())
-		{
-			return;
-		}
-	}
 
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{

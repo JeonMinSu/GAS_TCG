@@ -43,20 +43,20 @@ void UPGGA_SettingForPlay::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 	for (int32 i = 0; i < 7; i++)
 	{
-		APGCard* DrawCard = PlayerState->GetDeckDrawCard();
-		if (DrawCard)
-		{
-			// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
-		}
+		//APGCard* DrawCard = PlayerState->GetDeckDrawCard();
+		//if (DrawCard)
+		//{
+		//	// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
+		//}
 	}
 
 	for (int32 i = 0; i < 3; i++)
 	{
-		APGCard* PrizeCard = PlayerState->SetPrizeCard();
-		if (PrizeCard)
-		{
-			// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
-		}
+		//APGCard* PrizeCard = PlayerState->SetPrizeCard();
+		//if (PrizeCard)
+		//{
+		//	// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
+		//}
 	}
 }
 

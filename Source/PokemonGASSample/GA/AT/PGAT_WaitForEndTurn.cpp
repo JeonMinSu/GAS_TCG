@@ -1,25 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PGAT_WaitForDeckSelect.h"
+#include "PGAT_WaitForEndTurn.h"
 #include "Player/PGPlayerState.h"
 #include "Game/PGGameState.h"
-#include "PokemonGASSample.h"
+#include <Kismet/GameplayStatics.h>
 
-UPGAT_WaitForDeckSelect::UPGAT_WaitForDeckSelect()
+UPGAT_WaitForEndTurn::UPGAT_WaitForEndTurn()
 {
 }
 
-UPGAT_WaitForDeckSelect* UPGAT_WaitForDeckSelect::CreateTask(UGameplayAbility* OwningAbility)
+UPGAT_WaitForEndTurn* UPGAT_WaitForEndTurn::CreateTask(UGameplayAbility* OwningAbility)
 {
-	UPGAT_WaitForDeckSelect* NewTask = NewAbilityTask<UPGAT_WaitForDeckSelect>(OwningAbility);
+	UPGAT_WaitForEndTurn* NewTask = NewAbilityTask<UPGAT_WaitForEndTurn>(OwningAbility);
 	return NewTask;
 }
 
-void UPGAT_WaitForDeckSelect::Activate()
+void UPGAT_WaitForEndTurn::Activate()
 {
 	Super::Activate();
-
 	if (!Ability)
 	{
 		return;
@@ -36,11 +35,11 @@ void UPGAT_WaitForDeckSelect::Activate()
 	{
 		return;
 	}
-	GameState->OnPlayerSelectedDeckDelegate.AddDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
+	GameState->OnPlayerEndTurnDelegate.AddDynamic(this, &UPGAT_WaitForEndTurn::OnPlayerEndTurnCallback);
 	SetWaitingOnAvatar();
 }
 
-void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
+void UPGAT_WaitForEndTurn::OnDestroy(bool AbilityEnded)
 {
 	if (!Ability)
 	{
@@ -51,33 +50,21 @@ void UPGAT_WaitForDeckSelect::OnDestroy(bool AbilityEnded)
 	{
 		return;
 	}
-
 	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
 	APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
 	if (GameState)
 	{
-		GameState->OnPlayerSelectedDeckDelegate.RemoveDynamic(this, &UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback);
+		GameState->OnPlayerEndTurnDelegate.RemoveDynamic(this, &UPGAT_WaitForEndTurn::OnPlayerEndTurnCallback);
 	}
+
 	Super::OnDestroy(AbilityEnded);
 }
 
-void UPGAT_WaitForDeckSelect::OnPlayerDeckSelectedCallback(/*APlayerState* PlayerState*/)
-{	
+void UPGAT_WaitForEndTurn::OnPlayerEndTurnCallback(int32 PlayerIndex)
+{
 	const FGameplayAbilityActorInfo* ActorInfo = Ability->GetCurrentActorInfo();
 	const APGGameState* GameState = Cast<APGGameState>(ActorInfo->OwnerActor);
 
-	for (const auto PlayerState : GameState->PlayerArray)
-	{
-		APGPlayerState* PGPlayerState = Cast<APGPlayerState>(PlayerState);
-		if (!PGPlayerState)
-		{
-			return;
-		}
-		if (!PGPlayerState->IsSelectedDeck())
-		{
-			return;
-		}
-	}
 
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{

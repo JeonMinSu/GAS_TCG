@@ -66,13 +66,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void RemoveHand(class APGCard* InCard);
 	UFUNCTION(BlueprintCallable, Category = Player)
-	class APGCard* GetDeckDrawCard();
-	UFUNCTION(BlueprintCallable, Category = Player)
-	class APGCard* SetPrizeCard();
+	void SetPrizeCard(int32 InAmount);
 	UFUNCTION(BlueprintCallable, Category = Player)
 	bool IsEmptyDeckCards();
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void SettingBenchCard();
+	UFUNCTION(BlueprintCallable, Category = Player)
+	void DrawCard(int32 InAmount);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE int32 GetDeckCount() { return DeckCards.Num(); }
@@ -82,11 +82,15 @@ public:
 	FORCEINLINE int32 GetPrizeCount() { return PrizeCards.Num(); }
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE int32 GetDiscardPileCardCount() { return DiscardPileCards.Num(); };
-	//UFUNCTION(BlueprintCallable, Category = "Player | Card")
-	//void SettingBattleCard(class APGCard* InCard);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+	void ReturnCardsInHandToDeck();
 
 protected:
 	bool IsPrizeCardSetOnTheField();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+	class APGCard* GetDeckDrawCard();
 
 public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)

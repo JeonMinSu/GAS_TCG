@@ -40,11 +40,11 @@ void UPGGA_DrawDeck::ActivateAbility(const FGameplayAbilitySpecHandle Handle, co
 
 	if (AttributeSet->GetDeckCount() > 0)
 	{
-		APGCard* DrawCard = PlayerState->GetDeckDrawCard();
-		if (DrawCard)
-		{
-			// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
-		}
+		//APGCard* DrawCard = PlayerState->GetDeckDrawCard();
+		//if (DrawCard)
+		//{
+		//	// 델리게이트를 사용하여 UI를 띄우는 작업이 필요.
+		//}
 	}
 	else
 	{
