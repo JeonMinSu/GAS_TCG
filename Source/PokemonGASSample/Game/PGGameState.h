@@ -22,6 +22,7 @@ class POKEMONGASSAMPLE_API APGGameState : public AGameState, public IAbilitySyst
 public:
 	APGGameState();
 
+	UFUNCTION(BlueprintCallable, Category = "CAS")
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:

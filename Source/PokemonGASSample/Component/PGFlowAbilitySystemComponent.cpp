@@ -61,9 +61,7 @@ void UPGFlowAbilitySystemComponent::InitAbilityActorInfo(AActor* InOwnerActor, A
 void UPGFlowAbilitySystemComponent::OnTagUpdated(const FGameplayTag& Tag, bool TagExists)
 {
 	Super::OnTagUpdated(Tag, TagExists);
-
 	//const FGameplayAbilityActorInfo* ActorInfo = AbilityActorInfo.Get();
-	//PGGAS_LOG(LogPGGAS, Log, TEXT("Update Tag : %s"), *Tag.ToString());
 }
 
 void UPGFlowAbilitySystemComponent::EndAbilitySpec(FGameplayAbilitySpec& Spec)
