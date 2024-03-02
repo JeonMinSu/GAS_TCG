@@ -13,6 +13,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGenericPlayerEventDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDeckSeletedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerGameStartDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerEndTurnDelegate, int32, PlayerIndex);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerDeckSeletedDelegate, class APlayerState*, PlayerState);
 UCLASS()
 class POKEMONGASSAMPLE_API APGGameState : public AGameState, public IAbilitySystemInterface
@@ -35,6 +37,11 @@ public:
 	FOnPlayerDeckSeletedDelegate OnPlayerSelectedDeckDelegate;
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnGenericPlayerEventDelegate OnWaitForGameReadyDelegate;
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
+	FOnPlayerGameStartDelegate OnPlayerGameStartDelegate;
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
+	FOnPlayerEndTurnDelegate OnPlayerEndTurnDelegate;
+
 
 protected:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
