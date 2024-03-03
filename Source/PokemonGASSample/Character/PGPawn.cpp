@@ -2,9 +2,8 @@
 
 
 #include "PGPawn.h"
-#include "AbilitySystemComponent.h"
-#include "Component/PGFlowAbilitySystemComponent.h"
-#include <PokemonGASSample/Player/PGPlayerState.h>
+#include "Component/PGPlayerASC.h"
+#include "Player/PGPlayerState.h"
 
 // Sets default values
 APGPawn::APGPawn()
@@ -44,7 +43,7 @@ void APGPawn::PossessedBy(AController* NewController)
 	APGPlayerState* PGPS = GetPlayerState<APGPlayerState>();
 	if (PGPS)
 	{
-		ASC = CastChecked<UPGFlowAbilitySystemComponent>(PGPS->GetAbilitySystemComponent());
+		ASC = CastChecked<UPGPlayerASC>(PGPS->GetAbilitySystemComponent());
 		ASC->InitAbilityActorInfo(PGPS, this);
 		for (const auto& StartAbility : StartAbilities)
 		{

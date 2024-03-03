@@ -2,15 +2,15 @@
 
 
 #include "GA/AT/PGAT_WaitPlayerDone.h"
-#include "Player/PGPlayerState.h"
-#include "AbilitySystemInterface.h"
+#include "GameFramework/PlayerState.h" 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 UPGAT_WaitPlayerDone::UPGAT_WaitPlayerDone()
 {
 }
 
-UPGAT_WaitPlayerDone* UPGAT_WaitPlayerDone::CreateTask(UGameplayAbility* OwningAbility, TArray<APGPlayerState*> InPlayerStates, FGameplayTag InEventTag)
+UPGAT_WaitPlayerDone* UPGAT_WaitPlayerDone::CreateTask(UGameplayAbility* OwningAbility, TArray<APlayerState*> InPlayerStates, FGameplayTag InEventTag)
 {
 	UPGAT_WaitPlayerDone* NewTask = NewAbilityTask<UPGAT_WaitPlayerDone>(OwningAbility);
 	NewTask->PlayerStates = InPlayerStates;
@@ -25,15 +25,13 @@ void UPGAT_WaitPlayerDone::Activate()
 
 	int32 ActivationCount = 0;
 
-	for (APGPlayerState* PS : PlayerStates)
+	for (APlayerState* PS : PlayerStates)
 	{
-		IAbilitySystemInterface* AbilityInterface = Cast<IAbilitySystemInterface>(PS);
-		if (!AbilityInterface)
+		UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(PS);
+		if (ASC == nullptr)
 		{
 			continue;
 		}
-
-		UAbilitySystemComponent* ASC = AbilityInterface->GetAbilitySystemComponent();
 		FDelegateHandle Handle = ASC->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitPlayerDone::AbilityEndCheckCallback);
 		Callbacks.Add(ASC, Handle);
 
@@ -41,12 +39,17 @@ void UPGAT_WaitPlayerDone::Activate()
 		FGameplayEventData PayloadData;
 		Activated = ASC->HandleGameplayEvent(EventTag, &PayloadData);
 		
-		ActivationCount += Activated;
+		if (Activated != 1)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Trigger Ability Count is not valid"));
+		}
+
+		ActivationCount++;
 	}
 
 	if (ActivationCount == 0)
 	{
-		EndTask();
+		BroadcastAndEnd();
 	}
 	else
 	{
@@ -71,13 +74,9 @@ void UPGAT_WaitPlayerDone::AbilityEndCheckCallback(UGameplayAbility* EndedAbilit
 	{
 		PlayerAbilityActivationCount--;
 	}
+
 	if (PlayerAbilityActivationCount <= 0)
 	{
-		if (ShouldBroadcastAbilityTaskDelegates())
-		{
-			OnComplete.Broadcast();
-		}
-
-		EndTask();
+		BroadcastAndEnd();
 	}
 }

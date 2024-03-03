@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "PokemonGASSample/Tag/PGGameplayTag.h"
+#include "Tag/PGGameplayTag.h"
 #include "AbilitySystemInterface.h"
-#include "PokemonGASSample/Component/PGCardAbilitySystemComponent.h"
+#include "Component/PGCardASC.h"
 #include "PGCard.generated.h"
 
 UENUM(BlueprintType)
@@ -40,7 +40,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = CAS)
 	ECardType CardType;
 	UPROPERTY(EditAnywhere, Category = CAS)
-	TObjectPtr<class UPGCardAbilitySystemComponent> ASC;
+	TObjectPtr<class UPGCardASC> ASC;
 	UPROPERTY(EditAnywhere, Category = CAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
 

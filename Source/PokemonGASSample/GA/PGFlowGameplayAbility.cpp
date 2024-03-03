@@ -2,16 +2,17 @@
 
 
 #include "PGFlowGameplayAbility.h"
-#include "Component/PGFlowAbilitySystemComponent.h"
+#include "PokemonGASSample.h"
+#include "Interface/AbilitySystem/PGFlowSystemInterface.h"
+#include "AbilitySystemComponent.h"
 
 void UPGFlowGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 
-	UPGFlowAbilitySystemComponent* FASC = Cast<UPGFlowAbilitySystemComponent>(ActorInfo->AbilitySystemComponent.Get());
-	if (FASC)
+	IPGFlowSystemInterface* FlowSystem = Cast<IPGFlowSystemInterface>(ActorInfo->AbilitySystemComponent.Get());
+	if (FlowSystem && FlowSystem->ActivateNextFlow(FlowSystem->GetNextTag(ActivationOwnedTags)))
 	{
-		FGameplayTagContainer NextActivationContainer(FASC->GetNextTag(ActivationOwnedTags));
-		FASC->TryActivateAbilitiesByTag(NextActivationContainer);
+		UE_LOG(LogPGGAS, Log, TEXT("Next Flow Activated"));
 	}
 }

@@ -4,20 +4,32 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "PGFlowAbilitySystemComponent.generated.h"
+#include "Interface/AbilitySystem/PGFlowSystemInterface.h"
+#include "PGGameStateASC.generated.h"
 
 /**
  * 
  */
 UCLASS(ClassGroup = ("Flow CAS"), meta = (BlueprintSpawnableComponent))
-class POKEMONGASSAMPLE_API UPGFlowAbilitySystemComponent : public UAbilitySystemComponent
+class POKEMONGASSAMPLE_API UPGGameStateASC : public UAbilitySystemComponent, public IPGFlowSystemInterface
 {
 	GENERATED_BODY()
 	
 public:
+	UPGGameStateASC();
+	
+// Interface
+public:
 	UFUNCTION()
-	FGameplayTag GetNextTag(const FGameplayTagContainer& CurrentContainer);
+	virtual FGameplayTag GetNextTag(const FGameplayTagContainer& CurrentContainer) override;
+	UFUNCTION()
+	virtual bool ActivateNextFlow(FGameplayTag ActivationTag) override;
 
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = GAS)
+	TMap<FGameplayTag, FGameplayTag> GameplayFlowTagMap;
+
+public:
 	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
 	void CancelAbilityWithTag(FGameplayTagContainer Tags);
 	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
@@ -32,11 +44,4 @@ public:
 protected:
 	UFUNCTION()
 	void EndAbilitySpec(FGameplayAbilitySpec& Spec);
-
-
-protected:
-	UPROPERTY(EditDefaultsOnly, Category=GAS)
-	TMap<FGameplayTag, FGameplayTag> GameplayFlowTagMap;
-
-	
 };

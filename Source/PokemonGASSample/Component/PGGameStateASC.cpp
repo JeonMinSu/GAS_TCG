@@ -1,12 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
-#include "PGFlowAbilitySystemComponent.h"
+#include "PGGameStateASC.h"
 #include "PokemonGASSample.h"
 #include "Tag/PGGameplayTag.h"
 #include "GA/PGFlowGameplayAbility.h"
 
-FGameplayTag UPGFlowAbilitySystemComponent::GetNextTag(const FGameplayTagContainer& CurrentContainer)
+UPGGameStateASC::UPGGameStateASC()
+{
+}
+
+FGameplayTag UPGGameStateASC::GetNextTag(const FGameplayTagContainer& CurrentContainer)
 {
 	if (HasMatchingGameplayTag(PGTAG_GAME_STATE_NONE))
 	{
@@ -24,7 +27,13 @@ FGameplayTag UPGFlowAbilitySystemComponent::GetNextTag(const FGameplayTagContain
 	return PGTAG_GAME_STATE_NONE;
 }
 
-void UPGFlowAbilitySystemComponent::CancelAbilityWithTag(FGameplayTagContainer Tags)
+bool UPGGameStateASC::ActivateNextFlow(FGameplayTag ActivationTag)
+{
+	FGameplayTagContainer NextActivationContainer(ActivationTag);
+	return TryActivateAbilitiesByTag(NextActivationContainer);
+}
+
+void UPGGameStateASC::CancelAbilityWithTag(FGameplayTagContainer Tags)
 {
 	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
 	FindAllAbilitiesWithTags(AbilitySpecHandles, Tags);
@@ -35,7 +44,7 @@ void UPGFlowAbilitySystemComponent::CancelAbilityWithTag(FGameplayTagContainer T
 	}
 }
 
-void UPGFlowAbilitySystemComponent::EndAbilityWithTag(FGameplayTagContainer Tags)
+void UPGGameStateASC::EndAbilityWithTag(FGameplayTagContainer Tags)
 {
 	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
 	FindAllAbilitiesWithTags(AbilitySpecHandles, Tags);
@@ -53,18 +62,18 @@ void UPGFlowAbilitySystemComponent::EndAbilityWithTag(FGameplayTagContainer Tags
 	}
 }
 
-void UPGFlowAbilitySystemComponent::InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor)
+void UPGGameStateASC::InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor)
 {
 	Super::InitAbilityActorInfo(InOwnerActor, InAvatarActor);
 }
 
-void UPGFlowAbilitySystemComponent::OnTagUpdated(const FGameplayTag& Tag, bool TagExists)
+void UPGGameStateASC::OnTagUpdated(const FGameplayTag& Tag, bool TagExists)
 {
 	Super::OnTagUpdated(Tag, TagExists);
 	//const FGameplayAbilityActorInfo* ActorInfo = AbilityActorInfo.Get();
 }
 
-void UPGFlowAbilitySystemComponent::EndAbilitySpec(FGameplayAbilitySpec& Spec)
+void UPGGameStateASC::EndAbilitySpec(FGameplayAbilitySpec& Spec)
 {
 	FGameplayAbilityActorInfo* ActorInfo = AbilityActorInfo.Get();
 

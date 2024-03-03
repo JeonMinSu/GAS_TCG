@@ -2,15 +2,15 @@
 
 
 #include "PGCard.h"
-#include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
+#include "Component/PGCardASC.h"
 
 // Sets default values
 APGCard::APGCard()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	ASC = CreateDefaultSubobject<UPGCardAbilitySystemComponent>(TEXT("ASC"));
+	ASC = CreateDefaultSubobject<UPGCardASC>(TEXT("ASC"));
 }
 
 UAbilitySystemComponent* APGCard::GetAbilitySystemComponent() const

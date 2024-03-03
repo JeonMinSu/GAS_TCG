@@ -31,7 +31,7 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS)
-	TObjectPtr<class UPGFlowAbilitySystemComponent> ASC;
+	TObjectPtr<class UPGPlayerASC> ASC;
 
 	UPROPERTY(EditAnywhere, Category = GAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;

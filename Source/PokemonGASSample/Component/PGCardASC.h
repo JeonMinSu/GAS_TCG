@@ -4,14 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "PGCardAbilitySystemComponent.generated.h"
+#include "PGCardASC.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class POKEMONGASSAMPLE_API UPGCardAbilitySystemComponent : public UAbilitySystemComponent
+class POKEMONGASSAMPLE_API UPGCardASC : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
 	
+public:
+	UPGCardASC();
 };

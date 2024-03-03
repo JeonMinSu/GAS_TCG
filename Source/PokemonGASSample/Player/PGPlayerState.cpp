@@ -3,7 +3,7 @@
 
 #include "PGPlayerState.h"
 #include "AbilitySystemComponent.h"
-#include "Component/PGFlowAbilitySystemComponent.h"
+#include "Component/PGPlayerASC.h"
 #include "Attribute/PGCharacterAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Card/PGCard.h"
@@ -11,7 +11,7 @@
 
 APGPlayerState::APGPlayerState()
 {
-	ASC = CreateDefaultSubobject<UPGFlowAbilitySystemComponent>(TEXT("FlowASC"));
+	ASC = CreateDefaultSubobject<UPGPlayerASC>(TEXT("PlayerASC"));
 	AttributeSet = CreateDefaultSubobject<UPGCharacterAttributeSet>(TEXT("AttributeSet"));
 	BattleCard = nullptr;
 	bSelectedDeck = false;

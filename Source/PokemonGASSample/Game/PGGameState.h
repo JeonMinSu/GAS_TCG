@@ -50,7 +50,7 @@ protected:
 	//TArray<bool> bGameReady;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS)
-	TObjectPtr<class UPGFlowAbilitySystemComponent> ASC;
+	TObjectPtr<class UPGGameStateASC> ASC;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
 	
