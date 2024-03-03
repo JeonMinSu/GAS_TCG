@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS(ClassGroup = ("Flow CAS"), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = ("Flow GAS"), meta = (BlueprintSpawnableComponent))
 class POKEMONGASSAMPLE_API UPGGameStateASC : public UAbilitySystemComponent, public IPGFlowSystemInterface
 {
 	GENERATED_BODY()
@@ -26,16 +26,16 @@ public:
 	virtual bool ActivateNextFlow(FGameplayTag ActivationTag) override;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = GAS)
+	UPROPERTY(EditDefaultsOnly, Category = "GAS")
 	TMap<FGameplayTag, FGameplayTag> GameplayFlowTagMap;
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	UFUNCTION(BlueprintCallable, Category = "Flow GAS")
 	void CancelAbilityWithTag(FGameplayTagContainer Tags);
-	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	UFUNCTION(BlueprintCallable, Category = "Flow GAS")
 	void EndAbilityWithTag(FGameplayTagContainer Tags);
 
-	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	UFUNCTION(BlueprintCallable, Category = "Flow GAS")
 	virtual void InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "Flow GAS")

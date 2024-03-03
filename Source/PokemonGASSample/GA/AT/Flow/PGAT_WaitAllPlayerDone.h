@@ -20,7 +20,7 @@ public:
 	UPGAT_WaitAllPlayerDone();
 
 	UFUNCTION(BlueprintCallable, Category = "Ability|Tasks", meta = (DisplayName = "WaitAllPlayerDone", HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BluprintInternalUseOnly = "TRUE"))
-	static UPGAT_WaitAllPlayerDone* CreateTask(UGameplayAbility* OwningAbility, FGameplayTag InEventTag);
+	static UPGAT_WaitAllPlayerDone* CreateTask(UGameplayAbility* OwningAbility, FGameplayTag InEventTag, TSubclassOf<UGameplayAbility> InPlayerDoneCheckAbility);
 
 	virtual void Activate() override;
 	virtual void OnDestroy(bool AbilityEnded) override;
@@ -42,7 +42,8 @@ protected:
 
 protected:
 	FGameplayTag EventTag;
+	TSubclassOf<UGameplayAbility> PlayerDoneCheckAbility;
+	int32 ActivationCount;
 
-	TMap<class UAbilitySystemComponent*, FDelegateHandle> DelegateMap;
-	TArray<class IPGTriggerAbilityInterface*> TriggerAbilitySystems;
+	TMap<UAbilitySystemComponent*, FDelegateHandle> DelegateMap;
 };

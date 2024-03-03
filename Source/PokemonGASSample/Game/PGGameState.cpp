@@ -8,7 +8,7 @@
 
 APGGameState::APGGameState()
 {
-	ASC = CreateDefaultSubobject<UPGGameStateASC>(TEXT("ASC"));
+	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
 	ASC->SetIsReplicated(true);
 }
 
@@ -26,11 +26,6 @@ UAbilitySystemComponent* APGGameState::GetAbilitySystemComponent() const
 void APGGameState::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	if (!ASC)
-	{
-		UE_LOG(LogPGGAS, Error, TEXT("GameState's Ability System Component is null"));
-		return;
-	}
 	ASC->InitAbilityActorInfo(this, this);
 
 	for (const auto& StartAbility : StartAbilities)

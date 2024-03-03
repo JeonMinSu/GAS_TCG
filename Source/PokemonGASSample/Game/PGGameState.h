@@ -24,7 +24,7 @@ class POKEMONGASSAMPLE_API APGGameState : public AGameState, public IAbilitySyst
 public:
 	APGGameState();
 
-	UFUNCTION(BlueprintCallable, Category = "CAS")
+	UFUNCTION(BlueprintCallable, Category = "GAS")
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
@@ -50,7 +50,7 @@ protected:
 	//TArray<bool> bGameReady;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS)
-	TObjectPtr<class UPGGameStateASC> ASC;
+	TObjectPtr<class UAbilitySystemComponent> ASC;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;
 	

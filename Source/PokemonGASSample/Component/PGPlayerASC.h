@@ -12,20 +12,9 @@
  * 
  */
 UCLASS()
-class POKEMONGASSAMPLE_API UPGPlayerASC : public UAbilitySystemComponent, public IPGTriggerAbilityInterface, public IPGFlowSystemInterface
+class POKEMONGASSAMPLE_API UPGPlayerASC : public UAbilitySystemComponent, public IPGFlowSystemInterface
 {
 	GENERATED_BODY()
-	
-	// PGTriggerAbility
-public:
-	virtual int32 TriggerAbility(FGameplayTag EventTag, const FGameplayEventData* Payload) override;
-	virtual bool CheckTriggeredAbilityEnd() override;
-	virtual TArray<UGameplayAbility*> GetTrackingAbilities() const override;
-	virtual void RemoveTrackingAbility(UGameplayAbility* RemovingAbility) override;
-	virtual void ResetTrackingAbility() override;
-
-protected:
-	TArray<UGameplayAbility*> TriggeredAbilities;
 
 	// PGFlowSystem
 public:
@@ -36,4 +25,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = GAS)
 	TMap<FGameplayTag, FGameplayTag> GameplayFlowTagMap;
 	
+public:
+	virtual int32 HandleGameplayEvent(FGameplayTag EventTag, const FGameplayEventData* Payload) override;
 };
