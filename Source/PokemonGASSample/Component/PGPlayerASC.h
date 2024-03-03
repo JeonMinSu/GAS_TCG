@@ -24,7 +24,13 @@ public:
 	virtual void RemoveTrackingAbility(UGameplayAbility* RemovingAbility) override;
 	virtual void ResetTrackingAbility() override;
 
+	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	void EndAbilityWithTag(FGameplayTagContainer Tags);
+
 protected:
+	UFUNCTION()
+	void EndAbilitySpec(FGameplayAbilitySpec& Spec);
+
 	TArray<UGameplayAbility*> TriggeredAbilities;
 
 	// PGFlowSystem

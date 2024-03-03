@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Tag/PGGameplayTag.h"
 #include "AbilitySystemInterface.h"
-#include "Component/PGCardASC.h"
 #include "PGCard.generated.h"
 
 UENUM(BlueprintType)

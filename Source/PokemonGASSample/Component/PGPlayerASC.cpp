@@ -2,6 +2,7 @@
 
 
 #include "Component/PGPlayerASC.h"
+#include "GA/PGFlowGameplayAbility.h"
 #include "Tag/PGGameplayTag.h"
 
 int32 UPGPlayerASC::TriggerAbility(FGameplayTag EventTag, const FGameplayEventData* Payload)
@@ -58,6 +59,44 @@ void UPGPlayerASC::RemoveTrackingAbility(UGameplayAbility* RemovingAbility)
 void UPGPlayerASC::ResetTrackingAbility()
 {
 	TriggeredAbilities.Reset();
+}
+
+void UPGPlayerASC::EndAbilityWithTag(FGameplayTagContainer Tags)
+{
+	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
+	FindAllAbilitiesWithTags(AbilitySpecHandles, Tags);
+
+	for (const FGameplayAbilitySpecHandle& AbilitySpecHandle : AbilitySpecHandles)
+	{
+		for (FGameplayAbilitySpec& Spec : ActivatableAbilities.Items)
+		{
+			if (Spec.Handle == AbilitySpecHandle)
+			{
+				EndAbilitySpec(Spec);
+				return;
+			}
+		}
+	}
+}
+
+void UPGPlayerASC::EndAbilitySpec(FGameplayAbilitySpec& Spec)
+{
+	FGameplayAbilityActorInfo* ActorInfo = AbilityActorInfo.Get();
+
+	if (Spec.Ability->GetInstancingPolicy() != EGameplayAbilityInstancingPolicy::NonInstanced)
+	{
+		TArray<UGameplayAbility*> AbilitiesToEnd = Spec.GetAbilityInstances();
+		for (UGameplayAbility* InstanceAbility : AbilitiesToEnd)
+		{
+			UPGFlowGameplayAbility* FlowAbility = Cast<UPGFlowGameplayAbility>(InstanceAbility);
+			if (FlowAbility)
+			{
+				bool bReplicatedEndAbility = true;
+				bool bWasCancelled = false;
+				FlowAbility->EndAbility(Spec.Handle, ActorInfo, InstanceAbility->GetCurrentActivationInfo(), bReplicatedEndAbility, bWasCancelled);
+			}
+		}
+	}
 }
 
 FGameplayTag UPGPlayerASC::GetNextTag(const FGameplayTagContainer& CurrentContainer)
