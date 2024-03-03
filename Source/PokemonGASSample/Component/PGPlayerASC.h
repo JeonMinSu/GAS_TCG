@@ -15,6 +15,14 @@ UCLASS()
 class POKEMONGASSAMPLE_API UPGPlayerASC : public UAbilitySystemComponent, public IPGFlowSystemInterface
 {
 	GENERATED_BODY()
+	
+public:
+	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
+	void EndAbilityWithTag(FGameplayTagContainer Tags);
+
+protected:
+	UFUNCTION()
+	void EndAbilitySpec(FGameplayAbilitySpec& Spec);
 
 	// PGFlowSystem
 public:
