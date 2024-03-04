@@ -7,7 +7,7 @@
 
 UPGGA_FirstTurn::UPGGA_FirstTurn()
 {
-	AbilityTags.AddTag(PGTAG_GAME_FIRSTTURN);
+	//AbilityTags.AddTag(PGTAG_GAME_FIRSTTURN);
 }
 
 void UPGGA_FirstTurn::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)

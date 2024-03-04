@@ -8,7 +8,7 @@
 
 UPGGA_DeckSelect::UPGGA_DeckSelect()
 {
-	AbilityTags.AddTag(PGTAG_GAME_SELECTDECK);
+	//AbilityTags.AddTag(PGTAG_GAME_SELECTDECK);
 	//InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
 }
 

@@ -12,7 +12,7 @@
 
 UPGGA_WaitForReady::UPGGA_WaitForReady()
 {
-	AbilityTags.AddTag(PGTAG_GAME_WAITFORREADY);
+	//AbilityTags.AddTag(PGTAG_GAME_WAITFORREADY);
 	//InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
 }
 

@@ -9,7 +9,7 @@
 
 UPGGA_GameStart::UPGGA_GameStart()
 {
-	AbilityTags.AddTag(PGTAG_GAME_GAMESTART);
+	//AbilityTags.AddTag(PGTAG_GAME_GAMESTART);
 }
 
 void UPGGA_GameStart::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)

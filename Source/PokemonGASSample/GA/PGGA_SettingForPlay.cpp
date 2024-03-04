@@ -10,7 +10,7 @@
 
 UPGGA_SettingForPlay::UPGGA_SettingForPlay()
 {
-	AbilityTags.AddTag(PGTAG_PLAYER_SETTINGFORPLAY);
+	//AbilityTags.AddTag(PGTAG_PLAYER_SETTINGFORPLAY);
 }
 
 bool UPGGA_SettingForPlay::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, OUT FGameplayTagContainer* OptionalRelevantTags) const

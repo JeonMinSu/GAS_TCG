@@ -8,8 +8,11 @@
 
 APGGameState::APGGameState()
 {
-	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
-	ASC->SetIsReplicated(true);
+	this->ASC = nullptr;
+	this->ASC = CreateDefaultSubobject<UPGGameStateASC>(TEXT("GameStateASC"));
+	this->ASC->SetIsReplicated(true);
+
+	check(ASC);
 }
 
 void APGGameState::BeginPlay()
@@ -34,4 +37,11 @@ void APGGameState::PostInitializeComponents()
 		ASC->GiveAbility(Spec);
 	}
 
+}
+
+void APGGameState::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+
+	check(this->ASC);
 }

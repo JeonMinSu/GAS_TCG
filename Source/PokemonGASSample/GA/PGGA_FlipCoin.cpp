@@ -11,7 +11,7 @@
 
 UPGGA_FlipCoin::UPGGA_FlipCoin()
 {
-	AbilityTags.AddTag(PGTAG_GAME_FLIPCOIN);
+	//AbilityTags.AddTag(PGTAG_GAME_FLIPCOIN);
 }
 
 void UPGGA_FlipCoin::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
