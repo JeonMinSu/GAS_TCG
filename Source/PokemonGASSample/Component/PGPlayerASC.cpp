@@ -4,6 +4,7 @@
 #include "Component/PGPlayerASC.h"
 #include "GA/PGFlowGameplayAbility.h"
 #include "Tag/PGGameplayTag.h"
+#include "PokemonGASSample.h"
 
 void UPGPlayerASC::EndAbilityWithTag(FGameplayTagContainer Tags)
 {
@@ -41,6 +42,12 @@ void UPGPlayerASC::EndAbilitySpec(FGameplayAbilitySpec& Spec)
 			}
 		}
 	}
+}
+
+void UPGPlayerASC::OnTagUpdated(const FGameplayTag& Tag, bool TagExists)
+{
+	UE_LOG(LogPGGAS, Log, TEXT("%s Player's Ability System Component tag updated!! : %s, %d"), *GetOwner()->GetName(), *Tag.ToString(), TagExists);
+	OnTagUpdateCallback.ExecuteIfBound(Tag, TagExists);
 }
 
 FGameplayTag UPGPlayerASC::GetNextTag(const FGameplayTagContainer& CurrentContainer)

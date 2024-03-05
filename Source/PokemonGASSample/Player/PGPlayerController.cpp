@@ -17,7 +17,7 @@ void APGPlayerController::ChangePlayerWidget(TSubclassOf<UUserWidget> NewWidgetC
 {
 	if (CurrentWidget)
 	{
-		CurrentWidget->RemoveFromViewport();
+		CurrentWidget->RemoveFromParent();
 		CurrentWidget = nullptr;
 	}
 

@@ -45,5 +45,7 @@ protected:
 	TSubclassOf<UGameplayAbility> PlayerDoneCheckAbility;
 	int32 ActivationCount;
 
-	TMap<UAbilitySystemComponent*, FDelegateHandle> DelegateMap;
+	FDelegateHandle DelegateHandle;
+
+	uint8 bInitialized : 1;
 };

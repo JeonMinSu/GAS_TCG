@@ -27,6 +27,8 @@ void UPGAT_WaitOnePlayerDone::Activate()
 {
 	Super::Activate();
 
+	DelegateHandle = Ability->GetAbilitySystemComponentFromActorInfo()->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitOnePlayerDone::AbilityEndCallback);
+
 	AGameStateBase* GameState = UGameplayStatics::GetGameState(Ability->GetWorld());
 	APlayerState* PlayerState = nullptr;
 	for (APlayerState* PS : GameState->PlayerArray)
@@ -44,14 +46,12 @@ void UPGAT_WaitOnePlayerDone::Activate()
 	FGameplayEventData PayloadData;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerState, EventTag, PayloadData);
 
-	DelegateHandle = Ability->GetAbilitySystemComponentFromActorInfo()->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitOnePlayerDone::AbilityEndCallback);
-
 	SetWaitingOnAvatar();
 }
 
 void UPGAT_WaitOnePlayerDone::OnDestroy(bool AbilityEnded)
 {
-	Ability->OnGameplayAbilityEnded.Remove(DelegateHandle);
+	Ability->GetAbilitySystemComponentFromActorInfo()->AbilityEndedCallbacks.Remove(DelegateHandle);
 
 	Super::OnDestroy(AbilityEnded);
 }

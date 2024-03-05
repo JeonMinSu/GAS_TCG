@@ -8,6 +8,8 @@
 #include "Interface/AbilitySystem/PGFlowSystemInterface.h"
 #include "PGPlayerASC.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FGameplayTagUpdateDelegate, const FGameplayTag&, Tag, bool, TagExists);
+
 /**
  * 
  */
@@ -23,6 +25,12 @@ public:
 protected:
 	UFUNCTION()
 	void EndAbilitySpec(FGameplayAbilitySpec& Spec);
+
+	virtual void OnTagUpdated(const FGameplayTag& Tag, bool TagExists) override;
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+	FGameplayTagUpdateDelegate OnTagUpdateCallback;
 
 	// PGFlowSystem
 public:

@@ -14,4 +14,9 @@ class POKEMONGASSAMPLE_API UPGAT_WaitUIConfirm : public UAbilityTask
 {
 	GENERATED_BODY()
 	
+public:
+	UPGAT_WaitUIConfirm();
+
+	UFUNCTION(BlueprintCallable, Category = "Ability|Tasks", meta = (DisplayName = "WaitUIConfirm", HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BluprintInternalUseOnly = "TRUE"))
+	static UPGAT_WaitUIConfirm* CreateTask(UGameplayAbility* OwningAbility, FName TaskInstanceName);
 };

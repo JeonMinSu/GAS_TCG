@@ -27,6 +27,10 @@ void UPGAT_WaitAllPlayerDone::Activate()
 {
 	Super::Activate();
 
+	bInitialized = false;
+	UAbilitySystemComponent* ASC = Ability->GetAbilitySystemComponentFromActorInfo();
+	DelegateHandle = ASC->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitAllPlayerDone::AbilityEndCallback);
+
 	AGameStateBase* GameState = UGameplayStatics::GetGameState(Ability->GetWorld());
 	for (APlayerState* PS : GameState->PlayerArray)
 	{
@@ -41,19 +45,15 @@ void UPGAT_WaitAllPlayerDone::Activate()
 	}
 	else
 	{
-		UAbilitySystemComponent* ASC = Ability->GetAbilitySystemComponentFromActorInfo();
-		DelegateMap.Add(ASC, ASC->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitAllPlayerDone::AbilityEndCallback));
-
 		SetWaitingOnAvatar();
+		bInitialized = true;
 	}
 }
 
 void UPGAT_WaitAllPlayerDone::OnDestroy(bool AbilityEnded)
 {
-	for (const auto& Delegate : DelegateMap)
-	{
-		Delegate.Key->AbilityEndedCallbacks.Remove(Delegate.Value);
-	}
+	UAbilitySystemComponent* ASC = Ability->GetAbilitySystemComponentFromActorInfo();
+	ASC->AbilityEndedCallbacks.Remove(DelegateHandle);
 
 	Super::OnDestroy(AbilityEnded);
 }
@@ -63,7 +63,7 @@ void UPGAT_WaitAllPlayerDone::AbilityEndCallback(UGameplayAbility* EndedAbility)
 	if (PlayerDoneCheckAbility == EndedAbility->GetClass())
 	{
 		ActivationCount--;
-		if (ActivationCount == 0)
+		if (bInitialized && ActivationCount == 0)
 		{
 			BroadcastAndEnd();
 		}
