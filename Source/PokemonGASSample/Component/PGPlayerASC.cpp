@@ -78,7 +78,10 @@ int32 UPGPlayerASC::HandleGameplayEvent(FGameplayTag EventTag, const FGameplayEv
 {
 	int32 ReturnValue = Super::HandleGameplayEvent(EventTag, Payload);
 
-	check(ReturnValue == 1);
+	if (ReturnValue != 1)
+	{
+		PGGAS_LOG(LogPGGAS, Error, TEXT("Activated Ability is not one!!!"));
+	}
 
 	return ReturnValue;
 }
