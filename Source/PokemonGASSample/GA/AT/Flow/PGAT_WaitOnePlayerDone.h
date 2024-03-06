@@ -20,7 +20,7 @@ public:
 	UPGAT_WaitOnePlayerDone();
 
 	UFUNCTION(BlueprintCallable, Category = "Ability|Tasks", meta = (DisplayName = "WaitOnePlayerDone", HidePin = "OwningAbility", DefaultToSelf = "OwningAbility", BluprintInternalUseOnly = "TRUE"))
-	static UPGAT_WaitOnePlayerDone* CreateTask(UGameplayAbility* OwningAbility, int32 InPlayerId, FGameplayTag InEventTag, TSubclassOf<UGameplayAbility> InPlayerDoneCheckAbility);
+	static UPGAT_WaitOnePlayerDone* CreateTask(UGameplayAbility* OwningAbility, int32 InPlayerId, FGameplayTag InEventTag, FGameplayTag InPlayerDoneCheckTag);
 
 	virtual void Activate() override;
 	virtual void OnDestroy(bool AbilityEnded) override;
@@ -29,7 +29,8 @@ public:
 	FOnePlayerDoneDelegate OnComplete;
 
 protected:
-	void AbilityEndCallback(UGameplayAbility* EndedAbility);
+	//void AbilityEndCallback(UGameplayAbility* EndedAbility);
+	void GameplayTagCallback(const FGameplayTag InTag, int32 NewCount);
 
 	void FORCEINLINE BroadcastAndEnd()
 	{
@@ -43,7 +44,8 @@ protected:
 protected:
 	int32 PlayerId;
 	FGameplayTag EventTag;
-	TSubclassOf<UGameplayAbility> PlayerDoneCheckAbility;
+	FGameplayTag PlayerDoneCheckTag;
+	//TSubclassOf<UGameplayAbility> PlayerDoneCheckAbility;
 
 	FDelegateHandle DelegateHandle;
 };

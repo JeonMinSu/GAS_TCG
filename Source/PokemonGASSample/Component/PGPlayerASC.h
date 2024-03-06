@@ -19,6 +19,8 @@ class POKEMONGASSAMPLE_API UPGPlayerASC : public UAbilitySystemComponent, public
 	GENERATED_BODY()
 	
 public:
+	virtual void InitializeComponent() override;
+
 	UFUNCTION(BlueprintCallable, Category = "Flow CAS")
 	void EndAbilityWithTag(FGameplayTagContainer Tags);
 
@@ -43,4 +45,17 @@ protected:
 	
 public:
 	virtual int32 HandleGameplayEvent(FGameplayTag EventTag, const FGameplayEventData* Payload) override;
+
+	FORCEINLINE UAbilitySystemComponent* GetGameASC();
+	FORCEINLINE FGameplayTag GetPlayerBehaviorDoneTag() 
+	{ 
+		return PlayerBehaviorDoneTag;
+	}
+
+protected:
+	UPROPERTY(BlueprintReadWrite, Category = GAS)
+	TObjectPtr<UAbilitySystemComponent> GameASC;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
+	FGameplayTag PlayerBehaviorDoneTag;
 };

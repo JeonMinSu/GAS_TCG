@@ -5,6 +5,20 @@
 #include "GA/PGFlowGameplayAbility.h"
 #include "Tag/PGGameplayTag.h"
 #include "PokemonGASSample.h"
+#include "Kismet/GameplayStatics.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "GameFramework/GameStateBase.h"
+
+void UPGPlayerASC::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	GameASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(UGameplayStatics::GetGameState(GetWorld()));
+	if (GameASC == nullptr)
+	{
+		// log
+	}
+}
 
 void UPGPlayerASC::EndAbilityWithTag(FGameplayTagContainer Tags)
 {
@@ -84,4 +98,9 @@ int32 UPGPlayerASC::HandleGameplayEvent(FGameplayTag EventTag, const FGameplayEv
 	}
 
 	return ReturnValue;
+}
+
+UAbilitySystemComponent* UPGPlayerASC::GetGameASC()
+{
+	return GameASC;
 }

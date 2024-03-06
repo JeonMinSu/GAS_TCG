@@ -14,11 +14,11 @@ UPGAT_WaitAllPlayerDone::UPGAT_WaitAllPlayerDone()
 	ActivationCount = 0;
 }
 
-UPGAT_WaitAllPlayerDone* UPGAT_WaitAllPlayerDone::CreateTask(UGameplayAbility* OwningAbility, FGameplayTag InEventTag, TSubclassOf<UGameplayAbility> InPlayerDoneCheckAbility)
+UPGAT_WaitAllPlayerDone* UPGAT_WaitAllPlayerDone::CreateTask(UGameplayAbility* OwningAbility, FGameplayTag InEventTag, FGameplayTag InPlayerDoneCheckTag)
 {
 	UPGAT_WaitAllPlayerDone* NewTask = NewAbilityTask<UPGAT_WaitAllPlayerDone>(OwningAbility);
 	NewTask->EventTag = InEventTag;
-	NewTask->PlayerDoneCheckAbility = InPlayerDoneCheckAbility;
+	NewTask->PlayerDoneCheckTag = InPlayerDoneCheckTag;
 
 	return NewTask;
 }
@@ -28,8 +28,9 @@ void UPGAT_WaitAllPlayerDone::Activate()
 	Super::Activate();
 
 	bInitialized = false;
-	UAbilitySystemComponent* ASC = Ability->GetAbilitySystemComponentFromActorInfo();
-	DelegateHandle = ASC->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitAllPlayerDone::AbilityEndCallback);
+	UAbilitySystemComponent* ASC = AbilitySystemComponent.Get();
+	//DelegateHandle = ASC->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitAllPlayerDone::AbilityEndCallback);
+	DelegateHandle = ASC->RegisterGameplayTagEvent(PlayerDoneCheckTag).AddUObject(this, &UPGAT_WaitAllPlayerDone::GameplayTagCallback);
 
 	AGameStateBase* GameState = UGameplayStatics::GetGameState(Ability->GetWorld());
 	for (APlayerState* PS : GameState->PlayerArray)
@@ -52,20 +53,35 @@ void UPGAT_WaitAllPlayerDone::Activate()
 
 void UPGAT_WaitAllPlayerDone::OnDestroy(bool AbilityEnded)
 {
-	UAbilitySystemComponent* ASC = Ability->GetAbilitySystemComponentFromActorInfo();
-	ASC->AbilityEndedCallbacks.Remove(DelegateHandle);
+	//AbilitySystemComponent.Get()->AbilityEndedCallbacks.Remove(DelegateHandle);
+	AbilitySystemComponent.Get()->RegisterGameplayTagEvent(PlayerDoneCheckTag).Remove(DelegateHandle);
 
 	Super::OnDestroy(AbilityEnded);
 }
 
-void UPGAT_WaitAllPlayerDone::AbilityEndCallback(UGameplayAbility* EndedAbility)
+void UPGAT_WaitAllPlayerDone::GameplayTagCallback(const FGameplayTag InTag, int32 NewCount)
 {
-	if (PlayerDoneCheckAbility == EndedAbility->GetClass())
+	if (NewCount == 1)
 	{
 		ActivationCount--;
+
+		AbilitySystemComponent.Get()->RemoveLooseGameplayTag(InTag);
+
 		if (bInitialized && ActivationCount == 0)
 		{
 			BroadcastAndEnd();
 		}
 	}
 }
+
+//void UPGAT_WaitAllPlayerDone::AbilityEndCallback(UGameplayAbility* EndedAbility)
+//{
+//	if (PlayerDoneCheckAbility == EndedAbility->GetClass())
+//	{
+//		ActivationCount--;
+//		if (bInitialized && ActivationCount == 0)
+//		{
+//			BroadcastAndEnd();
+//		}
+//	}
+//}

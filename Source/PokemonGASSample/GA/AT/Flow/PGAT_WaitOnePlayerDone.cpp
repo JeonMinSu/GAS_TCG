@@ -13,12 +13,12 @@ UPGAT_WaitOnePlayerDone::UPGAT_WaitOnePlayerDone()
 {
 }
 
-UPGAT_WaitOnePlayerDone* UPGAT_WaitOnePlayerDone::CreateTask(UGameplayAbility* OwningAbility, int32 InPlayerId, FGameplayTag InEventTag, TSubclassOf<UGameplayAbility> InPlayerDoneCheckAbility)
+UPGAT_WaitOnePlayerDone* UPGAT_WaitOnePlayerDone::CreateTask(UGameplayAbility* OwningAbility, int32 InPlayerId, FGameplayTag InEventTag, FGameplayTag InPlayerDoneCheckTag)
 {
 	UPGAT_WaitOnePlayerDone* NewTask = NewAbilityTask<UPGAT_WaitOnePlayerDone>(OwningAbility);
 	NewTask->PlayerId = InPlayerId;
 	NewTask->EventTag = InEventTag;
-	NewTask->PlayerDoneCheckAbility = InPlayerDoneCheckAbility;
+	NewTask->PlayerDoneCheckTag = InPlayerDoneCheckTag;
 
 	return NewTask;
 }
@@ -27,7 +27,9 @@ void UPGAT_WaitOnePlayerDone::Activate()
 {
 	Super::Activate();
 
-	DelegateHandle = Ability->GetAbilitySystemComponentFromActorInfo()->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitOnePlayerDone::AbilityEndCallback);
+	UAbilitySystemComponent* ASC = AbilitySystemComponent.Get();
+	//DelegateHandle = ASC->AbilityEndedCallbacks.AddUObject(this, &UPGAT_WaitOnePlayerDone::AbilityEndCallback);
+	DelegateHandle = ASC->RegisterGameplayTagEvent(PlayerDoneCheckTag).AddUObject(this, &UPGAT_WaitOnePlayerDone::GameplayTagCallback);
 
 	AGameStateBase* GameState = UGameplayStatics::GetGameState(Ability->GetWorld());
 	APlayerState* PlayerState = nullptr;
@@ -44,6 +46,7 @@ void UPGAT_WaitOnePlayerDone::Activate()
 	}
 
 	FGameplayEventData PayloadData;
+	PayloadData.Instigator = ASC->GetOwner();
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerState, EventTag, PayloadData);
 
 	SetWaitingOnAvatar();
@@ -51,15 +54,26 @@ void UPGAT_WaitOnePlayerDone::Activate()
 
 void UPGAT_WaitOnePlayerDone::OnDestroy(bool AbilityEnded)
 {
-	Ability->GetAbilitySystemComponentFromActorInfo()->AbilityEndedCallbacks.Remove(DelegateHandle);
+	//Ability->GetAbilitySystemComponentFromActorInfo()->AbilityEndedCallbacks.Remove(DelegateHandle);
+	AbilitySystemComponent.Get()->RegisterGameplayTagEvent(PlayerDoneCheckTag).Remove(DelegateHandle);
 
 	Super::OnDestroy(AbilityEnded);
 }
 
-void UPGAT_WaitOnePlayerDone::AbilityEndCallback(UGameplayAbility* EndedAbility)
+void UPGAT_WaitOnePlayerDone::GameplayTagCallback(const FGameplayTag InTag, int32 NewCount)
 {
-	if (EndedAbility->GetClass() == PlayerDoneCheckAbility)
+	if (NewCount == 1)
 	{
+		AbilitySystemComponent.Get()->RemoveLooseGameplayTag(InTag);
+
 		BroadcastAndEnd();
 	}
 }
+
+//void UPGAT_WaitOnePlayerDone::AbilityEndCallback(UGameplayAbility* EndedAbility)
+//{
+//	if (EndedAbility->GetClass() == PlayerDoneCheckAbility)
+//	{
+//		BroadcastAndEnd();
+//	}
+//}
