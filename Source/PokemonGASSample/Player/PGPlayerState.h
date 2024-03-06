@@ -35,11 +35,6 @@ public:
 	APGPlayerState();
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	//UFUNCTION(BlueprintCallable, Category = Player)
-	//FORCEINLINE void SetIsGameReady(const bool bInGameReady) { bGameReady = bInGameReady; }
-	//UFUNCTION(BlueprintCallable, Category = Player)
-	//FORCEINLINE void SetIsSelectedDeck(const bool bInSelectedDeck) { bSelectedDeck = bInSelectedDeck; }
-
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE bool IsGameReady() const { return bGameReady; }
 	UFUNCTION(BlueprintCallable, Category = Player)
@@ -93,9 +88,6 @@ protected:
 	class APGCard* GetDeckDrawCard();
 
 public:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
-	//bool bIsFirstTurn;
-
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSetGameplayTag OnSetGameplayTag;
 
