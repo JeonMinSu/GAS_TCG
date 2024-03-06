@@ -33,23 +33,7 @@ protected:
 	virtual void PreInitializeComponents() override;
 
 
-public:
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnPlayerDeckSeletedDelegate OnPlayerSelectedDeckDelegate;
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnGenericPlayerEventDelegate OnWaitForGameReadyDelegate;
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnPlayerGameStartDelegate OnPlayerGameStartDelegate;
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
-	FOnPlayerEndTurnDelegate OnPlayerEndTurnDelegate;
-
-
 protected:
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
-	//TArray<bool> bPlayerSelectedDeck;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
-	//TArray<bool> bGameReady;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = GAS)
 	TObjectPtr<class UPGGameStateASC> ASC;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
