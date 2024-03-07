@@ -27,7 +27,7 @@ UAbilitySystemComponent* APGPlayerState::GetAbilitySystemComponent() const
 
 bool APGPlayerState::HasBattleCardInHand()
 {
-	for (const auto HandCard : HandCards)
+	for (const auto HandCard : InHandCards)
 	{
 		//if (HandCard->GetCardType() == ECardType::E_Battle)
 		//{
@@ -51,16 +51,19 @@ void APGPlayerState::ReturnCardsInHandToDeck()
 {
 	if (!HasBattleCardInHand() && !IsBattleCardSetOnTheField())
 	{
-		while (!HandCards.IsEmpty())
+		while (!InHandCards.IsEmpty())
 		{
-			DeckCards.Emplace(HandCards.Pop());
+			APGCard* HandCard = InHandCards.Pop();
+			InDeckCards.Add(HandCard);
 		}
 	}
+
+	// need to change card's ability tags how?
 }
 
 bool APGPlayerState::IsPrizeCardSetOnTheField()
 {
-	return PrizeCards.Num() != 0;
+	return InPrizeCards.Num() != 0;
 }	
 
 bool APGPlayerState::SettingsForPlay()
@@ -72,9 +75,9 @@ bool APGPlayerState::SettingsForPlay()
 
 	if (!HasBattleCardInHand() && !IsBattleCardSetOnTheField())
 	{
-		while (!HandCards.IsEmpty())
+		while (!InHandCards.IsEmpty())
 		{
-			DeckCards.Emplace(HandCards.Pop());
+			InDeckCards.Emplace(InHandCards.Pop());
 		}
 
 		// 델리게이트를 통해 상대방에서 패를 확인 시켜줘야 됨.
@@ -115,14 +118,19 @@ void APGPlayerState::SpawnForSelectedDeck()
 				APGCard* Card = Cast<APGCard>(SpawnedActor);
 				if (Card)
 				{
-					AddDeck(Card);
+					Card->SetCardOwner(this);
+					InstancedCards.Add(Card);
 				}
 			}
 		}
 	}
 
+	for (APGCard* Card : InstancedCards)
+	{
+		AddDeck(Card);
+	}
+
 	bSelectedDeck = true;
-	DeckShuffle();
 }
 
 void APGPlayerState::SetSpawningDeck(UPGDeckData* DeckData)
@@ -132,30 +140,34 @@ void APGPlayerState::SetSpawningDeck(UPGDeckData* DeckData)
 
 void APGPlayerState::DeckShuffle()
 {
-	for (int32 i = DeckCards.Num() - 1; i > 0; i--)
+	for (int32 i = InDeckCards.Num() - 1; i > 0; i--)
 	{
-		int32 j = FMath::FloorToInt(FMath::SRand() * (i + 1)) % DeckCards.Num();
-		APGCard* Temp = DeckCards[i];
-		DeckCards[i] = DeckCards[j];
-		DeckCards[j] = Temp;
+		int32 j = FMath::FloorToInt(FMath::SRand() * (i + 1)) % InDeckCards.Num();
+		APGCard* Temp = InDeckCards[i];
+		InDeckCards[i] = InDeckCards[j];
+		InDeckCards[j] = Temp;
 	}
 }
 
-//void APGPLAYE
-
 void APGPlayerState::AddDeck(APGCard* InCard)
 {
-	if (InCard)
+	if (InCard != nullptr)
 	{
-		DeckCards.Emplace(InCard);
+		UAbilitySystemComponent* CardASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InCard);
+		if (CardASC)
+		{
+			FGameplayTagContainer TagContainer(PGTAG_CARD_ACTION_2DECK);
+			CardASC->TryActivateAbilitiesByTag(TagContainer);
+		}
+		InDeckCards.Add(InCard);
 	}
 }
 
 void APGPlayerState::RemoveDeck(APGCard* InCard)
 {
-	if (InCard && DeckCards.Contains(InCard))
+	if (InCard && InDeckCards.Contains(InCard))
 	{
-		DeckCards.Remove(InCard);
+		InDeckCards.Remove(InCard);
 	}
 }
 
@@ -163,7 +175,13 @@ void APGPlayerState::AddHand(APGCard* InCard)
 {
 	if (InCard)
 	{
-		HandCards.Emplace(InCard);
+		UAbilitySystemComponent* CardASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InCard);
+		if (CardASC)
+		{
+			FGameplayTagContainer TagContainer(PGTAG_CARD_ACTION_2HAND);
+			CardASC->TryActivateAbilitiesByTag(TagContainer);
+		}
+		InHandCards.Add(InCard);
 	}
 }
 
@@ -176,7 +194,7 @@ APGCard* APGPlayerState::GetDeckDrawCard()
 {
 	if (!IsEmptyDeckCards())
 	{
-		APGCard* Card = DeckCards.Pop();
+		APGCard* Card = InDeckCards.Pop();
 		return Card;
 	}
 	return nullptr;
@@ -190,7 +208,7 @@ void APGPlayerState::SetPrizeCard(int32 InAmount)
 		{
 			return;
 		}
-		PrizeCards.Emplace(DeckCards.Pop());
+		InPrizeCards.Emplace(InDeckCards.Pop());
 	}
 	//if (!IsEmptyDeckCards())
 	//{
@@ -201,7 +219,7 @@ void APGPlayerState::SetPrizeCard(int32 InAmount)
 
 bool APGPlayerState::IsEmptyDeckCards()
 {
-	return DeckCards.IsEmpty();
+	return InDeckCards.IsEmpty();
 }
 
 void APGPlayerState::SettingBenchCard()

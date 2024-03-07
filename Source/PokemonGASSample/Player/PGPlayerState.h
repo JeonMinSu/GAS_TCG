@@ -64,13 +64,13 @@ public:
 	void DrawCard(int32 InAmount);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetDeckCount() { return DeckCards.Num(); }
+	FORCEINLINE int32 GetDeckCount() { return InDeckCards.Num(); }
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetHandCount() { return HandCards.Num(); }
+	FORCEINLINE int32 GetHandCount() { return InHandCards.Num(); }
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetPrizeCount() { return PrizeCards.Num(); }
+	FORCEINLINE int32 GetPrizeCount() { return InPrizeCards.Num(); }
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetDiscardPileCardCount() { return DiscardPileCards.Num(); };
+	FORCEINLINE int32 GetDiscardPileCardCount() { return InTrashCards.Num(); };
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	AActor* GetBattleCard();
@@ -105,13 +105,13 @@ protected:
 	TObjectPtr<class APGCard> BattleCard;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> DeckCards;
+	TArray<TObjectPtr<class APGCard>> InDeckCards;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> HandCards;
+	TArray<TObjectPtr<class APGCard>> InHandCards;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> PrizeCards;
+	TArray<TObjectPtr<class APGCard>> InPrizeCards;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> DiscardPileCards;
+	TArray<TObjectPtr<class APGCard>> InTrashCards;
 
 	UPROPERTY(EditAnywhere, Category = GAS)
 	TObjectPtr<class UPGPlayerASC> ASC;

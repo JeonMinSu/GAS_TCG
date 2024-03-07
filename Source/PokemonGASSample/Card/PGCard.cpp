@@ -4,6 +4,7 @@
 #include "PGCard.h"
 #include "Abilities/GameplayAbility.h"
 #include "Component/PGCardASC.h"
+#include "Player/PGPlayerState.h"
 
 // Sets default values
 APGCard::APGCard()
@@ -48,6 +49,16 @@ void APGCard::PostInitializeComponents()
 			ASC->BP_ApplyGameplayEffectSpecToSelf(EffectSpecHandle);
 		}
 	}
+}
+
+APGPlayerState* APGCard::GetCardOwner() const
+{
+	return CardOwner;
+}
+
+void APGCard::SetCardOwner(APGPlayerState* InOwner)
+{
+	CardOwner = InOwner;
 }
 
 // Called every frame

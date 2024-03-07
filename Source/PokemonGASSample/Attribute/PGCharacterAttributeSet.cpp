@@ -5,7 +5,7 @@
 
 UPGCharacterAttributeSet::UPGCharacterAttributeSet() : 
 	DeckCount(0),
-	MaxDeckCount(15),
+	MaxDeckCount(30),
 	HandCount(0),
 	MaxHandCount(0),
 	BenchCardCount(0),
@@ -15,9 +15,9 @@ UPGCharacterAttributeSet::UPGCharacterAttributeSet() :
 	PrizeCardCount(0),
 	MaxPrizeCardCount(3),
 	DiscardPileCardCount(0),
-	MaxDiscardPileCardCount(15)
+	MaxDiscardPileCardCount(30)
 {
-	InitDeckCount(GetMaxDeckCount());
+
 }
 
 void UPGCharacterAttributeSet::PreAttributeChange(const FGameplayAttribute & Attribute, float& NewValue)

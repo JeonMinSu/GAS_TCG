@@ -26,7 +26,15 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
 
+public:
+	UFUNCTION(BlueprintCallable)
+	class APGPlayerState* GetCardOwner() const;
+	void SetCardOwner(class APGPlayerState* InOwner);
+
 protected:
+	UPROPERTY()
+	TObjectPtr<class APGPlayerState> CardOwner;
+
 	UPROPERTY(EditDefaultsOnly, Category = Card)
 	TObjectPtr<UChildActorComponent> ImplementChildActor;
 	UPROPERTY(EditDefaultsOnly, Category = Card)
