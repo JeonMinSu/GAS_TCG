@@ -21,6 +21,13 @@
 #define PGTAG_PLAYER_DRAWPRICES FGameplayTag::RequestGameplayTag(FName("Player.Action.DrawPrices"))
 
 #define PGTAG_CARD_STATUS FGameplayTag::RequestGameplayTag(FName("Card.Status"))
+#define PGTAG_CARD_STATUS_BATTLE FGameplayTag::RequestGameplayTag(FName("Card.Status.InBattle"))
+#define PGTAG_CARD_STATUS_BENCH FGameplayTag::RequestGameplayTag(FName("Card.Status.InBench"))
+#define PGTAG_CARD_STATUS_DECK FGameplayTag::RequestGameplayTag(FName("Card.Status.InDeck"))
+#define PGTAG_CARD_STATUS_FIELD FGameplayTag::RequestGameplayTag(FName("Card.Status.InField"))
+#define PGTAG_CARD_STATUS_HAND FGameplayTag::RequestGameplayTag(FName("Card.Status.InHand"))
+#define PGTAG_CARD_STATUS_PRIZE FGameplayTag::RequestGameplayTag(FName("Card.Status.InPrize"))
+#define PGTAG_CARD_STATUS_TRASH FGameplayTag::RequestGameplayTag(FName("Card.Status.InTrash"))
 #define PGTAG_CARD_ACTION_2BATTLE FGameplayTag::RequestGameplayTag(FName("Card.Action.MoveToBattle"))
 #define PGTAG_CARD_ACTION_2BENCH FGameplayTag::RequestGameplayTag(FName("Card.Action.MoveToBench"))
 #define PGTAG_CARD_ACTION_2DECK FGameplayTag::RequestGameplayTag(FName("Card.Action.MoveToDeck"))

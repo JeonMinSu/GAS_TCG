@@ -16,6 +16,7 @@ class POKEMONGASSAMPLE_API APGCard : public AActor, public IAbilitySystemInterfa
 public:	
 	// Sets default values for this actor's properties
 	APGCard();
+	UFUNCTION(BlueprintCallable)
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	// Called every frame
@@ -37,7 +38,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = Card)
 	TObjectPtr<UChildActorComponent> ImplementChildActor;
-	UPROPERTY(EditDefaultsOnly, Category = Card)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Card)
 	FName CardName;
 
 	UPROPERTY(EditAnywhere, Category = GAS)

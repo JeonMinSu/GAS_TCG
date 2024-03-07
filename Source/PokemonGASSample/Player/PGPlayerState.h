@@ -16,6 +16,8 @@
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetBattleCard, class APGCard*, InCard);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetGameplayTag, FGameplayTag, GameplayTag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUdpateFieldUIDelegate);
+
 UCLASS()
 class POKEMONGASSAMPLE_API APGPlayerState : public APlayerState, public IAbilitySystemInterface
 {
@@ -64,13 +66,15 @@ public:
 	void DrawCard(int32 InAmount);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetDeckCount() { return InDeckCards.Num(); }
+	TArray<class APGCard*> GetCardsWithTag(FGameplayTag GameplayTag);
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetHandCount() { return InHandCards.Num(); }
+	TArray<class APGCard*> GetCardsInDeck();
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetPrizeCount() { return InPrizeCards.Num(); }
+	TArray<class APGCard*> GetCardsInHand();
 	UFUNCTION(BlueprintCallable, Category = Player)
-	FORCEINLINE int32 GetDiscardPileCardCount() { return InTrashCards.Num(); };
+	TArray<class APGCard*> GetCardsInPrize();
+	UFUNCTION(BlueprintCallable, Category = Player)
+	TArray<class APGCard*> GetCardsInTrash();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	AActor* GetBattleCard();
@@ -87,6 +91,8 @@ protected:
 public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
 	FOnSetGameplayTag OnSetGameplayTag;
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Event)
+	FUdpateFieldUIDelegate UIUpdateEvent;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
@@ -103,15 +109,6 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<class APGCard> BattleCard;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> InDeckCards;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> InHandCards;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> InPrizeCards;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player | Card")
-	TArray<TObjectPtr<class APGCard>> InTrashCards;
 
 	UPROPERTY(EditAnywhere, Category = GAS)
 	TObjectPtr<class UPGPlayerASC> ASC;
