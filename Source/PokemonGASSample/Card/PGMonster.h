@@ -42,6 +42,11 @@ protected:
 	TArray<TSubclassOf<class UGameplayEffect>> StartInfiniteEffects;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
+	FString Attack1Name;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
+	FString Attack2Name;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	TSubclassOf<class UGameplayEffect> AttackEffect1;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	TSubclassOf<class UGameplayEffect> AttackEffect2;
