@@ -27,6 +27,7 @@ public:
 	APGPlayerState();
 	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
+public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	FORCEINLINE bool IsGameReady() const { return bGameReady; }
 	UFUNCTION(BlueprintCallable, Category = Player)
@@ -64,6 +65,8 @@ public:
 	void SettingBenchCard();
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void DrawCard(int32 InAmount);
+	UFUNCTION(BlueprintCallable, Category = Player)
+	bool IsHandFull();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	TArray<class APGCard*> GetCardsWithTag(FGameplayTag GameplayTag);
@@ -116,5 +119,4 @@ protected:
 	TObjectPtr<class UPGPlayerASC> ASC;
 	UPROPERTY()
 	TObjectPtr<class UPGCharacterAttributeSet> AttributeSet;
-
 };

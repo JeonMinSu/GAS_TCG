@@ -26,6 +26,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
+	bool GetAttack1Activatable();
+	UFUNCTION(BlueprintCallable)
+	bool GetAttack2Activatable();
+	UFUNCTION(BlueprintCallable)
 	bool TryAttack1();
 	UFUNCTION(BlueprintCallable)
 	bool TryAttack2();
@@ -55,4 +59,7 @@ protected:
 	TMap<FGameplayTag, int32> Attack1Require;
 	UPROPERTY(EditDefaultsOnly, Category = GAS)
 	TMap<FGameplayTag, int32> Attack2Require;
+
+	UPROPERTY(EditDefaultsOnly, Category = GAS)
+	TObjectPtr<class UDataTable> AttribuetDataTable;
 };

@@ -45,6 +45,11 @@ void APGMonster::PostInitializeComponents()
 			ASC->BP_ApplyGameplayEffectSpecToSelf(EffectSpecHandle);
 		}
 	}
+
+	if (AttribuetDataTable)
+	{
+		AttributeSet->InitFromMetaDataTable(AttribuetDataTable);
+	}
 }
 
 // Called every frame
@@ -54,39 +59,47 @@ void APGMonster::Tick(float DeltaTime)
 
 }
 
-bool APGMonster::TryAttack1()
+bool APGMonster::GetAttack1Activatable()
 {
 	bool Attackable = true;
 	for (const auto& GameplayTag : Attack1Require)
 	{
 		Attackable = Attackable && ASC->GetGameplayTagCount(GameplayTag.Key) >= GameplayTag.Value;
 	}
-
-	bool Activated = false;
-	if (Attackable)
-	{
-		FGameplayTagContainer TagContainer(PGTAG_CARD_MONSTER_ACTION_ATTACK1);
-		Activated = ASC->TryActivateAbilitiesByTag(TagContainer);
-	}
-
-	return Attackable && Activated;
+	return Attackable;
 }
 
-bool APGMonster::TryAttack2()
+bool APGMonster::GetAttack2Activatable()
 {
 	bool Attackable = true;
 	for (const auto& GameplayTag : Attack2Require)
 	{
 		Attackable = Attackable && ASC->GetGameplayTagCount(GameplayTag.Key) >= GameplayTag.Value;
 	}
+	return Attackable;
+}
 
+bool APGMonster::TryAttack1()
+{
 	bool Activated = false;
-	if (Attackable)
+	if (GetAttack1Activatable())
+	{
+		FGameplayTagContainer TagContainer(PGTAG_CARD_MONSTER_ACTION_ATTACK1);
+		Activated = ASC->TryActivateAbilitiesByTag(TagContainer);
+	}
+
+	return Activated;
+}
+
+bool APGMonster::TryAttack2()
+{
+	bool Activated = false;
+	if (GetAttack2Activatable())
 	{
 		FGameplayTagContainer TagContainer(PGTAG_CARD_MONSTER_ACTION_ATTACK2);
 		Activated = ASC->TryActivateAbilitiesByTag(TagContainer);
 	}
 
-	return Attackable && Activated;
+	return Activated;
 }
 

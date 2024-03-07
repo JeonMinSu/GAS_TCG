@@ -10,6 +10,7 @@
 #include "Card/PGDeckData.h"
 #include "Tag/PGGameplayTag.h"
 #include <Kismet/KismetArrayLibrary.h>
+#include "Engine/DataTable.h"
 
 APGPlayerState::APGPlayerState()
 {
@@ -28,14 +29,14 @@ UAbilitySystemComponent* APGPlayerState::GetAbilitySystemComponent() const
 
 bool APGPlayerState::HasBattleCardInHand()
 {
-	for (const auto HandCard : GetCardsInHand())
+	for (const APGCard* HandCard : GetCardsInHand())
 	{
-		//if (HandCard->GetCardType() == ECardType::E_Battle)
-		//{
-		//	return true;
-		//}
+		if (HandCard->GetAbilitySystemComponent()->HasMatchingGameplayTag(PGTAG_CARD_TYPE_MONSTER))
+		{
+			return true;
+		}
 	}
-	return true;
+	return false;
 }
 
 bool APGPlayerState::IsBattleCardSetOnTheField()
@@ -58,16 +59,15 @@ void APGPlayerState::SetBattleCard(APGCard* Card)
 
 void APGPlayerState::ReturnCardsInHandToDeck()
 {
-	if (!HasBattleCardInHand() && !IsBattleCardSetOnTheField())
+	for(APGCard* HandCard : GetCardsInHand())
 	{
-		/*while (!InHandCards.IsEmpty())
+		UAbilitySystemComponent* CardASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(HandCard);
+		if (CardASC)
 		{
-			APGCard* HandCard = InHandCards.Pop();
-			InDeckCards.Add(HandCard);
-		}*/
+			FGameplayTagContainer TagContainer(PGTAG_CARD_ACTION_2DECK);
+			CardASC->TryActivateAbilitiesByTag(TagContainer);
+		}
 	}
-
-	// need to change card's ability tags how?
 }
 
 bool APGPlayerState::IsPrizeCardSetOnTheField()
@@ -257,6 +257,11 @@ void APGPlayerState::DrawCard(int32 InAmount)
 		}
 		AddHand(GetDeckDrawCard());
 	}
+}
+
+bool APGPlayerState::IsHandFull()
+{
+	return AttributeSet->GetHandCount() >= AttributeSet->GetMaxHandCount();
 }
 
 TArray<APGCard*> APGPlayerState::GetCardsWithTag(FGameplayTag GameplayTag)
