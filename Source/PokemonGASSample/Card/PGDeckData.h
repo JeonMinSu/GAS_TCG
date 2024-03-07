@@ -19,4 +19,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Card)
 	TMap<TSubclassOf<class APGCard>, int32> DeckMap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Card)
+	FString DeckName;
 };
