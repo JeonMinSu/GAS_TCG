@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "GA/AT/Flow/PGAT_WaitOnePlayerDone.h"
+#include "GA/AT/PGAT_WaitOnePlayerDone.h"
 #include "GameFramework/GameState.h"
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemComponent.h"

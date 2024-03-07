@@ -99,34 +99,6 @@ void APGPlayerState::SetGameOver()
 bool APGPlayerState::IsPrizeCardSetOnTheField()
 {
 	return GetCardsInPrize().Num() != 0;
-}	
-
-bool APGPlayerState::SettingsForPlay()
-{
-	//if (bGameReady)
-	//{
-	//	return true;
-	//}
-
-	//if (!HasBattleCardInHand() && !IsBattleCardSetOnTheField())
-	//{
-	//	while (!InHandCards.IsEmpty())
-	//	{
-	//		InDeckCards.Emplace(InHandCards.Pop());
-	//	}
-
-	//	// 델리게이트를 통해 상대방에서 패를 확인 시켜줘야 됨.
-
-	//	DeckShuffle();
-	//	return false;
-	//}
-
-	//if (!IsPrizeCardSetOnTheField())
-	//{
-	//	return false;
-	//}
-
-	return true;
 }
 
 TArray<class UPGDeckData*> APGPlayerState::GetSelectableDeckData()
@@ -197,14 +169,6 @@ void APGPlayerState::AddDeck(APGCard* InCard)
 	}
 }
 
-void APGPlayerState::RemoveDeck(APGCard* InCard)
-{
-	/*if (InCard && InDeckCards.Contains(InCard))
-	{
-		InDeckCards.Remove(InCard);
-	}*/
-}
-
 void APGPlayerState::AddHand(APGCard* InCard)
 {
 	if (InCard)
@@ -216,11 +180,6 @@ void APGPlayerState::AddHand(APGCard* InCard)
 			CardASC->TryActivateAbilitiesByTag(TagContainer);
 		}
 	}
-}
-
-void APGPlayerState::RemoveHand(APGCard* InCard)
-{
-
 }
 
 APGCard* APGPlayerState::GetDeckDrawCard()
@@ -241,13 +200,7 @@ void APGPlayerState::SetPrizeCard(int32 InAmount)
 		{
 			return;
 		}
-		//InPrizeCards.Emplace(InDeckCards.Pop());
 	}
-	//if (!IsEmptyDeckCards())
-	//{
-	//	APGCard* Card = DeckCards.Pop();
-	//	PrizeCards.Emplace(Card);
-	//}
 }
 
 bool APGPlayerState::IsEmptyDeckCards()

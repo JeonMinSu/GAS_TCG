@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "Interface/AbilitySystem/PGTriggerAbilityInterface.h"
 #include "Interface/AbilitySystem/PGFlowSystemInterface.h"
 #include "PGPlayerASC.generated.h"
 

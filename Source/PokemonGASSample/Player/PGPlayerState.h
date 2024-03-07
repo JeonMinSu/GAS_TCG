@@ -37,8 +37,6 @@ public:
 	bool HasBattleCardInHand();
 	UFUNCTION(BlueprintCallable, Category = Player)
 	bool IsBattleCardSetOnTheField();
-	UFUNCTION(BlueprintCallable, Category = Player)
-	bool SettingsForPlay();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	TArray<class UPGDeckData*> GetSelectableDeckData();
@@ -52,11 +50,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void AddDeck(class APGCard* InCard);
 	UFUNCTION(BlueprintCallable, Category = Player)
-	void RemoveDeck(class APGCard* InCard);
-	UFUNCTION(BlueprintCallable, Category = Player)
 	void AddHand(class APGCard* InCard);
-	UFUNCTION(BlueprintCallable, Category = Player)
-	void RemoveHand(class APGCard* InCard);
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void SetPrizeCard(int32 InAmount);
 	UFUNCTION(BlueprintCallable, Category = Player)
