@@ -60,6 +60,11 @@ protected:
 	TArray<TSubclassOf<class UGameplayEffect>> StartInfiniteEffects;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
+	FGameplayTag WeakType;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
+	float WeakTypeDamageMultiflier;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	FString Attack1Name;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	FString Attack1Desciption;
@@ -67,11 +72,6 @@ protected:
 	FString Attack2Name;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	FString Attack2Desciption;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
-	TSubclassOf<class UGameplayEffect> AttackEffect1;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
-	TSubclassOf<class UGameplayEffect> AttackEffect2;
 
 	UPROPERTY(EditDefaultsOnly, Category = GAS)
 	TMap<FGameplayTag, int32> Attack1Require;
@@ -82,5 +82,5 @@ protected:
 
 	// sprite asset
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Card)
-	TWeakObjectPtr<class UTexture2D> Sprite;
+	TSoftObjectPtr<class UTexture2D> Sprite;
 };
