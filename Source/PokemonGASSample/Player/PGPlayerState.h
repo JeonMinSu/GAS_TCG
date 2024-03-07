@@ -38,7 +38,11 @@ public:
 	bool SettingsForPlay();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
+	TArray<class UPGDeckData*> GetSelectableDeckData();
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void SpawnForSelectedDeck();
+	UFUNCTION(BlueprintCallable, Category = Player)
+	void SetSpawningDeck(class UPGDeckData* DeckData);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void DeckShuffle();
@@ -69,6 +73,9 @@ public:
 	FORCEINLINE int32 GetDiscardPileCardCount() { return DiscardPileCards.Num(); };
 
 	UFUNCTION(BlueprintCallable, Category = Player)
+	AActor* GetBattleCard();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void ReturnCardsInHandToDeck();
 
 protected:
@@ -88,7 +95,8 @@ protected:
 	bool bSelectedDeck;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Card)
-	TObjectPtr<class UPGDeckData> DeckData;
+	TArray<TObjectPtr<class UPGDeckData>> SelectableDeckData;
+	TObjectPtr<class UPGDeckData> SpawningDeckData;
 
 	UPROPERTY(EditAnywhere, Category = Card)
 	TArray<TObjectPtr<class APGCard>> InstancedCards;

@@ -20,6 +20,4 @@
 #define PGTAG_PLAYER_DRAWDECK FGameplayTag::RequestGameplayTag(FName("Player.Action.DrawDeck"))
 #define PGTAG_PLAYER_DRAWPRICES FGameplayTag::RequestGameplayTag(FName("Player.Action.DrawPrices"))
 
-#define PGTAG_MONSTER_TYPE_FIRE FGameplayTag::RequestGameplayTag(FName("Monster.Type.Fire"))
-#define PGTAG_MONSTER_TYPE_WATER FGameplayTag::RequestGameplayTag(FName("Monster.Type.Water"))
-#define PGTAG_MONSTER_TYPE_GRASS FGameplayTag::RequestGameplayTag(FName("Monster.Type.Grass"))
+#define PGTAG_CARD_STATUS FGameplayTag::RequestGameplayTag(FName("Card.Status"))
