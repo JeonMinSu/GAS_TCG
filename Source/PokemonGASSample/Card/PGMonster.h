@@ -36,6 +36,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AttachEnergy(class APGCard* Card, FGameplayTag LooseAddTag);
 
+	UFUNCTION(BlueprintCallable)
+	FString GetAttack1NameWithEnergy();
+	UFUNCTION(BlueprintCallable)
+	FString GetAttack2NameWithEnergy();
+	UFUNCTION(BlueprintCallable)
+	FString GetCurrentEnergyText();
+
 	void OnDefeatCallback();
 
 protected:
@@ -55,7 +62,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	FString Attack1Name;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
+	FString Attack1Desciption;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	FString Attack2Name;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
+	FString Attack2Desciption;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GAS)
 	TSubclassOf<class UGameplayEffect> AttackEffect1;
@@ -66,9 +77,6 @@ protected:
 	TMap<FGameplayTag, int32> Attack1Require;
 	UPROPERTY(EditDefaultsOnly, Category = GAS)
 	TMap<FGameplayTag, int32> Attack2Require;
-
-	UPROPERTY(EditDefaultsOnly, Category = GAS)
-	TObjectPtr<class UDataTable> AttribuetDataTable;
 	UPROPERTY(EditDefaultsOnly, Category = GAS)
 	TSubclassOf<UGameplayEffect> AttributeInitializeEffect;
 

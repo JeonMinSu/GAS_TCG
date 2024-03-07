@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "Card/PGMonster.h"
@@ -46,11 +46,6 @@ void APGMonster::PostInitializeComponents()
 		{
 			ASC->BP_ApplyGameplayEffectSpecToSelf(EffectSpecHandle);
 		}
-	}
-
-	if (AttribuetDataTable)
-	{
-		AttributeSet->InitFromMetaDataTable(AttribuetDataTable);
 	}
 
 	if (AttributeInitializeEffect)
@@ -129,6 +124,93 @@ void APGMonster::AttachEnergy(APGCard* Card, FGameplayTag LooseAddTag)
 
 		ASC->AddLooseGameplayTag(LooseAddTag);
 	}
+}
+
+FString StringConverter(FGameplayTag Tag)
+{
+	if (Tag.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY_DARK))
+	{
+		return FString(TEXT("악"));
+	}
+	else if (Tag.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY_ELECTRIC))
+	{
+		return FString(TEXT("전기"));
+	}
+	else if (Tag.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY_FIGHT))
+	{
+		return FString(TEXT("격투"));
+	}
+	else if (Tag.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY_FIRE))
+	{
+		return FString(TEXT("불"));
+	}
+	else if (Tag.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY_GRASS))
+	{
+		return FString(TEXT("풀"));
+	}
+	else if (Tag.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY_WATER))
+	{
+		return FString(TEXT("물"));
+	}
+	return FString(TEXT(""));
+}
+
+FString APGMonster::GetAttack1NameWithEnergy()
+{
+	int32 Count = 0;
+	FString EnergyInfoString;
+	for (const auto& Require : Attack1Require)
+	{
+		if (Require.Key.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY))
+		{
+			EnergyInfoString.Append(FString::Printf(TEXT(" 일반%d"), Require.Value - Count));
+		}
+		else
+		{
+			Count += Require.Value;
+			EnergyInfoString.Append(FString::Printf(TEXT(" %s%d"), *StringConverter(Require.Key), Require.Value));
+		}
+	}
+
+	return Attack1Name + EnergyInfoString;
+}
+
+FString APGMonster::GetAttack2NameWithEnergy()
+{
+	int32 Count = 0;
+	FString EnergyInfoString;
+	for (const auto& Require : Attack2Require)
+	{
+		if (Require.Key.MatchesTagExact(PGTAG_CARD_MONSTER_ENERGY))
+		{
+			EnergyInfoString.Append(FString::Printf(TEXT(" 일반%d"), Require.Value - Count));
+		}
+		else
+		{
+			Count += Require.Value;
+			EnergyInfoString.Append(FString::Printf(TEXT(" %s%d"), *StringConverter(Require.Key), Require.Value));
+		}
+	}
+
+	return Attack2Name + EnergyInfoString;
+}
+
+FString APGMonster::GetCurrentEnergyText()
+{
+	FGameplayTagContainer TagContainer;
+	ASC->GetOwnedGameplayTags(TagContainer);
+	TArray<FGameplayTag> OutTags;
+	TagContainer.GetGameplayTagArray(OutTags);
+
+	FString EnergyInfoString;
+	for (FGameplayTag& Tag : OutTags)
+	{
+		if (Tag.MatchesTag(PGTAG_CARD_MONSTER_ENERGY))
+		{
+			EnergyInfoString.Append(FString::Printf(TEXT("%s%d "), *StringConverter(Tag), ASC->GetTagCount(Tag)));
+		}
+	}
+	return EnergyInfoString;
 }
 
 void APGMonster::OnDefeatCallback()

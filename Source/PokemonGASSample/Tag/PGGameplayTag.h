@@ -41,3 +41,11 @@
 
 #define PGTAG_CARD_MONSTER_ACTION_ATTACK1 FGameplayTag::RequestGameplayTag(FName("Card.Monster.Action.Attack1"))
 #define PGTAG_CARD_MONSTER_ACTION_ATTACK2 FGameplayTag::RequestGameplayTag(FName("Card.Monster.Action.Attack2"))
+
+#define PGTAG_CARD_MONSTER_ENERGY FGameplayTag::RequestGameplayTag(FName("Card.Monster.Energy"))
+#define PGTAG_CARD_MONSTER_ENERGY_DARK FGameplayTag::RequestGameplayTag(FName("Card.Monster.Energy.Dark"))
+#define PGTAG_CARD_MONSTER_ENERGY_ELECTRIC FGameplayTag::RequestGameplayTag(FName("Card.Monster.Energy.Electric"))
+#define PGTAG_CARD_MONSTER_ENERGY_FIGHT FGameplayTag::RequestGameplayTag(FName("Card.Monster.Energy.Fight"))
+#define PGTAG_CARD_MONSTER_ENERGY_FIRE FGameplayTag::RequestGameplayTag(FName("Card.Monster.Energy.Fire"))
+#define PGTAG_CARD_MONSTER_ENERGY_GRASS FGameplayTag::RequestGameplayTag(FName("Card.Monster.Energy.Grass"))
+#define PGTAG_CARD_MONSTER_ENERGY_WATER FGameplayTag::RequestGameplayTag(FName("Card.Monster.Energy.Water"))
