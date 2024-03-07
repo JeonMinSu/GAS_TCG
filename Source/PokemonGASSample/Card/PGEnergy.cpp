@@ -1,32 +1,27 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PGCard.h"
-#include "Abilities/GameplayAbility.h"
-#include "Component/PGCardASC.h"
+#include "PGEnergy.h"
+#include "AbilitySystemComponent.h"
+
 
 // Sets default values
-APGCard::APGCard()
+APGEnergy::APGEnergy()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	ImplementChildActor = CreateDefaultSubobject<UChildActorComponent>(TEXT("ChildActor"));
-	ASC = CreateDefaultSubobject<UPGCardASC>(TEXT("ASC"));
-}
 
-UAbilitySystemComponent* APGCard::GetAbilitySystemComponent() const
-{
-	return ASC;
+	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
 }
 
 // Called when the game starts or when spawned
-void APGCard::BeginPlay()
+void APGEnergy::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-void APGCard::PostInitializeComponents()
+void APGEnergy::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	ASC->InitAbilityActorInfo(this, this);
@@ -51,7 +46,7 @@ void APGCard::PostInitializeComponents()
 }
 
 // Called every frame
-void APGCard::Tick(float DeltaTime)
+void APGEnergy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

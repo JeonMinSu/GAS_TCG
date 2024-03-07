@@ -7,6 +7,7 @@
 #include "Attribute/PGCharacterAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Card/PGCard.h"
+#include "Card/PGDeckData.h"
 #include <Kismet/KismetArrayLibrary.h>
 
 APGPlayerState::APGPlayerState()
@@ -27,10 +28,10 @@ bool APGPlayerState::HasBattleCardInHand()
 {
 	for (const auto HandCard : HandCards)
 	{
-		if (HandCard->GetCardType() == ECardType::E_Battle)
-		{
-			return true;
-		}
+		//if (HandCard->GetCardType() == ECardType::E_Battle)
+		//{
+		//	return true;
+		//}
 	}
 	return false;
 }
@@ -93,11 +94,22 @@ void APGPlayerState::SpawnForSelectedDeck()
 
 	UWorld* const World = GetWorld();
 
-	FDeckCardInfo DeckCardData = DeckCardDatas[DeckIndex];
-	for (TSubclassOf<APGCard> Card : DeckCardData.DeckCards)
+	for (const auto& CardData : DeckData->DeckMap)
 	{
-		AddDeck(World->SpawnActor<APGCard>(*Card));
+		for (int i = 0; i < CardData.Value; i++)
+		{
+			AActor* SpawnedActor = World->SpawnActor(CardData.Key);
+			if (SpawnedActor)
+			{
+				APGCard* Card = Cast<APGCard>(SpawnedActor);
+				if (Card)
+				{
+					AddDeck(Card);
+				}
+			}
+		}
 	}
+
 	bSelectedDeck = true;
 	DeckShuffle();
 }
