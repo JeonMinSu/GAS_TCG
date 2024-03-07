@@ -4,6 +4,7 @@
 #include "Card/PGMonster.h"
 #include "AbilitySystemComponent.h"
 #include "Attribute/PGMonsterAttributeSet.h"
+#include "Tag/PGGameplayTag.h"
 
 // Sets default values
 APGMonster::APGMonster()
@@ -51,5 +52,41 @@ void APGMonster::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+bool APGMonster::TryAttack1()
+{
+	bool Attackable = true;
+	for (const auto& GameplayTag : Attack1Require)
+	{
+		Attackable = Attackable && ASC->GetGameplayTagCount(GameplayTag.Key) >= GameplayTag.Value;
+	}
+
+	bool Activated = false;
+	if (Attackable)
+	{
+		FGameplayTagContainer TagContainer(PGTAG_CARD_MONSTER_ACTION_ATTACK1);
+		Activated = ASC->TryActivateAbilitiesByTag(TagContainer);
+	}
+
+	return Attackable && Activated;
+}
+
+bool APGMonster::TryAttack2()
+{
+	bool Attackable = true;
+	for (const auto& GameplayTag : Attack2Require)
+	{
+		Attackable = Attackable && ASC->GetGameplayTagCount(GameplayTag.Key) >= GameplayTag.Value;
+	}
+
+	bool Activated = false;
+	if (Attackable)
+	{
+		FGameplayTagContainer TagContainer(PGTAG_CARD_MONSTER_ACTION_ATTACK2);
+		Activated = ASC->TryActivateAbilitiesByTag(TagContainer);
+	}
+
+	return Attackable && Activated;
 }
 

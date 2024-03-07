@@ -37,3 +37,6 @@
 #define PGTAG_CARD_ACTION_2HAND FGameplayTag::RequestGameplayTag(FName("Card.Action.MoveToHand"))
 #define PGTAG_CARD_ACTION_2PRIZE FGameplayTag::RequestGameplayTag(FName("Card.Action.MoveToPrize"))
 #define PGTAG_CARD_ACTION_2TRASH FGameplayTag::RequestGameplayTag(FName("Card.Action.MoveToTrash"))
+
+#define PGTAG_CARD_MONSTER_ACTION_ATTACK1 FGameplayTag::RequestGameplayTag(FName("Card.Monster.Action.Attack1"))
+#define PGTAG_CARD_MONSTER_ACTION_ATTACK2 FGameplayTag::RequestGameplayTag(FName("Card.Monster.Action.Attack2"))
