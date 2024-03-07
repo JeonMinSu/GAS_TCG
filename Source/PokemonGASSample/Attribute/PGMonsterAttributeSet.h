@@ -12,6 +12,9 @@
 	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
+DECLARE_DELEGATE(FOnDefeatDelegate);
+
 /**
  * 
  */
@@ -45,4 +48,7 @@ protected:
 	FGameplayAttributeData Attack1Power;
 	UPROPERTY(BlueprintReadOnly, Category = Monster, Meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData Attack2Power;
+
+public:
+	FOnDefeatDelegate OnDefeat;
 };

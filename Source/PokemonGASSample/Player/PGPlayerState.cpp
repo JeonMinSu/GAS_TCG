@@ -68,7 +68,11 @@ APGMonster* APGPlayerState::GetBattleMonster()
 
 void APGPlayerState::SetBattleCard(APGCard* Card)
 {
-	if (Card && Card->GetAbilitySystemComponent()->HasMatchingGameplayTag(PGTAG_CARD_TYPE_MONSTER))
+	if (Card == nullptr)
+	{
+		BattleCard = nullptr;
+	}
+	else if (Card->GetAbilitySystemComponent()->HasMatchingGameplayTag(PGTAG_CARD_TYPE_MONSTER))
 	{
 		BattleCard = Card;
 	}
@@ -85,6 +89,11 @@ void APGPlayerState::ReturnCardsInHandToDeck()
 			CardASC->TryActivateAbilitiesByTag(TagContainer);
 		}
 	}
+}
+
+void APGPlayerState::SetGameOver()
+{
+	bGameOvered = true;
 }
 
 bool APGPlayerState::IsPrizeCardSetOnTheField()

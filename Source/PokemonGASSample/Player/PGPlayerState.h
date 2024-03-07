@@ -89,6 +89,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void ReturnCardsInHandToDeck();
 
+	UFUNCTION(BlueprintCallable, Category = Player)
+	void SetGameOver();
+
 protected:
 	bool IsPrizeCardSetOnTheField();
 
@@ -103,9 +106,11 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
-	bool bGameReady;
+	uint8 bGameReady : 1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
-	bool bSelectedDeck;
+	uint8 bSelectedDeck : 1;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Player)
+	uint8 bGameOvered : 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Card)
 	TArray<TObjectPtr<class UPGDeckData>> SelectableDeckData;

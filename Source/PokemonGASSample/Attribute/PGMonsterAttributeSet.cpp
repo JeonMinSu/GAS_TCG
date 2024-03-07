@@ -33,5 +33,10 @@ void UPGMonsterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModC
 	{
 		SetHealth(FMath::Clamp(GetHealth() - GetDamage(), MinimumHealth, GetMaxHealth()));
 		SetDamage(0.0f);
+
+		if (GetHealth() == MinimumHealth)
+		{
+			OnDefeat.ExecuteIfBound();
+		}
 	}
 }

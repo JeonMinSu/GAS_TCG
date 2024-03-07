@@ -36,6 +36,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AttachEnergy(class APGCard* Card, FGameplayTag LooseAddTag);
 
+	void OnDefeatCallback();
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = GAS)
 	TArray<TObjectPtr<class APGCard>> AttachedEnergyCards;
@@ -71,5 +73,6 @@ protected:
 	TSubclassOf<UGameplayEffect> AttributeInitializeEffect;
 
 	// sprite asset
-	//TWeakObjectPtr<
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Card)
+	TWeakObjectPtr<class UTexture2D> Sprite;
 };

@@ -7,7 +7,7 @@ UPGCharacterAttributeSet::UPGCharacterAttributeSet() :
 	DeckCount(0),
 	MaxDeckCount(30),
 	HandCount(0),
-	MaxHandCount(0),
+	MaxHandCount(7),
 	BenchCardCount(0),
 	MaxBenchCardCount(5),
 	BattleCardCount(0),

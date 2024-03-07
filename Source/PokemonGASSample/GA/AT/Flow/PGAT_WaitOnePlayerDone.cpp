@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "PokemonGASSample.h"
+#include "Tag/PGGameplayTag.h"
 
 UPGAT_WaitOnePlayerDone::UPGAT_WaitOnePlayerDone()
 {
@@ -43,6 +44,7 @@ void UPGAT_WaitOnePlayerDone::Activate()
 	if (PlayerState == nullptr)
 	{
 		UE_LOG(LogPGGAS, Error, TEXT("%d ID Player is not exist"), PlayerId);
+		ASC->AddLooseGameplayTag(PGTAG_GAME_STATE_NONE);
 		BroadcastAndEnd();
 	}
 

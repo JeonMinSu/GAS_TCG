@@ -62,6 +62,8 @@ void APGMonster::PostInitializeComponents()
 			ASC->BP_ApplyGameplayEffectSpecToSelf(EffectSpecHandle);
 		}
 	}
+
+	AttributeSet->OnDefeat.BindUObject(this, &APGMonster::OnDefeatCallback);
 }
 
 // Called every frame
@@ -126,6 +128,19 @@ void APGMonster::AttachEnergy(APGCard* Card, FGameplayTag LooseAddTag)
 		AttachedEnergyCards.Add(Card);
 
 		ASC->AddLooseGameplayTag(LooseAddTag);
+	}
+}
+
+void APGMonster::OnDefeatCallback()
+{
+	UAbilitySystemComponent* CardASC = CastChecked<APGCard>(GetParentActor())->GetAbilitySystemComponent();
+	FGameplayTagContainer TagContainer(PGTAG_CARD_ACTION_2TRASH);
+	CardASC->TryActivateAbilitiesByTag(TagContainer);
+
+	for (APGCard* Card : AttachedEnergyCards)
+	{
+		CardASC = Card->GetAbilitySystemComponent();
+		CardASC->TryActivateAbilitiesByTag(TagContainer);
 	}
 }
 
