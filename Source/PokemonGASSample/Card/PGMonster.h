@@ -62,4 +62,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = GAS)
 	TObjectPtr<class UDataTable> AttribuetDataTable;
+	UPROPERTY(EditDefaultsOnly, Category = GAS)
+	TSubclassOf<UGameplayEffect> AttributeInitializeEffect;
+
+	// sprite asset
+	//TWeakObjectPtr<
 };

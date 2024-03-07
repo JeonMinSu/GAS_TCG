@@ -50,6 +50,16 @@ void APGMonster::PostInitializeComponents()
 	{
 		AttributeSet->InitFromMetaDataTable(AttribuetDataTable);
 	}
+
+	if (AttributeInitializeEffect)
+	{
+		FGameplayEffectSpecHandle EffectSpecHandle = ASC->MakeOutgoingSpec(AttributeInitializeEffect, 1, EffectContextHandle);
+
+		if (EffectSpecHandle.IsValid())
+		{
+			ASC->BP_ApplyGameplayEffectSpecToSelf(EffectSpecHandle);
+		}
+	}
 }
 
 // Called every frame
