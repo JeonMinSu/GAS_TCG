@@ -5,6 +5,13 @@
 #include "Kismet/GameplayStatics.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Component/PGPlayerASC.h"
+#include "PokemonGASSample.h"
+
+void UPGPlayerBehaviorEndAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
+{
+	UE_LOG(LogPGGAS, Log, TEXT("PlayerBehaviorEnd Ability With Tag : %s On %s Activated"), *ActivationOwnedTags.ToString(), *ActorInfo->OwnerActor->GetName());
+	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+}
 
 void UPGPlayerBehaviorEndAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled)
 {
@@ -29,4 +36,6 @@ void UPGPlayerBehaviorEndAbility::EndAbility(const FGameplayAbilitySpecHandle Ha
 	{
 		PlayerASC->GetGameASC()->AddReplicatedLooseGameplayTag(PlayerASC->GetPlayerBehaviorDoneTag());
 	}
+
+	UE_LOG(LogPGGAS, Log, TEXT("PlayerBehaviorEnd Ability With Tag : %s On %s Ended"), *ActivationOwnedTags.ToString(), *ActorInfo->OwnerActor->GetName());
 }

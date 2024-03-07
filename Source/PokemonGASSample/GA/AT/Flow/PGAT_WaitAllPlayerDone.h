@@ -32,14 +32,7 @@ protected:
 	//void AbilityEndCallback(UGameplayAbility* EndedAbility);
 	void GameplayTagCallback(const FGameplayTag InTag, int32 NewCount);
 
-	void FORCEINLINE BroadcastAndEnd()
-	{
-		if (ShouldBroadcastAbilityTaskDelegates())
-		{
-			OnComplete.Broadcast();
-		}
-		EndTask();
-	}
+	void BroadcastAndEnd();
 
 protected:
 	FGameplayTag EventTag;

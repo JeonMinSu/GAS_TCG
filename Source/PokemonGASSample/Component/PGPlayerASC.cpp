@@ -96,6 +96,10 @@ int32 UPGPlayerASC::HandleGameplayEvent(FGameplayTag EventTag, const FGameplayEv
 	{
 		PGGAS_LOG(LogPGGAS, Error, TEXT("Activated Ability is not one!!!"));
 	}
+	else
+	{
+		UE_LOG(LogPGGAS, Log, TEXT("%s Actor's %s tag containing Ability Activated By Trigger!!!"), *GetOwnerActor()->GetName(), *EventTag.ToString());
+	}
 
 	return ReturnValue;
 }

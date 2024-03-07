@@ -43,10 +43,10 @@ void UPGAT_WaitOnePlayerDone::Activate()
 	if (PlayerState == nullptr)
 	{
 		UE_LOG(LogPGGAS, Error, TEXT("%d ID Player is not exist"), PlayerId);
+		BroadcastAndEnd();
 	}
 
 	FGameplayEventData PayloadData;
-	PayloadData.Instigator = ASC->GetOwner();
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerState, EventTag, PayloadData);
 
 	SetWaitingOnAvatar();
@@ -55,7 +55,6 @@ void UPGAT_WaitOnePlayerDone::Activate()
 void UPGAT_WaitOnePlayerDone::OnDestroy(bool AbilityEnded)
 {
 	//Ability->GetAbilitySystemComponentFromActorInfo()->AbilityEndedCallbacks.Remove(DelegateHandle);
-	AbilitySystemComponent.Get()->RegisterGameplayTagEvent(PlayerDoneCheckTag).Remove(DelegateHandle);
 
 	Super::OnDestroy(AbilityEnded);
 }
@@ -64,10 +63,22 @@ void UPGAT_WaitOnePlayerDone::GameplayTagCallback(const FGameplayTag InTag, int3
 {
 	if (NewCount == 1)
 	{
+		PGGAS_LOG(LogPGGAS, Log, TEXT("%s Tag is on"), *InTag.ToString());
 		AbilitySystemComponent.Get()->RemoveLooseGameplayTag(InTag);
 
 		BroadcastAndEnd();
 	}
+}
+
+void UPGAT_WaitOnePlayerDone::BroadcastAndEnd()
+{
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		OnComplete.Broadcast();
+	}
+	AbilitySystemComponent.Get()->RegisterGameplayTagEvent(PlayerDoneCheckTag).Remove(DelegateHandle);
+	PGGAS_LOG(LogPGGAS, Log, TEXT("Delegate is cleaned"));
+	EndTask();
 }
 
 //void UPGAT_WaitOnePlayerDone::AbilityEndCallback(UGameplayAbility* EndedAbility)

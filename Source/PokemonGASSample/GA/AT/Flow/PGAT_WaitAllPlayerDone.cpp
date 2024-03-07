@@ -54,7 +54,6 @@ void UPGAT_WaitAllPlayerDone::Activate()
 void UPGAT_WaitAllPlayerDone::OnDestroy(bool AbilityEnded)
 {
 	//AbilitySystemComponent.Get()->AbilityEndedCallbacks.Remove(DelegateHandle);
-	AbilitySystemComponent.Get()->RegisterGameplayTagEvent(PlayerDoneCheckTag).Remove(DelegateHandle);
 
 	Super::OnDestroy(AbilityEnded);
 }
@@ -72,6 +71,16 @@ void UPGAT_WaitAllPlayerDone::GameplayTagCallback(const FGameplayTag InTag, int3
 			BroadcastAndEnd();
 		}
 	}
+}
+
+void UPGAT_WaitAllPlayerDone::BroadcastAndEnd()
+{
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		OnComplete.Broadcast();
+	}
+	AbilitySystemComponent.Get()->RegisterGameplayTagEvent(PlayerDoneCheckTag).Remove(DelegateHandle);
+	EndTask();
 }
 
 //void UPGAT_WaitAllPlayerDone::AbilityEndCallback(UGameplayAbility* EndedAbility)
