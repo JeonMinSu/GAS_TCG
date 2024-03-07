@@ -4,36 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Tag/PGGameplayTag.h"
-#include "AbilitySystemInterface.h"
-#include "PGCard.generated.h"
+#include "PGEnergy.generated.h"
 
 UCLASS()
-class POKEMONGASSAMPLE_API APGCard : public AActor, public IAbilitySystemInterface
+class POKEMONGASSAMPLE_API APGEnergy : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	APGCard();
-	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	APGEnergy();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
 
-protected:
-	UPROPERTY(EditDefaultsOnly, Category = Card)
-	TObjectPtr<UChildActorComponent> ImplementChildActor;
-	UPROPERTY(EditDefaultsOnly, Category = Card)
-	FName CardName;
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, Category = GAS)
-	TObjectPtr<class UPGCardASC> ASC;
+protected:
+	UPROPERTY()
+	TObjectPtr<class UAbilitySystemComponent> ASC;
 
 	UPROPERTY(EditDefaultsOnly, Category = GAS)
 	TArray<TSubclassOf<class UGameplayAbility>> StartAbilities;

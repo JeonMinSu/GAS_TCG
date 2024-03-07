@@ -15,16 +15,6 @@
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGenericPlayerEventDelegate);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetBattleCard, class APGCard*, InCard);
 
-USTRUCT(BlueprintType)
-struct POKEMONGASSAMPLE_API FDeckCardInfo
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, Category = "CAS Card")
-	TArray<TSubclassOf<class APGCard>> DeckCards;
-};
-
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSetGameplayTag, FGameplayTag, GameplayTag);
 UCLASS()
 class POKEMONGASSAMPLE_API APGPlayerState : public APlayerState, public IAbilitySystemInterface
@@ -97,11 +87,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Player)
 	bool bSelectedDeck;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GAS)
-	int32 DeckIndex;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Card)
+	TObjectPtr<class UPGDeckData> DeckData;
 
-	UPROPERTY(EditAnywhere, Category = GAS)
-	TArray<FDeckCardInfo> DeckCardDatas;
+	UPROPERTY(EditAnywhere, Category = Card)
+	TArray<TObjectPtr<class APGCard>> InstancedCards;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<class APGCard> BattleCard;
