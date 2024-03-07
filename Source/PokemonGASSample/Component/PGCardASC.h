@@ -16,4 +16,7 @@ class POKEMONGASSAMPLE_API UPGCardASC : public UAbilitySystemComponent
 	
 public:
 	UPGCardASC();
+
+	UFUNCTION(BlueprintCallable, Category = "GAS")
+	virtual void OnTagUpdated(const FGameplayTag& Tag, bool TagExists) override;
 };

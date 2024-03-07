@@ -16,6 +16,7 @@ APGPlayerState::APGPlayerState()
 	AttributeSet = CreateDefaultSubobject<UPGCharacterAttributeSet>(TEXT("AttributeSet"));
 	BattleCard = nullptr;
 	bSelectedDeck = false;
+	SpawningDeckData = nullptr;
 	//ASC->SetIsReplicated(true);
 }
 
@@ -39,6 +40,11 @@ bool APGPlayerState::HasBattleCardInHand()
 bool APGPlayerState::IsBattleCardSetOnTheField()
 {
 	return BattleCard != nullptr;
+}
+
+AActor* APGPlayerState::GetBattleCard()
+{
+	return BattleCard;
 }
 
 void APGPlayerState::ReturnCardsInHandToDeck()
@@ -85,16 +91,21 @@ bool APGPlayerState::SettingsForPlay()
 	return true;
 }
 
+TArray<class UPGDeckData*> APGPlayerState::GetSelectableDeckData()
+{
+	return SelectableDeckData;
+}
+
 void APGPlayerState::SpawnForSelectedDeck()
 {
-	if (bSelectedDeck)
+	if (bSelectedDeck || SpawningDeckData == nullptr)
 	{
 		return;
 	}
 
 	UWorld* const World = GetWorld();
 
-	for (const auto& CardData : DeckData->DeckMap)
+	for (const auto& CardData : SpawningDeckData->DeckMap)
 	{
 		for (int i = 0; i < CardData.Value; i++)
 		{
@@ -112,6 +123,11 @@ void APGPlayerState::SpawnForSelectedDeck()
 
 	bSelectedDeck = true;
 	DeckShuffle();
+}
+
+void APGPlayerState::SetSpawningDeck(UPGDeckData* DeckData)
+{
+	SpawningDeckData = DeckData;
 }
 
 void APGPlayerState::DeckShuffle()
