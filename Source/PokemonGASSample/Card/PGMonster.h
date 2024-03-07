@@ -33,8 +33,13 @@ public:
 	bool TryAttack1();
 	UFUNCTION(BlueprintCallable)
 	bool TryAttack2();
+	UFUNCTION(BlueprintCallable)
+	void AttachEnergy(class APGCard* Card, FGameplayTag LooseAddTag);
 
 protected:
+	UPROPERTY(BlueprintReadOnly, Category = GAS)
+	TArray<TObjectPtr<class APGCard>> AttachedEnergyCards;
+
 	UPROPERTY()
 	TObjectPtr<class UAbilitySystemComponent> ASC;
 	UPROPERTY(EditDefaultsOnly, Category = GAS)

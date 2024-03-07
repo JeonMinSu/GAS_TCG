@@ -5,6 +5,8 @@
 #include "AbilitySystemComponent.h"
 #include "Attribute/PGMonsterAttributeSet.h"
 #include "Tag/PGGameplayTag.h"
+#include "PGCard.h"
+#include "PokemonGASSample.h"
 
 // Sets default values
 APGMonster::APGMonster()
@@ -84,6 +86,8 @@ bool APGMonster::GetAttack2Activatable()
 	bool Attackable = true;
 	for (const auto& GameplayTag : Attack2Require)
 	{
+		int32 TagCount = ASC->GetGameplayTagCount(GameplayTag.Key);
+		PGGAS_LOG(LogPGGASTAG, Log, TEXT("%s tag number is now %d"), *GameplayTag.Key.ToString(), TagCount);
 		Attackable = Attackable && ASC->GetGameplayTagCount(GameplayTag.Key) >= GameplayTag.Value;
 	}
 	return Attackable;
@@ -111,5 +115,17 @@ bool APGMonster::TryAttack2()
 	}
 
 	return Activated;
+}
+
+void APGMonster::AttachEnergy(APGCard* Card, FGameplayTag LooseAddTag)
+{
+	UAbilitySystemComponent* CardASC = Card->GetAbilitySystemComponent();
+
+	if (CardASC->HasMatchingGameplayTag(PGTAG_CARD_TYPE_ENERGY))
+	{
+		AttachedEnergyCards.Add(Card);
+
+		ASC->AddLooseGameplayTag(LooseAddTag);
+	}
 }
 

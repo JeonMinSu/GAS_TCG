@@ -11,6 +11,7 @@
 #include "Tag/PGGameplayTag.h"
 #include <Kismet/KismetArrayLibrary.h>
 #include "Engine/DataTable.h"
+#include "Card/PGMonster.h"
 
 APGPlayerState::APGPlayerState()
 {
@@ -47,6 +48,22 @@ bool APGPlayerState::IsBattleCardSetOnTheField()
 APGCard* APGPlayerState::GetBattleCard()
 {
 	return BattleCard;
+}
+
+APGMonster* APGPlayerState::GetBattleMonster()
+{
+	TArray<AActor*> Actors;
+	BattleCard->GetAllChildActors(Actors);
+	for (AActor* Actor : Actors)
+	{
+		APGMonster* Monster = Cast<APGMonster>(Actor);
+		if (Monster)
+		{
+			return Monster;
+		}
+	}
+
+	return nullptr;
 }
 
 void APGPlayerState::SetBattleCard(APGCard* Card)

@@ -82,6 +82,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 	class APGCard* GetBattleCard();
 	UFUNCTION(BlueprintCallable, Category = Player)
+	class APGMonster* GetBattleMonster();
+	UFUNCTION(BlueprintCallable, Category = Player)
 	void SetBattleCard(class APGCard* Card);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
