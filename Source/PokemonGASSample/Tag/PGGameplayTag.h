@@ -20,6 +20,8 @@
 #define PGTAG_PLAYER_DRAWDECK FGameplayTag::RequestGameplayTag(FName("Player.Action.DrawDeck"))
 #define PGTAG_PLAYER_DRAWPRICES FGameplayTag::RequestGameplayTag(FName("Player.Action.DrawPrices"))
 
+#define PGTAG_CARD_TYPE_MONSTER FGameplayTag::RequestGameplayTag(FName("Card.Type.Monster"))
+
 #define PGTAG_CARD_STATUS FGameplayTag::RequestGameplayTag(FName("Card.Status"))
 #define PGTAG_CARD_STATUS_BATTLE FGameplayTag::RequestGameplayTag(FName("Card.Status.InBattle"))
 #define PGTAG_CARD_STATUS_BENCH FGameplayTag::RequestGameplayTag(FName("Card.Status.InBench"))

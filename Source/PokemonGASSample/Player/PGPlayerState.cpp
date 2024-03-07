@@ -43,9 +43,17 @@ bool APGPlayerState::IsBattleCardSetOnTheField()
 	return BattleCard != nullptr;
 }
 
-AActor* APGPlayerState::GetBattleCard()
+APGCard* APGPlayerState::GetBattleCard()
 {
 	return BattleCard;
+}
+
+void APGPlayerState::SetBattleCard(APGCard* Card)
+{
+	if (Card && Card->GetAbilitySystemComponent()->HasMatchingGameplayTag(PGTAG_CARD_TYPE_MONSTER))
+	{
+		BattleCard = Card;
+	}
 }
 
 void APGPlayerState::ReturnCardsInHandToDeck()

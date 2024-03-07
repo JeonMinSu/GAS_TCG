@@ -77,7 +77,9 @@ public:
 	TArray<class APGCard*> GetCardsInTrash();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-	AActor* GetBattleCard();
+	class APGCard* GetBattleCard();
+	UFUNCTION(BlueprintCallable, Category = Player)
+	void SetBattleCard(class APGCard* Card);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 	void ReturnCardsInHandToDeck();
