@@ -34,7 +34,7 @@ bool APGPlayerState::HasBattleCardInHand()
 		//	return true;
 		//}
 	}
-	return false;
+	return true;
 }
 
 bool APGPlayerState::IsBattleCardSetOnTheField()
